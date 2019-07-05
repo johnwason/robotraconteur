@@ -356,8 +356,13 @@ namespace RobotRaconteur
 		{
 			o << e->ToString() << "\n";
 		}
-
 		if (!Enums.empty()) o << "\n";
+		BOOST_FOREACH(RR_SHARED_PTR<AliasDefinition>& a, Aliases)
+		{
+			o << a->ToString() << "\n";
+		}
+
+		if (!Aliases.empty()) o << "\n";
 		
 		BOOST_FOREACH (std::string& exception, Exceptions)
 		{
@@ -431,7 +436,7 @@ namespace RobotRaconteur
 		
 		boost::regex r_comment("^[ \\t]*#[ -~\\t]*$");
 		boost::regex r_empty("^[ \\t]*$");
-		boost::regex r_entry("(?:^[ \\t]*(?:(service)|(stdver)|(option)|(import)|(using)|(exception)|(constant)|(enum)|(struct)|(object)|(pod)|(namedarray))[ \\t]+(\\w[^\\s]*(?:[ \\t]+[^\\s]+)*)[ \\t]*$)|(^[ \\t]*$)");
+		boost::regex r_entry("(?:^[ \\t]*(?:(service)|(stdver)|(option)|(import)|(using)|(exception)|(constant)|(enum)|(struct)|(object)|(pod)|(namedarray)|(alias))[ \\t]+(\\w[^\\s]*(?:[ \\t]+[^\\s]+)*)[ \\t]*$)|(^[ \\t]*$)");
 
 		bool service_name_found = false;
 		
@@ -459,17 +464,17 @@ namespace RobotRaconteur
 					throw RobotRaconteurParseException("Parse error near: " + l, boost::numeric_cast<int32_t>(pos));
 				}
 
-				const boost::smatch::value_type& r_entry_match_blank = r_entry_match[14];
+				const boost::smatch::value_type& r_entry_match_blank = r_entry_match[15];
 				if (r_entry_match_blank.matched) continue;
 
 				int32_t entry_key = 1;
-				for (; entry_key < 12; entry_key++)
+				for (; entry_key < 13; entry_key++)
 				{
 					if (r_entry_match[entry_key].matched)
 						break;
 				}
 
-				const boost::smatch::value_type& r_entry_match_remaining = r_entry_match[13];
+				const boost::smatch::value_type& r_entry_match_remaining = r_entry_match[14];
 
 				if (entry_key != 1 && !service_name_found)
 					throw RobotRaconteurParseException("service name must be first entry in service definition");
@@ -538,7 +543,7 @@ namespace RobotRaconteur
 				//constant
 				case 7:
 				{
-					if (entry_key_max >= 9) throw RobotRaconteurParseException("exception must be before struct and object");
+					if (entry_key_max >= 9) throw RobotRaconteurParseException("constant must be before struct and object");
 					RR_SHARED_PTR<ConstantDefinition> constant_def = RR_MAKE_SHARED<ConstantDefinition>(shared_from_this());
 					constant_def->FromString(l);
 					Constants.push_back(constant_def);
@@ -606,6 +611,17 @@ namespace RobotRaconteur
 					entry_key_max = 9;
 					continue;
 				}
+				//alias
+				case 13:
+				{
+					size_t init_pos;
+					std::stringstream block;					
+					RR_SHARED_PTR<AliasDefinition> alias_def = RR_MAKE_SHARED<AliasDefinition>(shared_from_this());
+					alias_def->FromString(l);
+					Aliases.push_back(alias_def);
+					entry_key_max = 9;
+					continue;
+				}
 				default:
 					throw RobotRaconteurParseException("Parse error near: " + l, boost::numeric_cast<int32_t>(pos));
 				}
@@ -657,6 +673,7 @@ namespace RobotRaconteur
 		Enums.clear();
 		Pods.clear();
 		NamedArrays.clear();
+		Aliases.clear();
 	}
 
 	ServiceDefinition::ServiceDefinition()
@@ -683,18 +700,14 @@ namespace RobotRaconteur
 		return o.str();
 	}
 
-	static std::string ServiceEntryDefinition_UnqualifyTypeWithUsing(ServiceEntryDefinition& e, const std::string s)
+	static std::string ServiceDefinition_UnqualifyTypeWithUsing(ServiceDefinition& d, const std::string s)
 	{
 		if (!boost::contains(s, "."))
 		{
 			return s;
 		}
-
-		RR_SHARED_PTR<ServiceDefinition> d = e.ServiceDefinition_.lock();
-		if (!d)
-			return s;
-
-		BOOST_FOREACH(const RR_SHARED_PTR<UsingDefinition>& u, d->Using)
+				
+		BOOST_FOREACH(const RR_SHARED_PTR<UsingDefinition>& u, d.Using)
 		{
 			if (u->QualifiedName == s)
 			{
@@ -702,6 +715,15 @@ namespace RobotRaconteur
 			}
 		}
 		return s;
+	}
+
+	static std::string ServiceEntryDefinition_UnqualifyTypeWithUsing(ServiceEntryDefinition& e, const std::string s)
+	{
+		RR_SHARED_PTR<ServiceDefinition> d = e.ServiceDefinition_.lock();
+		if (!d)
+			return s;
+		
+		return ServiceDefinition_UnqualifyTypeWithUsing(*d, s);
 	}
 
 	void ServiceEntryDefinition::ToStream(std::ostream& o)
@@ -808,18 +830,14 @@ namespace RobotRaconteur
 		FromStream(s, startline, w);
 	}
 
-	static std::string ServiceEntryDefinition_QualifyTypeWithUsing(ServiceEntryDefinition& e, const std::string s)
+	static std::string ServiceDefinition_QualifyTypeWithUsing(ServiceDefinition& d, const std::string s)
 	{
 		if (boost::contains(s, "."))
 		{
 			return s;
 		}
-
-		RR_SHARED_PTR<ServiceDefinition> d = e.ServiceDefinition_.lock();
-		if (!d)
-			return s;
-		
-		BOOST_FOREACH(const RR_SHARED_PTR<UsingDefinition>& u, d->Using)
+						
+		BOOST_FOREACH(const RR_SHARED_PTR<UsingDefinition>& u, d.Using)
 		{
 			if (u->UnqualifiedName == s)
 			{
@@ -827,6 +845,15 @@ namespace RobotRaconteur
 			}
 		}
 		return s;		
+	}
+
+	static std::string ServiceEntryDefinition_QualifyTypeWithUsing(ServiceEntryDefinition& e, const std::string s)
+	{
+		RR_SHARED_PTR<ServiceDefinition> d = e.ServiceDefinition_.lock();
+		if (!d)
+			return s;
+
+		return ServiceDefinition_QualifyTypeWithUsing(*d, s);
 	}
 
 	void ServiceEntryDefinition::FromStream(std::istream &s, size_t startline, std::vector<RobotRaconteurParseException>& warnings)
@@ -2246,6 +2273,12 @@ namespace RobotRaconteur
 			ResolveNamedType_cache = found_enum;
 			return found_enum;
 		}
+		RR_SHARED_PTR<AliasDefinition> found_alias = TryFindByName(def->Aliases, entry_name);
+		if (found_alias)
+		{
+			ResolveNamedType_cache = found_alias;
+			return found_alias;
+		}
 
 		throw ServiceDefinitionException("Could not resolve named type " + def->Name + "." + entry_name);
 	}
@@ -2790,6 +2823,99 @@ namespace RobotRaconteur
 		Name.clear();
 	}
 
+	AliasDefinition::~AliasDefinition()
+	{
+
+	}
+		
+	AliasDefinition::AliasDefinition(RR_SHARED_PTR<ServiceDefinition> service)
+	{
+		this->service = service;
+	}
+
+	std::string AliasDefinition::ToString()
+	{
+		TypeDefinition tdef;
+		CopyToTypeDefinition(tdef);
+		if (!tdef.TypeString.empty())
+		{
+			RR_SHARED_PTR<ServiceDefinition> def = service.lock();
+			if (def)
+			{
+				tdef.TypeString = ServiceDefinition_UnqualifyTypeWithUsing(*def, tdef.TypeString);
+			}
+		}
+		return "alias " + tdef.ToString() + " " + Name;
+	}
+
+	void AliasDefinition::FromString(const std::string& s)
+	{
+		Reset();
+
+		boost::regex r("^[ \\t]*alias[ \\t]+(" RR_TYPE2_REGEX ")[ \\t]+(" RR_NAME_REGEX ")[ \\t]*$");
+		boost::smatch r_match;
+		if (!boost::regex_match(s, r_match, r))
+		{
+			throw RobotRaconteurParseException("Invalid alias definition: " + boost::trim_copy(s));
+		}
+
+		std::string type_str = r_match[1];
+		TypeDefinition tdef;
+		tdef.FromString(type_str);
+		
+		if (tdef.ContainerType != DataTypes_ContainerTypes_none)
+		{
+			throw RobotRaconteurParseException("Invalid alias definition: " + boost::trim_copy(s));
+		}
+
+		Type = tdef.Type;
+		if (!tdef.TypeString.empty())
+		{
+			RR_SHARED_PTR<ServiceDefinition> def = service.lock();
+			if (def)
+			{
+				TypeString = ServiceDefinition_QualifyTypeWithUsing(*def, tdef.TypeString);
+			}
+			else
+			{
+				TypeString = tdef.TypeString;
+			}
+		}
+		ArrayType = tdef.ArrayType;
+		ArrayLength = tdef.ArrayLength;
+
+		Name = r_match[2];
+	}
+	
+	void AliasDefinition::Reset()
+	{
+		Name = "";
+		Type = DataTypes_void_t;
+		TypeString.clear();
+		ArrayType = DataTypes_ArrayTypes_none;
+		ArrayLength.clear();
+	}
+
+	DataTypes AliasDefinition::RRDataType()
+	{
+		return DataTypes_alias_t;
+	}
+	std::string AliasDefinition::ResolveQualifiedName()
+	{
+		RR_SHARED_PTR<ServiceDefinition> def = service.lock();
+		if (!def) throw InvalidOperationException("Could not lock service definition to resolve named type");
+		return def->Name + "." + Name;
+	}
+
+	void AliasDefinition::CopyToTypeDefinition(TypeDefinition& tdef)
+	{
+		tdef.Reset();
+		tdef.Type = Type;
+		tdef.TypeString = TypeString;
+		tdef.ArrayType = ArrayType;
+		tdef.ArrayLength = ArrayLength;
+	}
+
 	RobotRaconteurParseException::RobotRaconteurParseException(const std::string &e) : std::runtime_error(e)
 	{
 		Message=e;		
@@ -2849,7 +2975,7 @@ namespace RobotRaconteur
 		{
 			if (name=="this" || name=="self" || name =="Me") throw ServiceDefinitionException("The names \"this\", \"self\", and \"Me\" are reserved, error in service definition \"" + def->Name + "\"");
 
-			const char* res_str[]={"object","end","option","service","object","struct","import","implements","field","property","function","event","objref","pipe","callback","wire","memory","void","int8","uint8","int16","uint16","int32","uint32","int64","uint64","single","double","varvalue","varobject","exception", "using", "constant", "enum", "pod", "namedarray", "cdouble", "csingle", "bool"};
+			const char* res_str[]={"object","end","option","service","object","struct","import","implements","field","property","function","event","objref","pipe","callback","wire","memory","void","int8","uint8","int16","uint16","int32","uint32","int64","uint64","single","double","varvalue","varobject","exception", "using", "constant", "enum", "pod", "namedarray", "cdouble", "csingle", "bool", "alias"};
 			std::vector<std::string> reserved(res_str,res_str+sizeof(res_str)/(sizeof(res_str[0])));
 
 			if (boost::range::find(reserved,name)!=reserved.end())
@@ -3062,7 +3188,7 @@ namespace RobotRaconteur
 			RR_SHARED_PTR<NamedTypeDefinition> nt = t->ResolveNamedType(defs);
 			DataTypes nt_type = nt->RRDataType();
 			if ((nt_type != DataTypes_pod_t && nt_type != DataTypes_namedarray_t) && t->ArrayType != DataTypes_ArrayTypes_none) throw ServiceDefinitionException("Invalid Robot Raconteur data type \"" + t->ToString() + "\" type in service \"" + def->Name + "\"");
-			if (nt_type != DataTypes_structure_t && nt_type != DataTypes_pod_t && nt_type != DataTypes_namedarray_t && nt_type != DataTypes_enum_t) throw ServiceDefinitionException("Invalid Robot Raconteur data type \"" + t->ToString() + "\" type in service \"" + def->Name + "\"");
+			if (nt_type != DataTypes_structure_t && nt_type != DataTypes_pod_t && nt_type != DataTypes_namedarray_t && nt_type != DataTypes_enum_t && nt_type != DataTypes_alias_t) throw ServiceDefinitionException("Invalid Robot Raconteur data type \"" + t->ToString() + "\" type in service \"" + def->Name + "\"");
 			if (nt_type == DataTypes_pod_t)
 			{
 

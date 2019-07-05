@@ -42,6 +42,7 @@ namespace RobotRaconteur
 	class ROBOTRACONTEUR_CORE_API  ConstantDefinition;
 	class ROBOTRACONTEUR_CORE_API  EnumDefinition;
 	class ROBOTRACONTEUR_CORE_API  EnumDefinitionValue;
+	class ROBOTRACONTEUR_CORE_API  AliasDefinition;
 
 	class ROBOTRACONTEUR_CORE_API  RobotRaconteurParseException;
 	
@@ -91,6 +92,7 @@ namespace RobotRaconteur
 
 		std::vector<RR_SHARED_PTR<ConstantDefinition> > Constants;
 		std::vector<RR_SHARED_PTR<EnumDefinition> > Enums;
+		std::vector<RR_SHARED_PTR<AliasDefinition> > Aliases;
 
 		RobotRaconteurVersion StdVer;
 
@@ -496,6 +498,31 @@ namespace RobotRaconteur
 		int32_t Value;
 		bool ImplicitValue;
 		bool HexValue;
+	};
+
+	class ROBOTRACONTEUR_CORE_API  AliasDefinition : public NamedTypeDefinition
+	{
+	public:
+		virtual ~AliasDefinition();
+
+		RR_WEAK_PTR<ServiceDefinition> service;
+
+		DataTypes Type;
+		std::string TypeString;
+		DataTypes_ArrayTypes ArrayType;
+		std::vector<int32_t> ArrayLength;
+
+		AliasDefinition(RR_SHARED_PTR<ServiceDefinition> service);
+
+		std::string ToString();
+		void FromString(const std::string& s);		
+
+		void Reset();
+
+		virtual DataTypes RRDataType();
+		virtual std::string ResolveQualifiedName();
+		
+		void CopyToTypeDefinition(TypeDefinition& tdef);
 	};
 
 	class ROBOTRACONTEUR_CORE_API  RobotRaconteurParseException : public std::runtime_error

@@ -55,7 +55,8 @@ namespace RobotRaconteur
 		DataTypes_namedarray_t,
 		DataTypes_namedarray_array_t,
 		DataTypes_namedarray_multidimarray_t,
-		DataTypes_multidimarray_t // Use a new data type code for numeric arrays to avoid confusion
+		DataTypes_multidimarray_t, // Use a new data type code for numeric arrays to avoid confusion
+		DataTypes_alias_t
 	};
 
 	enum DataTypes_ArrayTypes
