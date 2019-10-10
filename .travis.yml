@@ -138,3 +138,19 @@ script:
   - cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ..
   - cmake --build . --config Release
   - ctest . -C Release -V
+
+before_deploy:
+  - cd out
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  deployment_file: true
+  target_branch: build_%{TRAVIS_BUILD_NUMBER}_%{TRAVIS_BUILD_ID}
+  on:
+    branch: master
+    branch: travisci
+    repo: johnwason/robotraconteur_travisci_dist
+    
