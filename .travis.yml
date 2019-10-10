@@ -149,7 +149,8 @@ deploy:
   github_token: $GITHUB_TOKEN
   keep_history: true
   deployment_file: true
-  target_branch: build_%{TRAVIS_BUILD_NUMBER}_%{TRAVIS_BUILD_ID}
+  target_branch: build_${TRAVIS_JOB_NUMBER}_${TRAVIS_BUILD_ID}
+  local_dir: $TRAVIS_BUILD_DIR/build/out
   on:
     branch: master
     branch: travisci
