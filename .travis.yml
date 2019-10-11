@@ -149,7 +149,7 @@ deploy:
   repo: johnwason/robotraconteur_travisci_dist
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  keep_history: true
+  keep_history: false
   deployment_file: true
   target_branch: build_${TRAVIS_REPO_OWNER}_${TRAVIS_REPO_NAME}_${TRAVIS_JOB_NUMBER}_${TRAVIS_BUILD_ID}
   local_dir: ./build/out/
