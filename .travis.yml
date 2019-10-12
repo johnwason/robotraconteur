@@ -155,8 +155,10 @@ deploy:
   file: $TRAVIS_BUILD_DIR/build/out.tar.gz
   verbose: true
   draft: true
+  name: build_${TRAVIS_REPO_OWNER}_${TRAVIS_REPO_NAME}_${TRAVIS_JOB_NUMBER}_${TRAVIS_BUILD_ID}
   on:
     branch: master
     branch: travisci
     repo: johnwason/robotraconteur
+    repo: robotraconteur/robotraconteur
     
