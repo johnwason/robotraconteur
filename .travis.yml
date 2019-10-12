@@ -149,13 +149,12 @@ script:
   - cmake --build . --config Release --target package_source || true
   - cp *.tar.gz out/ || true
   - cp *.zip out/ || true
-  
+  - export TRAVIS_REPO_OWNER=${TRAVIS_REPO_SLUG%/*}
+  - export TRAVIS_REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
 before_deploy:
   - cd $TRAVIS_BUILD_DIR/build
   - tar czf out.tar.gz out
-  - export TRAVIS_REPO_OWNER=${TRAVIS_REPO_SLUG%/*}
-  - export TRAVIS_REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
 deploy:
   provider: releases
