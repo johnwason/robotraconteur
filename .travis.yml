@@ -177,11 +177,10 @@ deploy:
     osname: ${TRAVIS_OS_NAME}
     cmakegenerator: ${RR_CMAKE_GENERATOR}
   on:
-    -  branch: master
-       repo: robotraconteur/robotraconteur
-    -  branch: master
-       repo: johnwason/robotraconteur
-    -  branch: travisci
-       repo: johnwason/robotraconteur
+    all_branches: true
+    branch: master
+    condition: $TRAVIS_BRANCH =~ ^(master|travisci)$
+    condition: $TRAVIS_REPO_OWNER =~ ^(robotraconteur|johnwason)$
+    condition: "$TRAVIS_REPO_NAME = robotraconteur"
     
     
