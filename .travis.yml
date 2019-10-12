@@ -159,7 +159,7 @@ before_deploy:
 
 deploy:
   provider: releases
-  repo: johnwason/robotraconteur_travisci_dist
+  repo: johnwason/robotraconteur_travisci_deploy
   skip_cleanup: true
   api_key: $GITHUB_TOKEN
   deployment_file: true
