@@ -1,6 +1,4 @@
 language: cpp
-git:
-  clone: false
 before_install:
   - mkdir source
   - ls | grep -v source | xargs mv -t source/
