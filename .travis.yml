@@ -166,7 +166,15 @@ deploy:
   file: $TRAVIS_BUILD_DIR/build/out.tar.gz
   verbose: true
   draft: false
-  name: build_${TRAVIS_REPO_OWNER}_${TRAVIS_REPO_NAME}_${TRAVIS_JOB_NUMBER}_${TRAVIS_BUILD_ID}
+  name: travisci build ${TRAVIS_REPO_SLUG} ${TRAVIS_JOB_NUMBER} 
+  body: |
+    repo: ${TRAVIS_REPO_SLUG}
+    job: ${TRAVIS_JOB_NUMBER}
+    buildid: ${TRAVIS_BUILD_ID}
+    commit: ${TRAVIS_COMMIT}
+    tag: ${TRAVIS_TAG}
+    osname: ${TRAVIS_OS_NAME}
+    cmakegenerator: ${RR_CMAKE_GENERATOR}
   on:
     branch: master
     branch: travisci
