@@ -171,6 +171,7 @@ deploy:
     repo: ${TRAVIS_REPO_SLUG}
     job: ${TRAVIS_JOB_NUMBER}
     buildid: ${TRAVIS_BUILD_ID}
+    buildurl: ${TRAVIS_JOB_WEB_URL}
     commit: ${TRAVIS_COMMIT}
     tag: ${TRAVIS_TAG}
     osname: ${TRAVIS_OS_NAME}
