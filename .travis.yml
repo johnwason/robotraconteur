@@ -2,6 +2,8 @@ language: cpp
 before_install:
   - mkdir source
   - ls | grep -v source | xargs mv -t source/
+  - mv .gitignore source/
+  - mv .git source/
 matrix:
   include:
     - os: linux
@@ -144,8 +146,8 @@ matrix:
         - RR_CMAKE_GENERATOR="Xcode"
         - RR_CMAKE_TEST_TARGET=RUN_TESTS
 script:
-  - mkdir -p build
-  - cd build
+  - mkdir -p build2
+  - cd build2
   - cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ../source
   - cmake --build . --config Release
   - ctest . -C Release -V
