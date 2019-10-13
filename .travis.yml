@@ -47,8 +47,9 @@ script:
   - export TRAVIS_REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
 before_deploy:
-  - cd $TRAVIS_BUILD_DIR/build2
-  - tar czf out.tar.gz .
+  - cd $TRAVIS_BUILD_DIR
+  - tar czf out.tar.gz build2
+  - mv out.tar.gz build2/
 
 deploy:
   provider: releases
