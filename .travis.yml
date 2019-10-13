@@ -39,7 +39,6 @@ script:
   - cd build2
   - cmake -G "$RR_CMAKE_GENERATOR" $RR_CMAKE_EXTRA_ARGS ..
   - cmake --build . --config Release --target package_source_swig
-  - ctest . -C Release -V
   - cmake --build . --config Release --target package_source
   - mv generated_src out/ || true
   - cp *.tar.gz out/ || true
@@ -63,6 +62,7 @@ deploy:
   name: travisci build ${TRAVIS_REPO_SLUG} ${TRAVIS_JOB_NUMBER} 
   body: |
     repo: ${TRAVIS_REPO_SLUG}
+    branch: ${TRAVIS_BRANCH}
     job: ${TRAVIS_JOB_NUMBER}
     buildid: ${TRAVIS_BUILD_ID}
     buildurl: ${TRAVIS_JOB_WEB_URL}
