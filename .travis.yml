@@ -35,9 +35,10 @@ matrix:
         
     
 script:
+  - cd $TRAVIS_BUILD_DIR/..
   - mkdir -p build2
   - cd build2
-  - cmake -G "$RR_CMAKE_GENERATOR" $RR_CMAKE_EXTRA_ARGS ..
+  - cmake -G "$RR_CMAKE_GENERATOR" $RR_CMAKE_EXTRA_ARGS $TRAVIS_BUILD_DIR
   - cmake --build . --config Release --target package_source_swig
   - cmake --build . --config Release --target package_source
   - mv generated_src out/ || true
@@ -47,7 +48,7 @@ script:
   - export TRAVIS_REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
 before_deploy:
-  - cd $TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR/..
   - tar czf out.tar.gz build2
   - mv out.tar.gz build2/
 
@@ -57,7 +58,7 @@ deploy:
   skip_cleanup: true
   api_key: $GITHUB_TOKEN
   deployment_file: true
-  file: $TRAVIS_BUILD_DIR/build2/out.tar.gz
+  file: $TRAVIS_BUILD_DIR/../build2/out.tar.gz
   verbose: true
   draft: false
   name: travisci build ${TRAVIS_REPO_SLUG} ${TRAVIS_JOB_NUMBER} 
