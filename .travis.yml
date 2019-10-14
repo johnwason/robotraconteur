@@ -40,6 +40,8 @@ script:
   - cd build2
   - cmake -G "$RR_CMAKE_GENERATOR" $RR_CMAKE_EXTRA_ARGS $TRAVIS_BUILD_DIR
   - cmake --build . --config Release --target package_source_swig
+  - ls $TRAVIS_BUILD_DIR
+  - ls generated_src
   - cpack --config CPackSourceConfig.cmake --debug
   - mv generated_src out/ || true
   - cp *.tar.gz out/ || true
