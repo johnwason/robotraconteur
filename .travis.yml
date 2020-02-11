@@ -66,6 +66,7 @@ matrix:
         - RR_CMAKE_GENERATOR="Unix Makefiles"
         
     - os: windows
+      compiler: msvc
       before_script:
         - powershell -Command "Set-MpPreference -DisableRealtimeMonitoring 1" || true
         - curl -o boost_1_72_0.zip -L https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.zip
@@ -91,6 +92,7 @@ matrix:
         - RR_CMAKE_GENERATOR="Visual Studio 15 2017"
         
     - os: windows
+      compiler: msvc
       before_script:
         - powershell -Command "Set-MpPreference -DisableRealtimeMonitoring 1" || true
         - curl -o boost_1_72_0.zip -L https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.zip
