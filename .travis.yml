@@ -36,10 +36,6 @@ matrix:
     - os: linux
       sudo: required
       dist: bionic
-      compiler:
-        - gcc
-
-      cache: ccache
       before_script:
         - >
           sudo apt-get install default-jdk default-jdk-headless default-jre default-jre-headless 
