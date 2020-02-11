@@ -139,11 +139,19 @@ matrix:
 script:
   - mkdir -p build2
   - cd build2
-  - cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ..
-  - cmake --build . --config Release
-  - ctest . -C Release --output-on-failure
-  - cmake --build . --config Release --target package_source || true
-  - mv generated_src out/ || true
+  #- cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ..
+  #- cmake --build . --config Release
+  #- ctest . -C Release --output-on-failure
+  #- cmake --build . --config Release --target package_source || true
+  #- mv generated_src out/ || true
+  - |
+    if [ "$TRAVIS_OS_NAME" = "windows" ]; then
+      (
+        cd ..
+        nuget restore RobotRaconteurNET/Core/Lib/RobotRaconteurNET.csproj
+        msbuild RobotRaconteurNET/Core/Lib/RobotRaconteurNET.csproj /p:Configuration=Release
+      )
+    fi
   - cp *.tar.gz out/ || true
   - cp *.zip out/ || true
   - export TRAVIS_REPO_OWNER=${TRAVIS_REPO_SLUG%/*}
