@@ -37,6 +37,7 @@ matrix:
       sudo: required
       dist: bionic
       before_script:
+        - cd $TRAVIS_BUILD_DIR/..
         - >
           sudo apt-get install default-jdk default-jdk-headless default-jre default-jre-headless 
           python2.7-dev libpython2.7-dev libssl1.0.0 zlib1g zlib1g-dev libssl-dev libusb-1.0-0 
@@ -70,7 +71,7 @@ matrix:
         - ./bootstrap-vcpkg.bat
         - printf "set(VCPKG_TARGET_ARCHITECTURE x86)\nset(VCPKG_CRT_LINKAGE dynamic)\nset(VCPKG_LIBRARY_LINKAGE static)" > triplets/x86-windows-staticmd.cmake
         - > 
-          vcpkg install --triplet x86-windows-staticmd
+          ./vcpkg install --triplet x86-windows-staticmd
           boost-algorithm boost-array boost-asio boost-assign boost-atomic boost-bind boost-config
           boost-container boost-date-time boost-smart-ptr boost-filesystem boost-foreach 
           boost-format boost-function boost-interprocess boost-intrusive boost-lexical-cast
@@ -90,18 +91,19 @@ matrix:
         - cd $TRAVIS_BUILD_DIR/..
       env:
         - >
-          RR_CMAKE_EXTRA_ARGS="-DBUILD_NET=ON -DPYTHON_EXECUTABLE=C:/Python27/python.exe -DPYTHON3_EXECUTABLE=C:/Python3/python.exe -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON -D$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          RR_CMAKE_EXTRA_ARGS="-DBUILD_NET=ON -DPYTHON_EXECUTABLE=C:/Python27/python.exe -DPYTHON3_EXECUTABLE=C:/Python3/python.exe -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON -D$TRAVIS_BUILD_DIR/../vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-windows-staticmd"
         - RR_CMAKE_GENERATOR="Visual Studio 15 2017"
         
     - os: windows      
       before_script:
         - powershell -Command "Set-MpPreference -DisableRealtimeMonitoring 1" || true
+        - cd $TRAVIS_BUILD_DIR/..
         - curl -o boost_1_72_0.zip -L https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.zip
         - unzip -qo boost_1_72_0.zip
         - cd boost_1_72_0
         - ./bootstrap.bat
         - ./b2 --with-date_time --with-filesystem --with-regex --with-chrono --with-atomic --with-thread --with-random --with-program_options address-model=64 -d0
-        - cd $TRAVIS_BUILD_DIR
+        - cd $TRAVIS_BUILD_DIR/..
         - choco install python2
         - /c/Python27/Scripts/pip install numpy
         - /c/Python27/Scripts/pip install setuptools
@@ -134,9 +136,9 @@ matrix:
         - RR_CMAKE_TEST_TARGET=RUN_TESTS
         - HOMEBREW_NO_AUTO_UPDATE=1
 script:
-  - mkdir -p build2
-  - cd build2
-  - cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ..
+  - mkdir -p - cd $TRAVIS_BUILD_DIR/../build2
+  - cd - cd $TRAVIS_BUILD_DIR/../build2
+  - cmake -G "$RR_CMAKE_GENERATOR" -DBUILD_GEN=ON -DBUILD_TEST=ON $RR_CMAKE_EXTRA_ARGS ../robotraconteur
   - cmake --build . --config Release
   - ctest . -C Release --output-on-failure
   - cmake --build . --config Release --target package_source || true
