@@ -20,12 +20,16 @@ jobs:
         automake libtool bison libpcre3-dev python3-dev python3-numpy python3-setuptools python3-wheel 
         mono-devel swig -q
     - name: configure
-      run: |
-        cd .. 
-        mkdir build2 && cd build2 
-        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBoost_USE_STATIC_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DPYTHON3_EXECUTABLE=/usr/bin/python3 -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ../robotraconteur
+      run: >
+        cd .. &&
+        mkdir build2 && cd build2 &&
+        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
+        -DBoost_USE_STATIC_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DPYTHON3_EXECUTABLE=/usr/bin/python3 
+        -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 
+        ../robotraconteur
     - name: build
       run: |
+        if: false
         cd ../build2
         cmake --build . --config Release -j 4
     - name: build source
@@ -38,4 +42,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: out
-        path: ../build2/out
+        path: ${{ github.workspace }}/../build2/out/**/*
