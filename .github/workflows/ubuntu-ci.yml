@@ -28,7 +28,6 @@ jobs:
         -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 
         ../robotraconteur
     - name: build
-      if: "false"
       run: |        
         cd ../build2
         cmake --build . --config Release -j 4
