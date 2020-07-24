@@ -84,13 +84,17 @@ jobs:
     - name: pip
       run: |
         python -m pip install numpy setuptools wheel
+    - name: env python2
+      run: echo ::set-env name=PYTHON2_EXE::(Get-Command Python.exe).Path
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
         architecture: ${{ matrix.arch }}
     - name: pip3
       run: |
-        python -m pip install numpy setuptools wheel    
+        python -m pip install numpy setuptools wheel
+    - name: env python3
+      run: echo ::set-env name=PYTHON3_EXE::(Get-Command Python.exe).Path   
     - name: choco
       run: |
         choco install swig
@@ -101,7 +105,8 @@ jobs:
         cmake -G "Visual Studio 16 2019" -A ${{ matrix.arch }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
-        -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}"
+        -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}" -DPYTHON_EXECUTABLE=${{ env.PYTHON2 }}
+        -DPYTHON3_EXECUTABLE=${{ env.PYTHON3 }}
         ../robotraconteur
     - name: build
       run: |
