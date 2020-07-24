@@ -74,7 +74,8 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        arch: [x64]
+        arch: [x64,x86]
+        cmake_arch: [x64,Win32]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -102,7 +103,7 @@ jobs:
       run: >
         cd .. &&
         md -Force build2 && cd build2 &&
-        cmake -G "Visual Studio 16 2019" -A ${{ matrix.arch }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
+        cmake -G "Visual Studio 16 2019" -A ${{ matrix.cmake_arch }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}" -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
@@ -122,7 +123,7 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-win${{ matrix.arch }}'
+        name: 'out-win-${{ matrix.arch }}'
         path: out/*
 
     
