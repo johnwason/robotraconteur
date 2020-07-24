@@ -88,8 +88,10 @@ jobs:
       with:
         python-version: '3.8'
         architecture: ${{ matrix.arch }}
-    - name: env
-      run: echo "::set-env name=BOOST_ROOT::$env:BOOST_ROOT_1_72_0"
+    - name: pip
+      run: |
+        C:/hostedtoolcache/windows/Python/Python27/python.exe -m pip install numpy setuptools wheel
+        C:/hostedtoolcache/windows/Python/Python38/python.exe -m pip install numpy setuptools wheel
     - name: configure
       run: >
         cd .. &&
