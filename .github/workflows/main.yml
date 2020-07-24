@@ -101,7 +101,7 @@ jobs:
     - uses: haya14busa/action-cond@v1
       id: cmake_arch
       with:
-        cond: ${{ matrix.os == 'x86' }}
+        cond: ${{ matrix.arch == 'x86' }}
         if_true: "Win32"
         if_false: "x64"
     - name: configure
