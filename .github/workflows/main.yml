@@ -158,7 +158,11 @@ jobs:
       run: |
         python -m pip install numpy setuptools wheel
     - name: env python2
-      run: echo "::setenv NAME=PYTHON2_EXE::${{ env.pythonLocation }}/bin/python"
+      run: echo "::setenv NAME=PYTHON2_EXE::${{ env.pythonLocation }}/bin/python2.7"
+    - name: ls python2
+      run: |
+        ls ${{ env.pythonLocation }}
+        ls ${{ env.pythonLocation }}/bin
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
@@ -167,7 +171,11 @@ jobs:
       run: |
         python -m pip install numpy setuptools wheel
     - name: env python3
-      run: echo "::setenv NAME=PYTHON3_EXE::${{ env.pythonLocation }}/bin/python"
+      run: echo "::setenv NAME=PYTHON3_EXE::${{ env.pythonLocation }}/bin/python3.8"
+    - name: ls python3
+      run: |
+        ls ${{ env.pythonLocation }}
+        ls ${{ env.pythonLocation }}/bin
     - name: configure
       run: >
         cd .. &&
