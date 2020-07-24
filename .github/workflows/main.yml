@@ -1,4 +1,4 @@
-name: Ubuntu CI
+name: CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: apt
       run: >
         sudo apt-get install default-jdk default-jdk-headless default-jre default-jre-headless 
@@ -70,3 +70,51 @@ jobs:
       with:
         name: 'out-${{ matrix.os }}'
         path: out/*
+  build-win:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        arch: [x64]
+    steps:
+    - uses: actions/checkout@v1
+    - name: choco
+      run: |
+        choco install swig
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'
+        architecture: ${{ matrix.arch }}
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+        architecture: ${{ matrix.arch }}
+    - name: env
+      run: echo "::set-env name=BOOST_ROOT::$env:BOOST_ROOT_1_72_0"
+    - name: configure
+      run: >
+        cd .. &&
+        md -Force build2 && cd build2 &&
+        cmake -G "Visual Studio 16 2019" -A ${{ matrix.arch }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
+        -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DPYTHON_EXECUTABLE=C:/hostedtoolcache/windows/Python/Python27/python.exe 
+        -DPYTHON3_EXECUTABLE=C:/hostedtoolcache/windows/Python/Python3/python.exe -DBUILD_PYTHON=ON 
+        -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
+        ../robotraconteur
+    - name: build
+      run: |
+        cd ../build2
+        cmake --build . --config Release -j 4
+    - name: test
+      run: |
+        cd ../build2
+        ctest . -C Release --output-on-failure
+    - name: move out
+      run: |
+        mv ../build2/out .
+    - name: archive out
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'out-win${{ matrix.arch }}'
+        path: out/*
+
+    
+      
