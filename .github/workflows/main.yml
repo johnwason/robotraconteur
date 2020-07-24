@@ -94,7 +94,7 @@ jobs:
       run: |
         python -m pip install numpy setuptools wheel
     - name: env python3
-      run: echo ::set-env "name=PYTHON3_EXE::{0}" -f (Get-Command Python.exe).Path
+      run: echo ::set-env ("name=PYTHON3_EXE::" + (Get-Command Python.exe).Path)
     - name: test env python3
       run: echo ${{ env.PYTHON3_EXE }}
     - name: choco
