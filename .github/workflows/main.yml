@@ -97,7 +97,7 @@ jobs:
       run: echo  ("::set-env name=PYTHON3_EXE::" + (Get-Command Python.exe).Path)
     - name: choco
       run: |
-        choco install choco install swig --version=4.0.1 -r
+        choco install swig --version=4.0.1 -r
     - name: configure
       run: >
         cd .. &&
