@@ -124,9 +124,15 @@ jobs:
         cd ../build2
         cmake --build . --config Release -j 4
     - name: test
+      if: ${{ matrix.arch != 'x86' }}
       run: |
         cd ../build2
         ctest . -C Release --output-on-failure
+    - name: test x86
+      if: ${{ matrix.arch == 'x86' }}
+      run: |
+        cd ../build2
+        ctest . -C Release --output-on-failure -E java
     - name: move out
       run: |
         mv ../build2/out .
