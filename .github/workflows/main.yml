@@ -150,15 +150,11 @@ jobs:
     - name: brew
       run: |
         brew install swig boost openssl
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '2.7'
-        architecture: x64
     - name: pip
       run: |
-        python -m pip install numpy setuptools wheel
+        /usr/bin/python -m pip install setuptools wheel
     - name: env python2
-      run: echo "::set-env name=PYTHON2_EXE::${{ env.pythonLocation }}/bin/python"
+      run: echo "::set-env name=PYTHON2_EXE::/usr/bin/python"
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
