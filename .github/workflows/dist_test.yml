@@ -1,0 +1,49 @@
+name: Dist Test
+
+on: 
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'git ref to run against'
+        required: true
+
+jobs:
+  build-ubuntu:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+    steps:
+    - uses: actions/checkout@v2
+    - name: add PPA
+      run: sudo add-apt-repository ppa:robotraconteur/ppa -y     
+    - name: apt update
+      run: sudo apt update
+    - name: apt
+      run: >
+        sudo apt-get install robotraconteur-dev python-robotraconteur python3-robotraconteur -q
+    - name: configure
+      run: >
+        mkdir build && cd build &&
+        cmake -G "Unix Makefiles" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        ..
+    - name: build
+      run: |        
+        cd build
+        cmake --build . --config Release -j 4
+    - name: test cpp
+      run: |
+        cd ../build2
+        ctest . -C Release --output-on-failure
+    - name: test python
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest loopback
+    - name: test python3
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest loopback
+
+        
+      
