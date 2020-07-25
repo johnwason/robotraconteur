@@ -150,6 +150,10 @@ jobs:
     - name: brew
       run: |
         brew install swig boost openssl
+    - name: install pip
+      run: |
+        sudo /usr/bin/easy_install pip
+        sudo /usr/bin/python -m pip install --upgrade pip
     - name: pip
       run: |
         /usr/bin/python -m pip install setuptools wheel
