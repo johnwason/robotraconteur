@@ -13,6 +13,8 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
     steps:
     - uses: actions/checkout@v2
+    - name: apt update
+      run: sudo apt update
     - name: apt
       run: >
         sudo apt-get install default-jdk default-jdk-headless default-jre default-jre-headless 
