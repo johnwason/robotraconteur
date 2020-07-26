@@ -16,6 +16,8 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: '${{ github.event.inputs.ref }}'
     - name: add PPA
       run: sudo add-apt-repository ppa:robotraconteur/ppa -y     
     - name: apt update
