@@ -22,7 +22,7 @@ jobs:
       run: sudo apt update
     - name: apt
       run: >
-        sudo apt-get install robotraconteur-dev python3-robotraconteur -q 
+        sudo apt-get install robotraconteur-dev python3-robotraconteur libboost-all-dev -q 
     - name: apt python2
       if: matrix.os != 'ubuntu-20.04'
       run: >
