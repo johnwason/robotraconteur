@@ -22,7 +22,11 @@ jobs:
       run: sudo apt update
     - name: apt
       run: >
-        sudo apt-get install robotraconteur-dev python-robotraconteur python3-robotraconteur -q
+        sudo apt-get install robotraconteur-dev python3-robotraconteur -q 
+    - name: apt python2
+      if: matrix.os != 'ubuntu-20.04'
+      run: >
+        sudo apt-get install python-robotraconteur -q
     - name: configure
       run: >
         mkdir build && cd build &&
@@ -37,6 +41,7 @@ jobs:
         cd ../build2
         ctest . -C Release --output-on-failure
     - name: test python
+      if: matrix.os != 'ubuntu-20.04'
       run: |
         cd RobotRaconteurPython/test
         python RobotRaconteurPythonTest loopback
