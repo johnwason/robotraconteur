@@ -18,6 +18,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: '${{ github.event.inputs.ref }}'
+        repository: robotraconteur/robotraconteur
     - name: add PPA
       run: sudo add-apt-repository ppa:robotraconteur/ppa -y     
     - name: apt update
