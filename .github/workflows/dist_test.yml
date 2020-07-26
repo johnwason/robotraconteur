@@ -46,10 +46,14 @@ jobs:
         ctest . -C Release --output-on-failure
     - name: test python
       if: matrix.os != 'ubuntu-20.04'
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ env.GITHUB_WORKSPACE }}/testing/RobotRaconteurTest'
       run: |
         cd RobotRaconteurPython/test
         python RobotRaconteurPythonTest.py loopback
     - name: test python3
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ env.GITHUB_WORKSPACE }}/testing/RobotRaconteurTest'
       run: |
         cd RobotRaconteurPython/test
         python3 RobotRaconteurPythonTest.py loopback
