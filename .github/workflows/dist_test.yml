@@ -42,17 +42,17 @@ jobs:
         cmake --build . --config Release -j 4
     - name: test cpp
       run: |
-        cd ../build2
+        cd build
         ctest . -C Release --output-on-failure
     - name: test python
       if: matrix.os != 'ubuntu-20.04'
       run: |
         cd RobotRaconteurPython/test
-        python RobotRaconteurPythonTest loopback
+        python RobotRaconteurPythonTest.py loopback
     - name: test python3
       run: |
         cd RobotRaconteurPython/test
-        python RobotRaconteurPythonTest loopback
+        python3 RobotRaconteurPythonTest.py loopback
 
         
       
