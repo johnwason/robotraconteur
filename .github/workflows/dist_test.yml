@@ -59,5 +59,53 @@ jobs:
         cd RobotRaconteurPython/test
         python3 RobotRaconteurPythonTest.py loopback
 
-        
+  build-win:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        arch: [x64,x86]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: '${{ github.event.inputs.ref }}'
+        repository: robotraconteur/robotraconteur
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'
+        architecture: ${{ matrix.arch }}
+    - name: pip
+      run: |
+        python -m pip install robotraconteur
+    - name: test python
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest.py loopback
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+        architecture: ${{ matrix.arch }}
+    - name: pip
+      run: |
+        python -m pip install robotraconteur
+    - name: test python3
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest.py loopback
+    - name: setup vcpkg
+      run: |
+        cd ..
+        git clone https://github.com/microsoft/vcpkg.git
+        git clone https://github.com/robotraconteur/vcpkg-robotraconteur.git
+        cd vcpkg
+        bootstrap-vcpkg.bat
+    - name: vcpkg build robotraconteur
+      run: |
+        cd ..\vcpkg
+        vcpkg install --overlay-ports=..\vcpkg-robotraconteur\ports robotraconteur:${{ matrix.arch }}-windows
+      
       
