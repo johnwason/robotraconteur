@@ -24,10 +24,10 @@ jobs:
         ref: '${{ github.event.inputs.ref }}'
         repository: robotraconteur/robotraconteur
     - name: add PPA
-      if: '${{ github.event.inputs.prerelease != true }}'
+      if: ${{ github.event.inputs.prerelease != 'true' }}
       run: sudo add-apt-repository ppa:robotraconteur/ppa -y
     - name: add prerelease PPA
-      if: '${{ github.event.inputs.prerelease == true }}'
+      if: ${{ github.event.inputs.prerelease == 'true' }}
       run: sudo add-apt-repository ppa:robotraconteur/robotraconteur-prerelease -y
     - name: apt update
       run: sudo apt update
@@ -85,7 +85,7 @@ jobs:
     - uses: haya14busa/action-cond@v1
       id: pip_pre
       with:
-        cond: '${{ github.event.inputs.prerelease == true }}'
+        cond: ${{ github.event.inputs.prerelease == 'true' }}
         if_true: "--pre"
         if_false: ""
     - uses: actions/setup-python@v2
@@ -125,13 +125,13 @@ jobs:
       run: |
         cd ..
         git clone https://github.com/robotraconteur/vcpkg-robotraconteur.git
-      if: '${{ github.event.inputs.prerelease != true }}'
+      if: ${{ github.event.inputs.prerelease != 'true' }}
     - name: setup vcpkg robotraconteur prerelease
       run: |
         cd ..
         git clone https://github.com/robotraconteur/vcpkg-robotraconteur.git
         git checkout prerelease
-      if: '${{ github.event.inputs.prerelease == true }}'
+      if: ${{ github.event.inputs.prerelease == 'true' }}
     - name: vcpkg build robotraconteur
       run: |
         cd ..\vcpkg
@@ -169,7 +169,7 @@ jobs:
     - uses: haya14busa/action-cond@v1
       id: pip_pre
       with:
-        cond: '${{ github.event.inputs.prerelease == true }}'
+        cond: ${{ github.event.inputs.prerelease == 'true' }}
         if_true: "--pre"
         if_false: ""
     - name: pip
