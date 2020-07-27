@@ -132,4 +132,46 @@ jobs:
       run: |
         cd build
         ctest . -C Release --output-on-failure
-      
+  build-osx:
+    runs-on: macos-10.15
+
+    steps:
+    - name: pip
+      run: |
+        python -m pip install robotraconteur
+    - name: test python
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest.py loopback
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+        architecture: ${{ matrix.arch }}
+    - name: pip
+      run: |
+        python -m pip install robotraconteur
+      continue-on-error: true
+    - name: test python3
+      env:
+        ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
+      run: |
+        cd RobotRaconteurPython/test
+        python RobotRaconteurPythonTest.py loopback
+      continue-on-error: true
+    - name: homebrew
+      run: brew update && brew install robotraconteur/robotraconteur/robotraconteur
+    - name: configure
+      run: >
+        mkdir build && cd build &&
+        cmake -G "XCode" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        ..
+    - name: build
+      run: |        
+        cd build
+        cmake --build . --config Release -j 4
+    - name: test cpp
+      run: |
+        cd build
+        ctest . -C Release --output-on-failure
