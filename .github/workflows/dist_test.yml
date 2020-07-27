@@ -136,6 +136,9 @@ jobs:
     runs-on: macos-10.15
 
     steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: '${{ github.event.inputs.ref }}'
     - name: pip
       run: |
         python -m pip install robotraconteur
