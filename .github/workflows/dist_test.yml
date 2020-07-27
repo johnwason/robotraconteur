@@ -116,9 +116,6 @@ jobs:
         cond: ${{ matrix.arch == 'x86' }}
         if_true: "Win32"
         if_false: "x64"
-    - name: dir
-      run: dir ..\vcpkg\scripts\buildsystems\
-      continue-on-error: true
     - name: configure cpp
       run: >
         mkdir build && cd build &&
