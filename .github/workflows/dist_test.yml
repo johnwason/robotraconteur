@@ -108,5 +108,26 @@ jobs:
       run: |
         cd ..\vcpkg
         vcpkg install --overlay-ports=..\vcpkg-robotraconteur\ports robotraconteur:${{ matrix.arch }}-windows
-      
+    - uses: haya14busa/action-cond@v1
+      id: cmake_arch
+      with:
+        cond: ${{ matrix.arch == 'x86' }}
+        if_true: "Win32"
+        if_false: "x64"
+    - name: configure cpp
+      run: >
+        mkdir build && cd build &&
+        cmake -G "Visual Studio 16 2019" -A ${{ steps.cmake_arch.outputs.value }} 
+        -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        -DCMAKE_TOOLCHAIN_FILE=../../vcpkg/scripts/buildsystems/vcpkg.cmake
+        -DVCPKG_TARGET_TRIPLET='${{ matrix.arch }}-windows'
+        ..
+    - name: build cpp
+      run: |        
+        cd build
+        cmake --build . --config Release -j 4
+    - name: test cpp
+      run: |
+        cd build
+        ctest . -C Release --output-on-failure
       
