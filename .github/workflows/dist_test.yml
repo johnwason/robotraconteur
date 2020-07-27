@@ -29,10 +29,9 @@ jobs:
       run: >
         sudo apt-get install python-robotraconteur -q
     - name: apt python3
-      if: matrix.os != 'ubuntu-20.04'
       run: >
         sudo apt-get install python3-robotraconteur -q
-    - name: test python
+    - name: test python2
       if: matrix.os != 'ubuntu-20.04'
       env:
         ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
@@ -40,12 +39,12 @@ jobs:
         cd RobotRaconteurPython/test
         python RobotRaconteurPythonTest.py loopback
     - name: test python3
-      if: matrix.os == 'false'
       env:
         ROBOTRACONTEUR_ROBDEF_PATH: '${{ github.workspace }}/testing/RobotRaconteurTest'
       run: |
         cd RobotRaconteurPython/test
         python3 RobotRaconteurPythonTest.py loopback
+      continue-on-error: true
     - name: apt
       run: >
         sudo apt-get install robotraconteur-dev libboost-all-dev libbluetooth-dev
