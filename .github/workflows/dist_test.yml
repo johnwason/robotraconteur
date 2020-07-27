@@ -12,6 +12,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04]
     steps:
@@ -62,6 +63,7 @@ jobs:
   build-win:
     runs-on: windows-2019
     strategy:
+      fail-fast: false
       matrix:
         arch: [x64,x86]
 
@@ -114,12 +116,15 @@ jobs:
         cond: ${{ matrix.arch == 'x86' }}
         if_true: "Win32"
         if_false: "x64"
+    - name: dir
+      run: dir ..\vcpkg\scripts\buildsystems\
+      continue-on-error: true
     - name: configure cpp
       run: >
         mkdir build && cd build &&
         cmake -G "Visual Studio 16 2019" -A ${{ steps.cmake_arch.outputs.value }} 
         -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
-        -DCMAKE_TOOLCHAIN_FILE='${{ github.workspace }}/../../vcpkg/scripts/buildsystems/vcpkg.cmake'
+        -DCMAKE_TOOLCHAIN_FILE='..\..\vcpkg\scripts\buildsystems\vcpkg.cmake'
         -DVCPKG_TARGET_TRIPLET='${{ matrix.arch }}-windows'
         ..
     - name: build cpp
