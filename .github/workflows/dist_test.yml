@@ -149,6 +149,7 @@ jobs:
       run: |
         cd RobotRaconteurPython/test
         python RobotRaconteurPythonTest.py loopback
+      continue-on-error: true
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
