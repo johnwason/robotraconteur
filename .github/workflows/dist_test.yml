@@ -24,27 +24,14 @@ jobs:
       run: sudo add-apt-repository ppa:robotraconteur/ppa -y     
     - name: apt update
       run: sudo apt update
-    - name: apt
-      run: >
-        sudo apt-get install robotraconteur-dev python3-robotraconteur libboost-all-dev libbluetooth-dev
-        libdbus-1-dev libssl-dev libusb-1.0-0-dev  -q 
     - name: apt python2
       if: matrix.os != 'ubuntu-20.04'
       run: >
         sudo apt-get install python-robotraconteur -q
-    - name: configure
+    - name: apt python3
+      if: matrix.os != 'ubuntu-20.04'
       run: >
-        mkdir build && cd build &&
-        cmake -G "Unix Makefiles" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
-        ..
-    - name: build
-      run: |        
-        cd build
-        cmake --build . --config Release -j 4
-    - name: test cpp
-      run: |
-        cd build
-        ctest . -C Release --output-on-failure
+        sudo apt-get install python3-robotraconteur -q
     - name: test python
       if: matrix.os != 'ubuntu-20.04'
       env:
@@ -59,6 +46,23 @@ jobs:
       run: |
         cd RobotRaconteurPython/test
         python3 RobotRaconteurPythonTest.py loopback
+    - name: apt
+      run: >
+        sudo apt-get install robotraconteur-dev libboost-all-dev libbluetooth-dev
+        libdbus-1-dev libssl-dev libusb-1.0-0-dev  -q 
+    - name: configure
+      run: >
+        mkdir build && cd build &&
+        cmake -G "Unix Makefiles" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        ..
+    - name: build
+      run: |        
+        cd build
+        cmake --build . --config Release -j 4
+    - name: test cpp
+      run: |
+        cd build
+        ctest . -C Release --output-on-failure    
 
   build-win:
     runs-on: windows-2019
@@ -170,7 +174,7 @@ jobs:
     - name: configure
       run: >
         mkdir build && cd build &&
-        cmake -G "XCode" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        cmake -G "Xcode" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
         ..
     - name: build
       run: |        
