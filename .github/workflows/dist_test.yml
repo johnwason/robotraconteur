@@ -202,7 +202,7 @@ jobs:
     - name: configure
       run: >
         mkdir build && cd build &&
-        cmake -G "Xcode" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON
+        cmake -G "Xcode" -DBUILD_CORE=OFF -DBUILD_TEST=ON -DBUILD_TESTING=ON -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl
         ..
     - name: build
       run: |        
