@@ -110,7 +110,7 @@ jobs:
     - name: install swig
       run: |
         cd ..
-        Invoke-WebRequest -Uri https://prdownloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip -OutFile swigwin-4.0.2.zip
+        Invoke-WebRequest -Uri https://prdownloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip -OutFile swigwin-4.0.2.zip -UserAgent ([Microsoft.PowerShell.Commands.PSUserAgent]::Chrome)
         unzip -q swigwin-4.0.2.zip
     - uses: haya14busa/action-cond@v1
       id: cmake_arch
