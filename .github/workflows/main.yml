@@ -78,7 +78,7 @@ jobs:
         name: 'out-${{ matrix.os }}'
         path: out/*
   build-win:
-    runs-on: windows-2019
+    runs-on: windows-2016
     strategy:
       matrix:
         arch: [x64,x86]
