@@ -333,7 +333,7 @@ namespace detail
 			throw ResourceNotFoundException("Could not load certificate file");
 		}
 
-		server_context=RR_MAKE_SHARED<boost::asio::ssl::context>(boost::asio::ssl::context::tlsv1);
+		server_context=RR_MAKE_SHARED<boost::asio::ssl::context>(boost::asio::ssl::context::tlsv11);
 		server_context->set_options(boost::asio::ssl::context::no_sslv2 | boost::asio::ssl::context::no_sslv3 | boost::asio::ssl::context::no_compression);
 
         InitCA(server_context);
