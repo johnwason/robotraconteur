@@ -134,7 +134,7 @@ namespace RobotRaconteur
 				boost::split(u->privileges, g.at(2), boost::is_from_range(',', ','));
 			}
 
-			if (g.size() > 2)
+			if (g.size() > 3)
 			{
 				std::vector<std::string> n_ids;
 				boost::split(n_ids, g.at(3), boost::is_from_range(',', ','));
