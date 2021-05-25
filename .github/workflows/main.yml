@@ -127,22 +127,12 @@ jobs:
     - name: choco
       run: |
         choco install swig -r
-    - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@v1
-      with:
-        release: R2020a
     - uses: haya14busa/action-cond@v1
       id: cmake_arch
       with:
         cond: ${{ matrix.arch == 'x86' }}
         if_true: "Win32"
         if_false: "x64"
-    - uses: haya14busa/action-cond@v1
-      id: matlab_mex_cmake_arg
-      with:
-        cond: ${{ matrix.arch == 'x64' }}
-        if_true: "-DBUILD_MATLAB_MEX=ON"
-        if_false: ""
     - name: configure
       run: >
         cd .. &&
@@ -151,8 +141,7 @@ jobs:
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}" -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
-        -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" ${{ steps.matlab_mex_cmake_arg.outputs.value }}
-        -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
+        -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         ../robotraconteur
     - name: build
       run: |
