@@ -33,13 +33,13 @@ jobs:
         mono-devel -q
     - name: build-swig
       run: |
-        sudo apt remove swig
+        sudo apt remove swig -q
         sudo rm -f /usr/bin/swig*
         sudo rm -rf /usr/share/swig*
         rm -rf swig_build_dir
         mkdir -p swig_build_dir
         cd swig_build_dir
-        curl -L https://github.com/swig/swig/archive/refs/tags/v4.0.2.tar.gz --output swig-4.0.2.tar.gz
+        curl -s -L https://github.com/swig/swig/archive/refs/tags/v4.0.2.tar.gz --output swig-4.0.2.tar.gz
         tar xf swig-4.0.2.tar.gz
         cd swig-4.0.2
         ./autogen.sh
@@ -47,13 +47,13 @@ jobs:
         make
         sudo make install        
     - name: configure
+      working-directory: build2
       run: >
-        mkdir build2 && cd build2 &&
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
         -DBoost_USE_STATIC_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DPYTHON3_EXECUTABLE=/usr/bin/python3 
         -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/default-java 
         -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=OFF -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
-        robotraconteur
+        ../robotraconteur
     - name: build
       run: |        
         cd build2
@@ -139,7 +139,7 @@ jobs:
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}" -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
-        robotraconteur
+        ../robotraconteur
     - name: build
       run: |
         cd build2
@@ -203,7 +203,7 @@ jobs:
         -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=ON -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl
         -DOPENSSL_USE_STATIC_LIBS=ON -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
-        robotraconteur
+        ../robotraconteur
     - name: build
       run: |        
         cd build2
