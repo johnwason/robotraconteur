@@ -64,7 +64,6 @@ jobs:
       run: |
         cmake --build . --config Release --target package_source || true
         mv generated_src out/
-        cp robotraconteur/LICENSE.txt out/
         cp *.tar.gz out/ || true
         cp *.zip out/ || true
     - name: test
@@ -73,7 +72,7 @@ jobs:
         ctest . -C Release --output-on-failure
     - name: move out
       run: |
-        cp LICENSE.txt build2/out/
+        cp robotraconteur/LICENSE.txt build2/out/
         mv build2/out .
     - name: archive out
       uses: actions/upload-artifact@v2
@@ -157,6 +156,7 @@ jobs:
         ctest . -C Release --output-on-failure -E java
     - name: move out
       run: |
+        copy robotraconteur/LICENSE.txt build2/out/
         mv build2/out .
     - name: archive out
       uses: actions/upload-artifact@v2
@@ -215,7 +215,7 @@ jobs:
         ctest . -C Release --output-on-failure
     - name: move out
       run: |
-        cp LICENSE.txt build2/out/
+        cp robotraconteur/LICENSE.txt build2/out/
         mv build2/out .
     - name: archive out
       uses: actions/upload-artifact@v2
