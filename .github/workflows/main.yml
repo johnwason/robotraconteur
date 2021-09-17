@@ -255,19 +255,12 @@ jobs:
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON 
         -DBoost_USE_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_MATLAB_MEX=ON
-        -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT\scripts\buildsystems\vcpkg.cmake
+        -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake
         -S robotraconteur -B build2
     - name: build
       working-directory: build2
       run: |
         cmake --build . --config Release -j 4
-    - name: build source
-      working-directory: build2
-      run: |
-        cmake --build . --config Release --target package_source || true
-        mv generated_src out/
-        cp *.tar.gz out/ || true
-        cp *.zip out/ || true
     - name: test
       working-directory: build2
       run: |
