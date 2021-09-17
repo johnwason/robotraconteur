@@ -38,9 +38,10 @@ jobs:
         rm -rf swig_build_dir
         mkdir -p swig_build_dir
         cd swig_build_dir
-        curl -L http://prdownloads.sourceforge.net/swig/swig-4.0.2.tar.gz --output swig-4.0.2.tar.gz
+        curl -L https://github.com/swig/swig/archive/refs/tags/v4.0.2.tar.gz --output swig-4.0.2.tar.gz
         tar xf swig-4.0.2.tar.gz
         cd swig-4.0.2
+        ./autogen.sh
         ./configure
         make
         sudo make install        
