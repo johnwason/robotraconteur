@@ -222,5 +222,59 @@ jobs:
       with:
         name: 'out-osx'
         path: out/*
+  build-matlab:
+
+    runs-on: ubuntu-18.04
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: robotraconteur
+    - name: apt update
+      run: sudo apt update
+    - name: apt
+      run: >
+        sudo apt-get install zlib1g zlib1g-dev libssl-dev libusb-1.0-0 
+        libusb-1.0-0-dev libdbus-1-3 libdbus-1-dev libbluetooth3 libbluetooth-dev 
+        git cmake g++ make mono-devel -qq
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v1
+      with:
+        release: 2021a
+    - name: Build Boost
+      working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
+      run: |
+        vcpkg install boost
+    - name: configure
+      run: >
+        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON 
+        -DBoost_USE_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_MATLAB_MEX=ON
+        -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT\scripts\buildsystems\vcpkg.cmake
+        -S robotraconteur -B build2
+    - name: build
+      working-directory: build2
+      run: |
+        cmake --build . --config Release -j 4
+    - name: build source
+      working-directory: build2
+      run: |
+        cmake --build . --config Release --target package_source || true
+        mv generated_src out/
+        cp *.tar.gz out/ || true
+        cp *.zip out/ || true
+    - name: test
+      working-directory: build2
+      run: |
+        ctest . -C Release --output-on-failure
+    - name: move out
+      run: |
+        cp robotraconteur/LICENSE.txt build2/out/
+        mv build2/out .
+    - name: archive out
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'out-${{ matrix.os }}'
+        path: out/*
     
       
