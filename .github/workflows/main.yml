@@ -241,7 +241,7 @@ jobs:
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@v1
       with:
-        release: 2021a
+        release: 2020a
     - name: Build Boost
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: |
