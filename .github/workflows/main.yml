@@ -63,7 +63,6 @@ jobs:
       working-directory: build2
       run: |
         cmake --build . --config Release --target package_source || true
-        mkdir out
         mv generated_src out/
         cp robotraconteur/LICENSE.txt out/
         cp *.tar.gz out/ || true
