@@ -272,7 +272,7 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-${{ matrix.os }}'
+        name: 'out-matlab'
         path: out/*
     
       
