@@ -59,6 +59,7 @@ jobs:
         -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON        
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}"
         ("-DCMAKE_TOOLCHAIN_FILE=" + $env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
+        -DVCPKG_TARGET_TRIPLET=${{ steps.vcpkg_triplet.outputs.value }}
         ../robotraconteur
     - name: build
       run: |
