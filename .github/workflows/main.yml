@@ -143,7 +143,7 @@ jobs:
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DBOOST_ROOT="${env:BOOST_ROOT_1_72_0}" -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
-        -DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake
+        -DCMAKE_TOOLCHAIN_FILE=($env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
         ../robotraconteur
     - name: build
       run: |
