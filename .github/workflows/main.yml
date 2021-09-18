@@ -144,7 +144,7 @@ jobs:
         -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         ("-DCMAKE_TOOLCHAIN_FILE=" + $env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
-        -DBoost_DEBUG=ON
+        -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
         ../robotraconteur
     - name: build
       run: |
