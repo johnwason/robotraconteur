@@ -172,10 +172,13 @@ jobs:
       uses: mikehardy/buildcache-action@v1
       with:
         key: ${{ runner.os }}-${{ matrix.arch }}-build-main-buildcache
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
-        cmake -G "NMake Makefiles" -A ${{ steps.cmake_arch.outputs.value }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
+        cmake -G "Ninja" -DBUILD_GEN=ON -DBUILD_TEST=ON 
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
