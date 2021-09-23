@@ -171,7 +171,7 @@ jobs:
       id: cache-build
       uses: mikehardy/buildcache-action@v1
       with:
-        key: ${{ runner.os }}-${{ matrix.arch }}-build-main-buildcache
+        cache_key: ${{ runner.os }}-${{ matrix.arch }}-build-main-buildcache
     - uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.arch }}
