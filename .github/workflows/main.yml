@@ -58,7 +58,7 @@ jobs:
         sudo make install
     - name: install-swig
       if: steps.cache-swig.outputs.cache-hit == 'true'
-      working-directory: swig_build_dir
+      working-directory: swig_build_dir/swig-4.0.2
       run: |
         sudo apt remove swig -qq
         sudo rm -f /usr/bin/swig*

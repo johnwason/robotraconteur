@@ -34,7 +34,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: C:\Users\runneradmin\AppData\Local\vcpkg\archives
-        key: ${{ runner.os }}-${{matrix.arch}}-vcpkg-build-python-version
+        key: ${{ runner.os }}-${{ matrix.arch }}-vcpkg-build-python-version
     - name: vcpkg
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: >
@@ -64,7 +64,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-${{ matrix.arch }}-build-python-version
+        key: ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.python_version }}-build-python-version
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
@@ -121,7 +121,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-build-python-version
+        key: ${{ runner.os }}-${{ matrix.python_version }}-build-python-version
     - name: configure
       run: >
         mkdir build2 && cd build2 &&
