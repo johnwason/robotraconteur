@@ -28,6 +28,13 @@ jobs:
         cond: ${{ matrix.arch == 'x86' }}
         if_true: "x86-windows-static-md"
         if_false: "x64-windows-static-md"
+    - name: cache-vcpkg-archives
+      if: ${{ github.event_name != 'created' }}
+      id: cache-vcpkg-archives
+      uses: actions/cache@v2
+      with:
+        path: C:\Users\runneradmin\AppData\Local\vcpkg\archives
+        key: ${{ runner.os }}-${{matrix.arch}}-vcpkg-build-python-version
     - name: vcpkg
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: >
@@ -51,6 +58,13 @@ jobs:
         cond: ${{ matrix.arch == 'x86' }}
         if_true: "Win32"
         if_false: "x64"
+    - name: cache-build
+      if: ${{ github.event_name != 'created' }}
+      id: cache-build
+      uses: actions/cache@v2
+      with:
+        path: build2
+        key: ${{ runner.os }}-${{ matrix.arch }}-build-python-version
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
@@ -102,6 +116,12 @@ jobs:
         python -m pip install numpy setuptools wheel
     - name: env python3
       run: echo "PYTHON3_EXE=${{ env.pythonLocation }}/bin/python" >> $GITHUB_ENV
+    - name: cache-build
+      id: cache-build
+      uses: actions/cache@v2
+      with:
+        path: build2
+        key: ${{ runner.os }}-build-python-version
     - name: configure
       run: >
         mkdir build2 && cd build2 &&
