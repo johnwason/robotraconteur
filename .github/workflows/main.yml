@@ -175,7 +175,7 @@ jobs:
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
-        cmake -G "Visual Studio 15 2017" -A ${{ steps.cmake_arch.outputs.value }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
+        cmake -G "Ninja" -A ${{ steps.cmake_arch.outputs.value }} -DBUILD_GEN=ON -DBUILD_TEST=ON 
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
         -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
