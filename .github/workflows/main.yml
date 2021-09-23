@@ -178,7 +178,6 @@ jobs:
         arch: ${{ matrix.config.arch }}
     - name: configure
       run: >
-        md -Force build2 && cd build2 &&
         cmake -G "Ninja" -DBUILD_GEN=ON -DBUILD_TEST=ON 
         -DBUILD_NET=ON -DBoost_USE_STATIC_LIBS=ON -DBUILD_PYTHON=ON 
         -DBUILD_PYTHON_WHEEL=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON -DBUILD_JAVA=ON 
@@ -189,20 +188,20 @@ jobs:
         -DCMAKE_C_COMPILER_LAUNCHER=buildcache -DCMAKE_CXX_COMPILER_LAUNCHER=buildcache
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -DCMAKE_BUILD_TYPE=Release
-        ../robotraconteur
+        -S robotraconteur -B build2
     - name: build
+      working-directory: build2
       run: |
-        cd build2
         cmake --build . --config Release -j 4
     - name: test
       if: ${{ matrix.config.arch != 'x86' }}
+      working-directory: build2
       run: |
-        cd build2
         ctest . -C Release --output-on-failure
     - name: test x86
       if: ${{ matrix.config.arch == 'x86' }}
+      working-directory: build2
       run: |
-        cd build2
         ctest . -C Release --output-on-failure -E java
     - name: move out
       run: |
@@ -270,12 +269,12 @@ jobs:
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -S robotraconteur -B build2
     - name: build
+      working-directory: build2
       run: |        
-        cd build2
         cmake --build . --config Release -j 4
     - name: test
+      working-directory: build2
       run: |
-        cd build2
         ctest . -C Release --output-on-failure
     - name: move out
       run: |
