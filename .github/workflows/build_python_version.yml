@@ -70,7 +70,7 @@ jobs:
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
-        cmake -G "Ninja" -A ${{ steps.cmake_arch.outputs.value }} 
+        cmake -G "Ninja"
         -DBoost_USE_STATIC_LIBS=ON
         -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON        
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}"
