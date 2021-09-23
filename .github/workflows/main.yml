@@ -187,6 +187,7 @@ jobs:
         -DVCPKG_TARGET_TRIPLET=${{ steps.vcpkg_triplet.outputs.value }}
         -DCMAKE_C_COMPILER_LAUNCHER=buildcache -DCMAKE_CXX_COMPILER_LAUNCHER=buildcache
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
+        -DCMAKE_BUILD_TYPE=Release
         ../robotraconteur
     - name: build
       run: |
