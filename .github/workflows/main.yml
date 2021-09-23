@@ -252,7 +252,7 @@ jobs:
         key: ${{ runner.os }}-build-main-ccache
     - name: configure
       run: >
-        cmake -G "Xcode" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
+        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
         -DBoost_USE_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release 
         -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON 
         -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=ON -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl
