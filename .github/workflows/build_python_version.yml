@@ -63,7 +63,7 @@ jobs:
       id: cache-build
       uses: mikehardy/buildcache-action@v1
       with:
-        cache_key: ${{ runner.os }}-${{ matrix.arch }}-build-python-version-buildcache
+        cache_key: ${{ runner.os }}-${{ matrix.arch }}-build-python-version-${{ matrix.python_version }}-buildcache
     - uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.arch }}
@@ -126,7 +126,7 @@ jobs:
       id: cache-build
       uses: hendrikmuhs/ccache-action@v1
       with:
-        key: ${{ runner.os }}-build-python-version-ccache
+        key: ${{ runner.os }}-build-python-version-${{ matrix.python_version }}-ccache
     - name: configure
       run: >
         cmake -G "Xcode" -DBUILD_GEN=ON  -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
