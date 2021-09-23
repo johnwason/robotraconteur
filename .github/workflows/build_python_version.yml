@@ -94,8 +94,15 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-win-${{ matrix.arch }}'
+        name: 'out-win-${{ matrix.arch }}-python-${{ matrix.python_version }}'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-win-${{ matrix.arch }}-python-${{ matrix.python_version }}'
+        path: build2/*
+        retention-days: 2 
 
   build-osx:
 
@@ -151,7 +158,14 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-osx'
+        name: 'out-osx-python-${{ matrix.python_version }}'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-osx-python-${{ matrix.python_version }}'
+        path: build2/*
+        retention-days: 2  
     
       

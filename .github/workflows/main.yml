@@ -103,6 +103,13 @@ jobs:
       with:
         name: 'out-${{ matrix.os }}'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-${{ matrix.os }}'
+        path: build2/*
+        retention-days: 2
   build-win:
     runs-on: windows-2016
     strategy:
@@ -212,6 +219,13 @@ jobs:
       with:
         name: 'out-win-${{ matrix.arch }}'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-win-${{ matrix.arch }}'
+        path: build2/*
+        retention-days: 2    
 
   build-osx:
 
@@ -278,6 +292,14 @@ jobs:
       with:
         name: 'out-osx'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-osx'
+        path: build2/*
+        retention-days: 2  
+    
   build-matlab:
 
     runs-on: ubuntu-18.04
@@ -353,5 +375,12 @@ jobs:
       with:
         name: 'out-matlab'
         path: out/*
+    - name: build artifacts
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'build-artifacts-matlab'
+        path: build2/*
+        retention-days: 2  
     
       
