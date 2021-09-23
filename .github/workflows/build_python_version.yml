@@ -17,7 +17,7 @@ jobs:
             vcpkg_triplet: x64-windows-static-md
             cmake_arch: x64
           - arch: x86
-            vcpkg_triplet: x64-windows-static-md
+            vcpkg_triplet: x86-windows-static-md
             cmake_arch: Win32
         python_version: [3.7,3.9]
     steps:
