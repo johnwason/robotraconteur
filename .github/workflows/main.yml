@@ -114,28 +114,28 @@ jobs:
     runs-on: windows-2016
     strategy:
       matrix:
-        arch: [x64,x86]
+        config:
+          - arch: x64
+            vcpkg_triplet: x64-windows-static-md
+            cmake_arch: x64
+          - arch: x86
+            vcpkg_triplet: x64-windows-static-md
+            cmake_arch: Win32
     steps:
     - uses: actions/checkout@v2
       with:
         path: robotraconteur
-    - uses: haya14busa/action-cond@v1
-      id: vcpkg_triplet
-      with:
-        cond: ${{ matrix.arch == 'x86' }}
-        if_true: "x86-windows-static-md"
-        if_false: "x64-windows-static-md"
     - name: cache-vcpkg-archives
       if: ${{ github.event_name != 'created' }}
       id: cache-vcpkg-archives
       uses: actions/cache@v2
       with:
         path: C:\Users\runneradmin\AppData\Local\vcpkg\archives
-        key: ${{ runner.os }}-${{matrix.arch}}-vcpkg-main
+        key: ${{ runner.os }}-${{matrix.config.arch}}-vcpkg-main
     - name: vcpkg
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: >
-        vcpkg install --triplet ${{ steps.vcpkg_triplet.outputs.value }} boost-algorithm boost-array boost-asio 
+        vcpkg install --triplet ${{ matrix.config.vcpkg_triplet }} boost-algorithm boost-array boost-asio 
         boost-assign boost-atomic boost-bind boost-config boost-container boost-date-time 
         boost-smart-ptr boost-filesystem boost-foreach boost-format boost-function boost-interprocess
         boost-intrusive boost-lexical-cast boost-locale boost-random boost-range boost-regex
@@ -145,11 +145,11 @@ jobs:
       with:
         java-version: 8
         java-package: jdk
-        architecture: ${{ matrix.arch }}
+        architecture: ${{ matrix.config.arch }}
     - uses: actions/setup-python@v2
       with:
         python-version: '2.7'
-        architecture: ${{ matrix.arch }}
+        architecture: ${{ matrix.config.arch }}
     - name: pip
       run: |
         python -m pip install numpy setuptools wheel
@@ -158,7 +158,7 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-        architecture: ${{ matrix.arch }}
+        architecture: ${{ matrix.config.arch }}
     - name: pip3
       run: |
         python -m pip install numpy setuptools wheel
@@ -167,21 +167,15 @@ jobs:
     - name: choco
       run: |
         choco install swig -r
-    - uses: haya14busa/action-cond@v1
-      id: cmake_arch
-      with:
-        cond: ${{ matrix.arch == 'x86' }}
-        if_true: "Win32"
-        if_false: "x64"
     - name: cache-build
       if: ${{ github.event_name != 'created' }}
       id: cache-build
       uses: mikehardy/buildcache-action@v1
       with:
-        cache_key: ${{ runner.os }}-${{ matrix.arch }}-build-main-buildcache
+        cache_key: ${{ runner.os }}-${{ matrix.config.arch }}-build-main-buildcache
     - uses: ilammy/msvc-dev-cmd@v1
       with:
-        arch: ${{ matrix.arch }}
+        arch: ${{ matrix.config.arch }}
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
@@ -191,7 +185,7 @@ jobs:
         -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         ("-DCMAKE_TOOLCHAIN_FILE=" + $env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
-        -DVCPKG_TARGET_TRIPLET=${{ steps.vcpkg_triplet.outputs.value }}
+        -DVCPKG_TARGET_TRIPLET=${{ matrix.config.vcpkg_triplet }}
         -DCMAKE_C_COMPILER_LAUNCHER=buildcache -DCMAKE_CXX_COMPILER_LAUNCHER=buildcache
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -DCMAKE_BUILD_TYPE=Release
@@ -201,12 +195,12 @@ jobs:
         cd build2
         cmake --build . --config Release -j 4
     - name: test
-      if: ${{ matrix.arch != 'x86' }}
+      if: ${{ matrix.config.arch != 'x86' }}
       run: |
         cd build2
         ctest . -C Release --output-on-failure
     - name: test x86
-      if: ${{ matrix.arch == 'x86' }}
+      if: ${{ matrix.config.arch == 'x86' }}
       run: |
         cd build2
         ctest . -C Release --output-on-failure -E java
@@ -217,13 +211,13 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-win-${{ matrix.arch }}'
+        name: 'out-win-${{ matrix.config.arch }}'
         path: out/*
     - name: build artifacts
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: 'build-artifacts-win-${{ matrix.arch }}'
+        name: 'build-artifacts-win-${{ matrix.config.arch }}'
         path: build2/*
         retention-days: 2    
 
