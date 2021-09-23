@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: swig_build_dir
-        key: ${{ runner.os }}-${{ matrix.os }}-swig-4.0.2
+        key: ${{ runner.os }}-${{ matrix.os }}-swig-4.0.2-main
     - name: build-swig
       if: steps.cache-swig.outputs.cache-hit != 'true'
       run: |
@@ -69,7 +69,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-${{ matrix.os }}-build
+        key: ${{ runner.os }}-${{ matrix.os }}-build-main
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
@@ -122,7 +122,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: C:\Users\runneradmin\AppData\Local\vcpkg\archives
-        key: ${{ runner.os }}-${{matrix.arch}}-vcpkg
+        key: ${{ runner.os }}-${{matrix.arch}}-vcpkg-main
     - name: vcpkg
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: >
@@ -170,7 +170,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-${{ matrix.arch }}-build
+        key: ${{ runner.os }}-${{ matrix.arch }}-build-main
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
@@ -243,7 +243,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-build
+        key: ${{ runner.os }}-build-main
     - name: configure
       run: >
         mkdir build2 && cd build2 &&
@@ -297,7 +297,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /home/runner/.cache/vcpkg/archives
-        key: ${{ runner.os }}-matlab-vcpkg
+        key: ${{ runner.os }}-matlab-vcpkg-main
     - name: vcpkg
       working-directory: ${{ env.VCPKG_INSTALLATION_ROOT }}
       run: >
@@ -313,7 +313,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-matlab-build
+        key: ${{ runner.os }}-matlab-build-main
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON 
