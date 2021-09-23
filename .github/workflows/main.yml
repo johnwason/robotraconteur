@@ -65,11 +65,11 @@ jobs:
         sudo rm -rf /usr/share/swig*
         sudo make install
     - name: cache-build
+      if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: mikehardy/buildcache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-${{ matrix.os }}-build-main
+        key: ${{ runner.os }}-${{ matrix.os }}-build-main-buildcache
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
@@ -167,10 +167,9 @@ jobs:
     - name: cache-build
       if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: mikehardy/buildcache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-${{ matrix.arch }}-build-main
+        key: ${{ runner.os }}-${{ matrix.arch }}-build-main-buildcache
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
@@ -240,10 +239,9 @@ jobs:
     - name: cache-build
       if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: mikehardy/buildcache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-build-main
+        key: ${{ runner.os }}-build-main-buildcache
     - name: configure
       run: >
         cmake -G "Xcode" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
@@ -309,10 +307,9 @@ jobs:
     - name: cache-build
       if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: mikehardy/buildcache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-matlab-build-main
+        key: ${{ runner.os }}-matlab-build-main-buildcache
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON 
