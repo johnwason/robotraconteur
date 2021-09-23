@@ -61,19 +61,24 @@ jobs:
     - name: cache-build
       if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: mikehardy/buildcache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.python_version }}-build-python-version
+        key: ${{ runner.os }}-${{ matrix.arch }}-build-python-version-buildcache
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
     - name: configure
       run: >
         md -Force build2 && cd build2 &&
-        cmake -G "Visual Studio 15 2017" -A ${{ steps.cmake_arch.outputs.value }} 
+        cmake -G "Ninja" -A ${{ steps.cmake_arch.outputs.value }} 
         -DBoost_USE_STATIC_LIBS=ON
         -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON        
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}"
         ("-DCMAKE_TOOLCHAIN_FILE=" + $env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
         -DVCPKG_TARGET_TRIPLET=${{ steps.vcpkg_triplet.outputs.value }}
+        -DCMAKE_C_COMPILER_LAUNCHER=buildcache -DCMAKE_CXX_COMPILER_LAUNCHER=buildcache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
+        -DCMAKE_BUILD_TYPE=Release
         ../robotraconteur
     - name: build
       run: |
@@ -117,11 +122,11 @@ jobs:
     - name: env python3
       run: echo "PYTHON3_EXE=${{ env.pythonLocation }}/bin/python" >> $GITHUB_ENV
     - name: cache-build
+      if: ${{ github.event_name != 'created' }}
       id: cache-build
-      uses: actions/cache@v2
+      uses: hendrikmuhs/ccache-action@v1
       with:
-        path: build2
-        key: ${{ runner.os }}-${{ matrix.python_version }}-build-python-version
+        key: ${{ runner.os }}-build-python-version-ccache
     - name: configure
       run: >
         cmake -G "Xcode" -DBUILD_GEN=ON  -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
@@ -129,6 +134,8 @@ jobs:
         -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl
         -DOPENSSL_USE_STATIC_LIBS=ON
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}"
+        -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -S robotraconteur -B build2
     - name: build
       run: |        
