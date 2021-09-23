@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: swig_build_dir
-        key: ${{ runner.os }}-swig-4.0.2
+        key: ${{ runner.os }}-${{ matrix.os }}-swig-4.0.2
     - name: build-swig
       if: steps.cache-swig.outputs.cache-hit != 'true'
       run: |
@@ -69,7 +69,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build2
-        key: ${{ runner.os }}-build
+        key: ${{ runner.os }}-${{ matrix.os }}-build
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
