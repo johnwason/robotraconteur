@@ -77,6 +77,7 @@ jobs:
         -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/default-java 
         -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=OFF -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -S robotraconteur -B build2
     - name: build
       working-directory: build2
@@ -182,6 +183,7 @@ jobs:
         ("-DCMAKE_TOOLCHAIN_FILE=" + $env:VCPKG_INSTALLATION_ROOT + "/scripts/buildsystems/vcpkg.cmake")
         -DVCPKG_TARGET_TRIPLET=${{ steps.vcpkg_triplet.outputs.value }}
         -DCMAKE_C_COMPILER_LAUNCHER=buildcache -DCMAKE_CXX_COMPILER_LAUNCHER=buildcache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         ../robotraconteur
     - name: build
       run: |
@@ -253,6 +255,7 @@ jobs:
         -DOPENSSL_USE_STATIC_LIBS=ON -DPYTHON_EXECUTABLE="${{ env.PYTHON2_EXE }}"
         -DPYTHON3_EXECUTABLE="${{ env.PYTHON3_EXE }}" -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -S robotraconteur -B build2
     - name: build
       run: |        
@@ -319,6 +322,7 @@ jobs:
         -DBoost_USE_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_MATLAB_MEX=ON
         -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake
         -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
         -S robotraconteur -B build2
     - name: build
       working-directory: build2
