@@ -20,6 +20,10 @@ jobs:
         tag: ${{ github.event.release.tag_name || github.event.inputs.tag_name }}
         fileName: "*"
         out-file-path: files
+    - name: tree
+      run: |
+        sudo apt install tree -qq
+        tree
     - name: pip
       run: python3 -m pip install --user twine
     - uses: nuget/setup-nuget@v1
