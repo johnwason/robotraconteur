@@ -30,13 +30,13 @@ jobs:
       with:
         nuget-api-key: ${{ secrets.NuGetAPIKey }}
     - name: twine upload
-      if: ${{ false }}
+      if: always()
       run: python3 -m twine upload files/*.whl
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.TWINE_TOKEN }}
     - name: nuget upload
-      if: ${{ false }}
+      if: always()
       run: nuget push files/*.nupkg -Source https://api.nuget.org/v3/index.json
     - name: update vcpkg
       if: always()
