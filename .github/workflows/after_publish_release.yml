@@ -17,7 +17,7 @@ jobs:
     - uses: robinraju/release-downloader@v1.1
       with:
         repository: ${{ github.repository }}
-        tag: ${{ github.event.release.tag_name || inputs.tag_name }}
+        tag: ${{ github.event.release.tag_name || github.event.inputs.tag_name }}
         fileName: "*"
         out-file-path: files
     - name: pip
@@ -41,7 +41,7 @@ jobs:
         workflow: update_port.yml
         repo: ${{ github.repository_owner }}/vcpkg-robotraconteur
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
-        inputs: '{ "port": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || inputs.tag_name }}" }'
+        inputs: '{ "port": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.events.inputs.tag_name }}" }'
     - name: update homebrew
       if: always()
       uses: benc-uk/workflow-dispatch@v1
@@ -49,6 +49,6 @@ jobs:
         workflow: update_formula.yml
         repo: ${{ github.repository_owner }}/homebrew-robotraconteur
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
-        inputs: '{ "formula": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || inputs.tag_name }}" }'
+        inputs: '{ "formula": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.events.inputs.tag_name }}" }'
     
         
