@@ -44,6 +44,7 @@ jobs:
       with:
         workflow: Update vcpkg port
         repo: ${{ github.repository_owner }}/vcpkg-robotraconteur
+        ref: refs/heads/master
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
         inputs: '{ "port": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.event.inputs.tag_name }}" }'
     - name: update homebrew
@@ -52,6 +53,7 @@ jobs:
       with:
         workflow: Update homebrew formula
         repo: ${{ github.repository_owner }}/homebrew-robotraconteur
+        ref: refs/heads/master
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
         inputs: '{ "formula": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.event.inputs.tag_name }}" }'
     
