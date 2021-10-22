@@ -45,7 +45,7 @@ jobs:
         workflow: Update vcpkg port
         repo: ${{ github.repository_owner }}/vcpkg-robotraconteur
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
-        inputs: '{ "port": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.events.inputs.tag_name }}" }'
+        inputs: '{ "port": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.event.inputs.tag_name }}" }'
     - name: update homebrew
       if: always()
       uses: benc-uk/workflow-dispatch@v1
@@ -53,6 +53,6 @@ jobs:
         workflow: Update homebrew formula
         repo: ${{ github.repository_owner }}/homebrew-robotraconteur
         token: ${{ secrets.BOT_GITHUB_TOKEN }}
-        inputs: '{ "formula": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.events.inputs.tag_name }}" }'
+        inputs: '{ "formula": "robotraconteur", "source_repository": "${{ github.repository }}", "tag_name": "${{ github.event.release.tag_name || github.event.inputs.tag_name }}" }'
     
         
