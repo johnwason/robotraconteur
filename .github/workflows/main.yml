@@ -120,9 +120,15 @@ jobs:
         cp *.tar.gz out/ || true
         cp *.zip out/ || true
     - name: test
+      if: ${{ matrix.config.container == '' }}
       working-directory: build2
       run: |
         ctest . -C Release --output-on-failure
+    - name: test
+      if: ${{ matrix.config.container != '' }}
+      working-directory: build2
+      run: |
+        ctest . -C Release -E test_cpp_discoveryloopback --output-on-failure
     - name: move out
       run: |
         cp build2/rrversion.txt build2/out/
