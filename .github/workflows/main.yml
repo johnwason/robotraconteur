@@ -16,6 +16,7 @@ jobs:
     runs-on: ${{ matrix.config.runs_on }}
     container: ${{ matrix.config.container }}
     strategy:
+      fail-fast: false
       matrix:
         config:
         - os: ubuntu-18.04
@@ -140,6 +141,7 @@ jobs:
   build-win:
     runs-on: windows-2016
     strategy:
+      fail-fast: false
       matrix:
         config:
           - arch: x64
@@ -440,6 +442,7 @@ jobs:
   build-win-python:
     runs-on: windows-2016
     strategy:
+      fail-fast: false
       matrix:
         config:
           - arch: x64
@@ -546,6 +549,7 @@ jobs:
     env:
       LIBRARY_PATH: /usr/local/opt/icu4c/lib
     strategy:
+      fail-fast: false
       matrix:
         python_version: [3.7,3.9]
     steps:
