@@ -13,10 +13,20 @@ env:
 jobs:
   build-ubuntu:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.runs_on }}
+    container: ${{ matrix.config.container }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        config:
+        - os: ubuntu-18.04
+          runs_on: ubuntu-18.04
+          container: ""
+        - os: ubuntu-20.04
+          runs_on: ubuntu-20.04
+          container: ""
+        - os: debian-10
+          runs_on: ubuntu-latest
+          container: debian:buster-slim
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -39,7 +49,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: swig_build_dir
-        key: ${{ runner.os }}-${{ matrix.os }}-swig-4.0.2-main
+        key: ${{ runner.os }}-${{ matrix.config.os }}-swig-4.0.2-main
     - name: build-swig
       if: steps.cache-swig.outputs.cache-hit != 'true'
       run: |
@@ -69,7 +79,7 @@ jobs:
       id: cache-build
       uses: hendrikmuhs/ccache-action@v1
       with:
-        key: ${{ runner.os }}-${{ matrix.os }}-build-main-ccache
+        key: ${{ runner.os }}-${{ matrix.config.os }}-build-main-ccache
     - name: cmake cache args
       id: cmake-cache-args
       if: startsWith(github.ref, 'refs/tags/v') != true
@@ -107,13 +117,13 @@ jobs:
     - name: archive out
       uses: actions/upload-artifact@v2
       with:
-        name: 'out-${{ matrix.os }}'
+        name: 'out-${{ matrix.config.os }}'
         path: out/*
     - name: build artifacts
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: 'build-artifacts-${{ matrix.os }}'
+        name: 'build-artifacts-${{ matrix.config.os }}'
         path: build2/*
         retention-days: 2
   build-win:
