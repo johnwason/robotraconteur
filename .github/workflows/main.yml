@@ -41,7 +41,7 @@ jobs:
       if: ${{ matrix.config.container != '' }}
       run: |
         apt update 
-        apt install sudo -y
+        apt install sudo tzdata -y
         ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
         dpkg-reconfigure --frontend noninteractive tzdata
     - name: apt update
