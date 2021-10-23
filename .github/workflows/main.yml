@@ -653,6 +653,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         path: robotraconteur
+    - name: remove-swig      
+      run: |
+        sudo apt remove swig -qq || true
+        sudo rm -f /usr/bin/swig*
+        sudo rm -rf /usr/share/swig*
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
@@ -686,7 +691,7 @@ jobs:
         channels: conda-forge,robotraconteur
     - name: conda install
       run: >
-        conda install git cmake boost-cpp python swig numpy pip dbus clang clangxx compiler-rt
+        conda install git cmake boost-cpp python swig numpy pip dbus clang clangxx compiler-rt openssl
     - name: configure
       run: >
         cmake -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DRR_NET_BUILD_NATIVE_ONLY=ON -DCMAKE_BUILD_TYPE:STRING=Release 
