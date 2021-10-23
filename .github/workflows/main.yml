@@ -97,13 +97,14 @@ jobs:
     - name: mkdir build2
       run: mkdir -p build2
     - name: configure
+      working-directory: build2
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
         -DBoost_USE_STATIC_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DPYTHON3_EXECUTABLE=/usr/bin/python3 
         -DBUILD_JAVA=ON -DBUILD_NET=ON -DPACKAGE_SWIG_SOURCE_ALL=ON -DJAVA_HOME=/usr/lib/jvm/default-java 
         -DBUILD_PYTHON=ON -DBUILD_PYTHON_WHEEL=OFF -DROBOTRACONTEUR_VERSION_SUFFIX="${{ env.version_suffix }}"
         ${{ env.CMAKE_CACHE_ARGS }}
-        -S robotraconteur -B build2
+        ../robotraconteur
     - name: build
       working-directory: build2
       run: |
