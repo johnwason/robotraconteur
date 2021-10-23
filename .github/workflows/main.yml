@@ -58,7 +58,7 @@ jobs:
     - name: build-swig
       if: steps.cache-swig.outputs.cache-hit != 'true'
       run: |
-        sudo apt remove swig -qq
+        sudo apt remove swig -qq || true
         sudo rm -f /usr/bin/swig*
         sudo rm -rf /usr/share/swig*
         rm -rf swig_build_dir
