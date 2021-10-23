@@ -634,6 +634,8 @@ jobs:
     - name: conda install
       run: >
         conda install git cmake boost-cpp python swig numpy ninja pip vs2017_win-64 vs2015_runtime
+    - name: printenv
+      run: printenv
     - name: configure
       run: >
         cmake -GNinja -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DCMAKE_BUILD_TYPE:STRING=Release
