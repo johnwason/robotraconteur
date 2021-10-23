@@ -37,7 +37,7 @@ jobs:
       if: ${{ startsWith(matrix.config.os, 'debian') }}
       run: |
         apt update 
-        apt install sudo -qq
+        apt install sudo -y
     - name: apt update
       run: sudo apt update
     - name: apt
