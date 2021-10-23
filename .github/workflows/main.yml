@@ -37,7 +37,7 @@ jobs:
       with:
         path: robotraconteur
     - name: install sudo
-      if: ${{ startsWith(matrix.config.os, 'debian') }}
+      if: ${{ matrix.config.container != '') }}
       run: |
         apt update 
         apt install sudo -y
