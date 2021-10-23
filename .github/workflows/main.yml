@@ -94,6 +94,8 @@ jobs:
       run: >
         echo "CMAKE_CACHE_ARGS=-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON" >> $GITHUB_ENV
+    - name: mkdir build2
+      run: mkdir -p build2
     - name: configure
       run: >
         cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON -DBUILD_PYTHON3=ON -DBUILD_PYTHON3_WHEEL=ON 
