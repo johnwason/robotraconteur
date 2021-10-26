@@ -35,7 +35,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - name: install sudo and tzdata
       if: ${{ matrix.config.container != '' }}
       run: |
@@ -285,7 +285,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - name: brew
       run: |
         brew update
@@ -367,7 +367,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - name: apt update
       run: sudo apt update
     - name: apt
@@ -590,7 +590,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - name: brew
       run: |
         brew install swig boost openssl
@@ -690,7 +690,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - name: remove-swig      
       run: |
         sudo apt remove swig -qq || true
@@ -729,7 +729,7 @@ jobs:
       with:
         path: robotraconteur
     - name: semver
-      run: python robotraconteur/packaging/scripts/actions_semver.py --github-env
+      run: python3 robotraconteur/packaging/scripts/actions_semver.py --github-env
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
