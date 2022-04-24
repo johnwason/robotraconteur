@@ -853,6 +853,7 @@ jobs:
         -DBoost_DEBUG=ON 
         -DBoost_VERBOSE=ON 
         -DBoost_USE_STATIC_LIBS=ON 
+        -DBoost_COMPILER=-clang
         -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE 
         -DANDROID_ABI=${{ matrix.config.android_abi }} 
         -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} 
