@@ -757,10 +757,14 @@ jobs:
         config:
         - android_abi: x86_64
           swig_args: -DSWIGWORDSIZE64
+          openssl_arch: android-x86_64
         - android_abi: x86
+          openssl_arch: x86
         - android_abi: arm64-v8a
+          openssl_arch: android-arm64
           swig_args: -DSWIGWORDSIZE64
         - android_abi: armeabi-v7a
+          openssl_arch: android-arm
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -827,7 +831,7 @@ jobs:
         git clone --branch OpenSSL_1_1_1n https://github.com/openssl/openssl.git
         cd openssl
         export PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
-        ./Configure android-${{ matrix.config.android_abi }} --prefix=$GITHUB_WORKSPACE/install_${{ matrix.config.android_abi }}
+        ./Configure ${{ matrix.config.openssl_arch }} --prefix=$GITHUB_WORKSPACE/install_${{ matrix.config.android_abi }}
         make -j4
         make install
     - name: clone getifaddrs
@@ -843,22 +847,22 @@ jobs:
         -DBUILD_JAVA=ON -DJAVA_HOME=/usr/lib/jvm/default-java 
         -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}"
         ${{ env.CMAKE_CACHE_ARGS }}
-        -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
-        -DBUILD_JAVA=ON \
-        -DBOOST_ROOT:PATH=$GITHUB_WORKSPACE/boost_android/build/out/${{ matrix.config.android_abi }}/ \
-        -DBoost_DEBUG=ON \
-        -DBoost_VERBOSE=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
-        -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE \
-        -DANDROID_ABI=${{ matrix.config.android_abi }} \
-        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} \
-        -DSWIG_EXECUTABLE=/usr/local/bin/swig \
-        -DSWIG_DIR=/usr/local/share/swig/4.0.2 \
-        -DGETIFADDR_DIR=$GITHUB_WORKSPACE/android-ifaddrs \
-        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON \
-        -DRobotRaconteurGen_EXECUTABLE=$GITHUB_WORKSPACE/build2_host/out/bin/RobotRaconteurGen \
-        -DSWIG_JAVA_EXTRA_ARGS_OVERRIDE=${{ matrix.config.swig_args }} \
-        -DANDROID_JAR=$ANDROID_HOME/platforms/android-23/Android.jar \
+        -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake 
+        -DBUILD_JAVA=ON 
+        -DBOOST_ROOT:PATH=$GITHUB_WORKSPACE/boost_android/build/out/${{ matrix.config.android_abi }}/ 
+        -DBoost_DEBUG=ON 
+        -DBoost_VERBOSE=ON 
+        -DBoost_USE_STATIC_LIBS=ON 
+        -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE 
+        -DANDROID_ABI=${{ matrix.config.android_abi }} 
+        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} 
+        -DSWIG_EXECUTABLE=/usr/local/bin/swig 
+        -DSWIG_DIR=/usr/local/share/swig/4.0.2 
+        -DGETIFADDR_DIR=$GITHUB_WORKSPACE/android-ifaddrs 
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON 
+        -DRobotRaconteurGen_EXECUTABLE=$GITHUB_WORKSPACE/build2_host/out/bin/RobotRaconteurGen 
+        -DSWIG_JAVA_EXTRA_ARGS_OVERRIDE=${{ matrix.config.swig_args }} 
+        -DANDROID_JAR=$ANDROID_HOME/platforms/android-23/Android.jar 
         ../robotraconteur
     - name: build
       working-directory: build2
