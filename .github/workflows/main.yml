@@ -831,7 +831,7 @@ jobs:
         git clone --branch OpenSSL_1_1_1n https://github.com/openssl/openssl.git
         cd openssl
         export PATH=$ANDROID_NDK_LATEST_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
-        ./Configure ${{ matrix.config.openssl_arch }} --prefix=$GITHUB_WORKSPACE/openssl_install_${{ matrix.config.android_abi }}
+        ./Configure ${{ matrix.config.openssl_arch }} -D__ANDROID_API__=21 --prefix=$GITHUB_WORKSPACE/openssl_install_${{ matrix.config.android_abi }}
         make -j4
         make install
     - name: clone getifaddrs
