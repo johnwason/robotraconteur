@@ -843,7 +843,7 @@ jobs:
     - name: configure
       working-directory: build2
       run: >
-        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=ON 
+        cmake -G "Unix Makefiles" -DBUILD_GEN=OFF  -DBUILD_TEST=OFF
         -DBoost_USE_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release 
         -DBUILD_JAVA=ON -DJAVA_HOME=/usr/lib/jvm/default-java 
         -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}"
