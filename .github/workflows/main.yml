@@ -821,7 +821,7 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/moritz-wundke/Boost-for-Android.git boost_android
         cd boost_android
-        ./build-android.sh $ANDROID_NDK_HOME
+        ./build-android.sh $ANDROID_NDK_HOME --arch=${{ matrix.config.android_abi } --with-libraries=date_time,filesystem,system,regex,chrono,atomic,thread,random,program_options --boost=1.74.0 
     - name: build_openssl
       run: |
         git clone --branch OpenSSL_1_1_1n https://github.com/openssl/openssl.git
@@ -845,20 +845,20 @@ jobs:
         ${{ env.CMAKE_CACHE_ARGS }}
         -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
         -DBUILD_JAVA=ON \
-        -DBOOST_INCLUDEDIR:PATH=$GITHUB_WORKSPACE/boost_android/build/out/${{ matrix.config.android_abi }}/include/boost-1_74 \
+        -DBOOST_ROOT:PATH=$GITHUB_WORKSPACE/boost_android/build/out/${{ matrix.config.android_abi }}/ \
         -DBoost_DEBUG=ON \
         -DBoost_VERBOSE=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE \
         -DANDROID_ABI=${{ matrix.config.android_abi }} \
-        -DOPENSSL_ROOT_DIR=/home/wasonj/RobotRaconteur2/android_build/openssl/install_${{ matrix.config.android_abi }} \
+        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} \
         -DSWIG_EXECUTABLE=/usr/local/bin/swig \
         -DSWIG_DIR=/usr/local/share/swig/4.0.2 \
-        -DGETIFADDR_DIR=/home/wasonj/RobotRaconteur2/android_build/android-ifaddrs \
+        -DGETIFADDR_DIR=$GITHUB_WORKSPACE/android-ifaddrs \
         -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON \
-        -DRobotRaconteurGen_EXECUTABLE=/home/wasonj/RobotRaconteur2/robotraconteur/build/out/bin/RobotRaconteurGen \
+        -DRobotRaconteurGen_EXECUTABLE=$GITHUB_WORKSPACE/build2_host/out/bin/RobotRaconteurGen \
         -DSWIG_JAVA_EXTRA_ARGS_OVERRIDE=${{ matrix.config.swig_args }} \
-        -DANDROID_JAR=/home/wasonj/Android/Sdk/platforms/android-23/Android.jar \
+        -DANDROID_JAR=$ANDROID_HOME/platforms/android-23/Android.jar \
         ../robotraconteur
     - name: build
       working-directory: build2
