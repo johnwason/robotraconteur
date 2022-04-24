@@ -759,7 +759,7 @@ jobs:
           swig_args: -DSWIGWORDSIZE64
           openssl_arch: android-x86_64
         - android_abi: x86
-          openssl_arch: x86
+          openssl_arch: android-x86
         - android_abi: arm64-v8a
           openssl_arch: android-arm64
           swig_args: -DSWIGWORDSIZE64
@@ -831,7 +831,7 @@ jobs:
         git clone --branch OpenSSL_1_1_1n https://github.com/openssl/openssl.git
         cd openssl
         export PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
-        ./Configure ${{ matrix.config.openssl_arch }} --prefix=$GITHUB_WORKSPACE/install_${{ matrix.config.android_abi }}
+        ./Configure ${{ matrix.config.openssl_arch }} --prefix=$GITHUB_WORKSPACE/openssl_install_${{ matrix.config.android_abi }}
         make -j4
         make install
     - name: clone getifaddrs
@@ -856,7 +856,7 @@ jobs:
         -DBoost_COMPILER=-clang
         -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE 
         -DANDROID_ABI=${{ matrix.config.android_abi }} 
-        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} 
+        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl_install_${{ matrix.config.android_abi }} 
         -DOPENSSL_USE_STATIC_LIBS=ON
         -DSWIG_EXECUTABLE=/usr/local/bin/swig 
         -DSWIG_DIR=/usr/local/share/swig/4.0.2 
