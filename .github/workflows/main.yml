@@ -857,6 +857,7 @@ jobs:
         -DCMAKE_FIND_ROOT_PATH=$GITHUB_WORKSPACE 
         -DANDROID_ABI=${{ matrix.config.android_abi }} 
         -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/openssl/install_${{ matrix.config.android_abi }} 
+        -DOPENSSL_USE_STATIC_LIBS=ON
         -DSWIG_EXECUTABLE=/usr/local/bin/swig 
         -DSWIG_DIR=/usr/local/share/swig/4.0.2 
         -DGETIFADDR_DIR=$GITHUB_WORKSPACE/android-ifaddrs 
