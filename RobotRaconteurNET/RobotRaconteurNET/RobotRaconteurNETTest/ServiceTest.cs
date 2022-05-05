@@ -7,7 +7,7 @@ using com.robotraconteur.testing.TestService1;
 using com.robotraconteur.testing.TestService2;
 using System.Threading;
 
-namespace RobotRaconteurNETTest
+namespace RobotRaconteurNETTest 
 {
 
 public class RobotRaconteurTestServiceSupport

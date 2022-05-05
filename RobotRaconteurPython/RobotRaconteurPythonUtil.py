@@ -70,6 +70,10 @@ def FindMessageElementByName(l, name):
     return RobotRaconteurPython.MessageElement.FindElement(l, name)
 
 
+
+
+
+
 def PackMessageElement(data, type1, obj=None, node=None):
 
     if (hasattr(obj, 'rrinnerstub')):

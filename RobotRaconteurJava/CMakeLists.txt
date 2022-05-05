@@ -15,6 +15,9 @@ else()
     find_package(Java COMPONENTS Development)
 endif()
 
+
+
+
 if(ANDROID)
     set(LIBUSB_INCLUDE_DIR "" CACHE PATH "Path to libusb.h for android")
 endif()
