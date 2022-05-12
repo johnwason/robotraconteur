@@ -1007,6 +1007,8 @@ jobs:
     - uses: actions/checkout@v2
       with:
         path: robotraconteur
+    - name: apt update
+      run: sudo apt update
     - name: apt
       run: >
         sudo apt-get install 
