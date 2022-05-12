@@ -1001,3 +1001,30 @@ jobs:
     - name: git diff for changes
       run: git diff --name-only --exit-code
       working-directory: robotraconteur
+  clang-tidy:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: robotraconteur
+    - name: pip
+      run: sudo python3 -m pip install autopep8 cmakelang
+    - name: clang-tidy-14
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 14 all
+    - name: mkdir build2
+      run: mkdir -p build2
+    - name: configure
+      working-directory: build2
+      run: >
+        cmake -G "Unix Makefiles" -DBUILD_GEN=ON  -DBUILD_TEST=OFF 
+        -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON -DCMAKE_CXX_CLANG_TIDY=clang-tidy-14
+        -DCMAKE_BUILD_TYPE=Debug
+        ../robotraconteur
+    - name: build
+      working-directory: build2
+      run: |
+        cmake --build . --config Debug -- -j 4
+    
