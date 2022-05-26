@@ -40,7 +40,6 @@ class WrappedRobotRaconteurExceptionHelper : RobotRaconteurExceptionHelper
     }
 }
 
-
 public class UserLogRecordHandler : UserLogRecordHandlerBase
 {
     class UserLogRecordHandlerDirectorNET : UserLogRecordHandlerDirector
