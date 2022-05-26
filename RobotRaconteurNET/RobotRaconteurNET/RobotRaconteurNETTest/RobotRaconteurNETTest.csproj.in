@@ -155,6 +155,12 @@
   <Compile Include="$(RRSourceDir)\ServiceTestClient3.cs">
 		<Link>ServiceTestClient2.cs</Link>
 	</Compile>
+  <Compile Include="$(RRSourceDir)\LFSRSeqGen.cs">
+		<Link>LFSRSeqGen.cs</Link>
+	</Compile>
+  <Compile Include="$(RRSourceDir)\LFSRSeqGen.cs">
+		<Link>LFSRSeqGen.cs</Link>
+	</Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(RRSourceDir)\app.config">
