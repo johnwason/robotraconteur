@@ -1270,7 +1270,7 @@ public class RobotRaconteurTest_testroot : com.robotraconteur.testing.TestServic
             return 547919123;
         }
         set {
-                RRAssert.AreEqual(value, 1550099195);
+                RRAssert.AreEqual<uint>(value, 1550099195);
                 
         }
     }
@@ -1564,7 +1564,7 @@ public class RobotRaconteurTest_testroot : com.robotraconteur.testing.TestServic
             return 13389861970863644378;
         }
         set {
-                RRAssert.AreEqual(value, 1465640522145789825);
+                RRAssert.AreEqual<ulong>(value, 1465640522145789825);
                 
         }
     }

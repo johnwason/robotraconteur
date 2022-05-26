@@ -206,7 +206,7 @@ public class ServiceTestClient2
             ServiceTest2_pod.fill_testpod2(ref o1[i], 59174 + i);
         }
 
-        RRAssert.AreEqual (r.pod_m1.Length, 1024);
+        RRAssert.AreEqual<ulong>(r.pod_m1.Length, 1024);
 
         r.pod_m1.Write(52, o1, 3, 17);
 
@@ -284,7 +284,7 @@ public class ServiceTestClient2
         for (uint i = 0; i < s.Length; i++)
             ServiceTest2_pod.fill_transform(ref s[i], 79174 + i);
 
-        RRAssert.AreEqual(r.namedarray_m1.Length, 512);
+        RRAssert.AreEqual<ulong>(r.namedarray_m1.Length, 512);
         r.namedarray_m1.Write(23, s, 3, 21);
 
         var s2 = new transform[32];
