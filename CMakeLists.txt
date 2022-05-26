@@ -66,10 +66,6 @@ if(BUILD_GEN)
     add_subdirectory(RobotRaconteurGen)
 endif()
 
-if(BUILD_TESTING)
-    add_subdirectory(test)
-endif()
-
 set(BUILD_PYTHON "" CACHE BOOL "Build Python wrappers")
 if(BUILD_PYTHON)
     add_subdirectory(RobotRaconteurPython)
@@ -99,6 +95,10 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/generated_src)
     set(USE_PREGENERATED_SOURCE ON CACHE BOOL ON)
 else()
     set(USE_PREGENERATED_SOURCE OFF CACHE BOOL OFF)
+endif()
+
+if(BUILD_TESTING)
+    add_subdirectory(test)
 endif()
 
 if(BUILD_PYTHON OR BUILD_NET OR BUILD_JAVA)
