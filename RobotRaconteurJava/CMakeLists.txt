@@ -223,11 +223,11 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/JavaExceptions.cmake")
 set(RR_JAVA_TEST_CMD "${Java_JAVA_EXECUTABLE}")
 if(WIN32)
     set(RR_JAVA_TEST_CMD_ARG
-        "-cp ${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteur.jar\\\;${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteurJavaTest.jar -Djava.library.path=${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/ com.robotraconteur.javatest.RobotRaconteurJavaTest"
+        "-cp ${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteur.jar\\\;${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteurJavaTest.jar -Djava.library.path=${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/ -XX:MaxJavaStackTraceDepth=100000 com.robotraconteur.javatest.RobotRaconteurJavaTest"
     )
 else()
     set(RR_JAVA_TEST_CMD_ARG
-        "-cp ${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteur.jar:${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteurJavaTest.jar -Djava.library.path=${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/ com.robotraconteur.javatest.RobotRaconteurJavaTest"
+        "-cp ${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteur.jar:${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/RobotRaconteurJavaTest.jar -Djava.library.path=${CMAKE_BINARY_DIR}/@OUT_DIR_NAME@/Java/ -XX:MaxJavaStackTraceDepth=100000 com.robotraconteur.javatest.RobotRaconteurJavaTest"
     )
 endif()
 rrconfiguretest(

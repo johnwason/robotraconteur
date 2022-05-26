@@ -559,7 +559,7 @@ public class testroot3_impl implements testroot3
     @Override public void set_c7(CSingle value)
     {
         CSingle c7_2 = new CSingle(9.303345e-12f, -3.865684e-05f);
-        RRAssert.areEqual (value,c7_2));
+        RRAssert.areEqual (value,c7_2);
     }
     @Override public CSingle[] get_c8()
     {

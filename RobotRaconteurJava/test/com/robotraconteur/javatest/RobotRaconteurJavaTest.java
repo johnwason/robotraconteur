@@ -55,7 +55,7 @@ public class RobotRaconteurJavaTest
                     count = Integer.parseInt(args[1]);
                 }
 
-                MultiDimArrayTest.Test();
+                // MultiDimArrayTest.Test();
 
                 System.out.println("Connect");
                 for (int i = 0; i < count; i++)
@@ -330,6 +330,7 @@ public class RobotRaconteurJavaTest
                 if (args.length < 2)
                 {
                     System.out.println("Usage for peeridentity: RobotRaconteurTest peeridentity url [nodeid]");
+                    System.exit(1);
                     return;
                 }
 
@@ -618,7 +619,10 @@ public class RobotRaconteurJavaTest
         {
             e.printStackTrace(System.out);
             RobotRaconteurNode.s().shutdown();
+            System.exit(1);
+            return;
         }
+
     }
 
     static class UserLogRecordHandler_PrintLn implements Action1<RRLogRecord>
