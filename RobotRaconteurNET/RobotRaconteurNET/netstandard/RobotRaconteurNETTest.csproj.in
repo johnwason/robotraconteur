@@ -31,6 +31,7 @@
     <Compile Include="$(RRSourceDir)\ServiceTestClient.cs" Link="ServiceTestClient.cs" />
     <Compile Include="$(RRSourceDir)\ServiceTestClient2.cs" Link="ServiceTestClient2.cs" />
     <Compile Include="$(RRSourceDir)\ServiceTestClient3.cs" Link="ServiceTestClient3.cs" />
+    <Compile Include="$(RRSourceDir)\RRAssert.cs" Link="RRAssert.cs" />
   </ItemGroup>
 
   <ItemGroup>

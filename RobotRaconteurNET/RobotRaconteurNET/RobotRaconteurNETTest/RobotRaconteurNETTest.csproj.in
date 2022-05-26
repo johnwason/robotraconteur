@@ -123,6 +123,9 @@
     <Compile Include="$(RRSourceDir)\Properties\AssemblyInfo.cs">
 		<Link>AssemblyInfo.cs</Link>
 	</Compile>
+  <Compile Include="$(RRSourceDir)\RRAssert.cs">
+		<Link>RRAssert.cs</Link>
+	</Compile>
 	<Compile Include="test\com__robotraconteur__testing__TestService1.cs"/>
 	<Compile Include="test\com__robotraconteur__testing__TestService2.cs"/>	
 	<Compile Include="test\com__robotraconteur__testing__TestService3.cs"/>	
