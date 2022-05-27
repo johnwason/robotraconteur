@@ -613,6 +613,13 @@ public class RobotRaconteurJavaTest
                 return;
             }
 
+            if (command.equals("lfsrprint"))
+            {
+                LFSRSeqGen_Print.printLFSR();
+                RobotRaconteurNode.s().shutdown();
+                return;
+            }
+
             throw new Exception("Unknown command");
         }
         catch (Exception e)
