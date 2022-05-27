@@ -21,15 +21,16 @@ endfunction()
 
 function(RR_SERVICE_TEST_ADD_LIB TARGET_NAME)
     cmake_parse_arguments(RR_ARG "SERVICELIB" "TYPE;DEFINE" "SRC" ${ARGN})
-    if (NOT DEFINED RR_ARG_TYPE)
+    if(NOT DEFINED RR_ARG_TYPE)
         set(RR_ARG_TYPE STATIC)
     endif()
     add_library(robotraconteur_test_${TARGET_NAME} ${RR_ARG_TYPE} ${RR_ARG_SRC})
-    if (RR_ARG_SERVICELIB)
-    set(RR_TEST_LIB robotraconteur_test_service_lib)
+    if(RR_ARG_SERVICELIB)
+        set(RR_TEST_LIB robotraconteur_test_service_lib)
     endif()
-    target_link_libraries(robotraconteur_test_${TARGET_NAME} PUBLIC ${RR_TEST_LIB} RobotRaconteurCore robotraconteur_test_cpp_common
-                                                                    robotraconteur_test_lfsr GTest::Main)
+    target_link_libraries(
+        robotraconteur_test_${TARGET_NAME} PUBLIC ${RR_TEST_LIB} RobotRaconteurCore robotraconteur_test_cpp_common
+                                                  robotraconteur_test_lfsr GTest::Main)
     target_include_directories(robotraconteur_test_${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
     if(DEFINED RR_ARG_DEFINE)
         target_compile_definitions(robotraconteur_test_${TARGET_NAME} PRIVATE ${RR_ARG_DEFINE})
