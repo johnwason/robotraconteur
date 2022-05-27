@@ -1,5 +1,13 @@
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/macros.cmake)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    target_compile_options(RobotRaconteurCore PRIVATE "-fPIC")
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(RobotRaconteurCore PRIVATE "-fPIC")
+endif()
+
 if(NOT ROBOTRACONTEUR_GENERATE_THUNK)
     include(${CMAKE_SOURCE_DIR}/RobotRaconteurGen/cmake/RobotRaconteurGenerateThunk.cmake)
 endif()
