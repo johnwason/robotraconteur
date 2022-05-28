@@ -56,8 +56,6 @@ if(NOT ANDROID)
             *
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/test")
 
-    rrsettargetdirs(RobotRaconteurJavaNative "Java" "Java")
-
     add_dependencies(RobotRaconteurJavaTest RobotRaconteurJava)
 
     set(RR_JAVA_TEST_CMD "${Java_JAVA_EXECUTABLE}")

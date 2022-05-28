@@ -64,6 +64,8 @@ if((WIN32 AND MINGW) OR CYGWIN OR CMAKE_SYSTEM_NAME STREQUAL MSYS)
     set_target_properties(RobotRaconteurJavaNative PROPERTIES PREFIX "")
 endif()
 
+rrsettargetdirs(RobotRaconteurJavaNative "Java" "Java")
+
 if(NOT ANDROID)
     add_custom_target(
         RobotRaconteurJava ALL
