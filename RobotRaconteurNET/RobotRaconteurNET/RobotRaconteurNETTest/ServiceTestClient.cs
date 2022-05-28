@@ -14,13 +14,13 @@ namespace RobotRaconteurNETTest
 public class ServiceTestClient
 {
 
-    public void ca<T>(T[] v1, T[] v2)
+    public void ca<T>(T[] v1, T[] v2) where T : IComparable, IComparable<T>
     {
             RRAssert.AreEqual(v1.Length, v2.Length);
             
         for (int i = 0; i < v1.Length; i++)
         {
-                RRAssert.AreEqual(v1[i], v2[i]);
+                RRAssert.AreEqual<T>(v1[i], v2[i]);
         }
     }
 
@@ -2090,7 +2090,7 @@ public class ServiceTestClient
         });
         
         // Test nulltest
-        RRAssert.AreEqual(r.nulltest, null);
+        RRAssert.AreEqual((object)r.nulltest, (object)null);
         r.nulltest = null;
     }
 

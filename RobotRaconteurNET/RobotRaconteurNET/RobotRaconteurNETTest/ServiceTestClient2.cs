@@ -31,7 +31,7 @@ public class ServiceTestClient2
     {
         ConnectService(url);
 
-        RRAssert.AreEqual(r.testenum1_prop, testenum1.anothervalue);
+        RRAssert.AreEqual((int)r.testenum1_prop, (int)testenum1.anothervalue);
         r.testenum1_prop = testenum1.hexval1;
 
         r.get_o4();
@@ -111,7 +111,7 @@ public class ServiceTestClient2
 
     public void TestEnums()
     {
-        RRAssert.AreEqual (r.testenum1_prop, testenum1.anothervalue);
+        RRAssert.AreEqual ((int)r.testenum1_prop, (int)testenum1.anothervalue);
 
         r.testenum1_prop = testenum1.hexval1;
     }
@@ -313,15 +313,41 @@ public class ServiceTestClient2
             ServiceTest2_pod.fill_transform(ref s2_array[i], 15721 + i);
     }
 
-    public void ca<T>(T[] v1, T[] v2, int count = -1)
+    public void ca<T>(T[] v1, T[] v2, int count = -1) where T : IComparable, IComparable<T>
     {
         RRAssert.AreEqual(v1.Length, v2.Length);
         int len = v1.Length;
         if (count > 0)
             len = count;
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < len; i++)
         {
             RRAssert.AreEqual(v1[i], v2[i]);
+        }
+    }
+
+    public void ca(CDouble[] v1, CDouble[] v2, int count=-1)
+    {
+            RRAssert.AreEqual(v1.Length, v2.Length);
+            int len = v1.Length;
+        if (count > 0)
+            len = count;     
+        for (int i = 0; i < len; i++)
+        {
+                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
+            
+        }
+    }
+
+    public void ca(CSingle[] v1, CSingle[] v2, int count=-1)
+    {
+            RRAssert.AreEqual(v1.Length, v2.Length);
+             int len = v1.Length;
+        if (count > 0)
+            len = count;           
+        for (int i = 0; i < len; i++)
+        {
+                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
+            
         }
     }
 
@@ -344,7 +370,7 @@ public class ServiceTestClient2
     void TestComplex()
     {
         var c1_1 = new CDouble(5.708705e+01, -2.328294e-03);
-        RRAssert.AreEqual(r.c1, c1_1);
+        RRAssert.AreEqual((object)r.c1, (object)c1_1);
 
         var c1_2 = new CDouble(5.708705e+01, -2.328294e-03);
         r.c1 = c1_2;
@@ -401,7 +427,7 @@ public class ServiceTestClient2
         r.c5 = (c5_2);
 
         var c7_1 = new CSingle(-5.527021e-18f, -9.848457e+03f);
-        RRAssert.AreEqual(r.c7, c7_1);
+        RRAssert.AreEqual((object)r.c7, (object)c7_1);
 
         var c7_2 = new CSingle(9.303345e-12f, -3.865684e-05f);
         r.c7 = (c7_2);

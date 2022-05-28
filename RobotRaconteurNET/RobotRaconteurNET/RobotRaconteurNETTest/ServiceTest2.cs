@@ -73,7 +73,7 @@ public class testroot3_impl : testroot3_default_impl, IRRServiceObject
             return testenum1.anothervalue;
         }
         set {
-                RRAssert.AreEqual(value, testenum1.hexval1);
+                RRAssert.AreEqual((uint)value, (uint)testenum1.hexval1);
                 
         }
     }
@@ -246,12 +246,32 @@ public class testroot3_impl : testroot3_default_impl, IRRServiceObject
         }
     }
 
-    public void ca<T>(T[] v1, T[] v2)
+    public void ca<T>(T[] v1, T[] v2) where T : IComparable, IComparable<T>
     {
             RRAssert.AreEqual(v1.Length, v2.Length);            
         for (int i = 0; i < v1.Length; i++)
         {
                 RRAssert.AreEqual(v1[i], v2[i]);
+            
+        }
+    }
+
+    public void ca(CDouble[] v1, CDouble[] v2)
+    {
+            RRAssert.AreEqual(v1.Length, v2.Length);            
+        for (int i = 0; i < v1.Length; i++)
+        {
+                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
+            
+        }
+    }
+
+    public void ca(CSingle[] v1, CSingle[] v2)
+    {
+            RRAssert.AreEqual(v1.Length, v2.Length);            
+        for (int i = 0; i < v1.Length; i++)
+        {
+                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
             
         }
     }
@@ -279,7 +299,7 @@ public class testroot3_impl : testroot3_default_impl, IRRServiceObject
         }
         set {
             var c1_2 = new CDouble(5.708705e+01, -2.328294e-03);
-                RRAssert.AreEqual(value, c1_2);
+                RRAssert.AreEqual((object)value, (object)c1_2);
         }
     }
     public override CDouble[] c2
@@ -353,7 +373,7 @@ public class testroot3_impl : testroot3_default_impl, IRRServiceObject
         }
         set {
             var c7_2 = new CSingle(9.303345e-12f, -3.865684e-05f);
-                RRAssert.AreEqual(value, c7_2);
+                RRAssert.AreEqual((object)value, (object)c7_2);
         }
     }
     public override CSingle[] c8

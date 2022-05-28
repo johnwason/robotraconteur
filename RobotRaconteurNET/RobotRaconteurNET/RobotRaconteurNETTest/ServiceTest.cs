@@ -238,13 +238,13 @@ public class RobotRaconteurTest_testroot : com.robotraconteur.testing.TestServic
         }
     }
 
-    public void ca<T>(T[] v1, T[] v2)
+    public void ca<T>(T[] v1, T[] v2) where T : IComparable, IComparable<T>
     {
             RRAssert.AreEqual(v1.Length, v2.Length);
             
         for (int i = 0; i < v1.Length; i++)
         {
-            RRAssert.AreEqual(v1[i], v2[i]);
+            RRAssert.AreEqual<T>(v1[i], v2[i]);
          
         }
     }
@@ -2500,7 +2500,7 @@ public class RobotRaconteurTest_testroot : com.robotraconteur.testing.TestServic
             return null;
         }
         set {
-                RRAssert.AreEqual(value, null);
+                RRAssert.AreEqual((object)value, (object)null);
         }
     }
 
