@@ -106,12 +106,12 @@ public class ServiceTestClient2
 
         var v3 = await r.pokewire.AsyncPeekOutValue();
 
-        RRAssert.AreEqual (v3.Item1, 75738261);
+        RRAssert.AreEqual(v3.Item1, 75738261);
     }
 
     public void TestEnums()
     {
-        RRAssert.AreEqual ((int)r.testenum1_prop, (int)testenum1.anothervalue);
+        RRAssert.AreEqual((int)r.testenum1_prop, (int)testenum1.anothervalue);
 
         r.testenum1_prop = testenum1.hexval1;
     }
@@ -313,7 +313,8 @@ public class ServiceTestClient2
             ServiceTest2_pod.fill_transform(ref s2_array[i], 15721 + i);
     }
 
-    public void ca<T>(T[] v1, T[] v2, int count = -1) where T : IComparable, IComparable<T>
+    public void ca<T>(T[] v1, T[] v2, int count = -1)
+        where T : IComparable, IComparable<T>
     {
         RRAssert.AreEqual(v1.Length, v2.Length);
         int len = v1.Length;
@@ -325,29 +326,27 @@ public class ServiceTestClient2
         }
     }
 
-    public void ca(CDouble[] v1, CDouble[] v2, int count=-1)
+    public void ca(CDouble[] v1, CDouble[] v2, int count = -1)
     {
-            RRAssert.AreEqual(v1.Length, v2.Length);
-            int len = v1.Length;
+        RRAssert.AreEqual(v1.Length, v2.Length);
+        int len = v1.Length;
         if (count > 0)
-            len = count;     
+            len = count;
         for (int i = 0; i < len; i++)
         {
-                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
-            
+            RRAssert.AreEqual((object)v1[i], (object)v2[i]);
         }
     }
 
-    public void ca(CSingle[] v1, CSingle[] v2, int count=-1)
+    public void ca(CSingle[] v1, CSingle[] v2, int count = -1)
     {
-            RRAssert.AreEqual(v1.Length, v2.Length);
-             int len = v1.Length;
+        RRAssert.AreEqual(v1.Length, v2.Length);
+        int len = v1.Length;
         if (count > 0)
-            len = count;           
+            len = count;
         for (int i = 0; i < len; i++)
         {
-                RRAssert.AreEqual((object)v1[i], (object)v2[i]);
-            
+            RRAssert.AreEqual((object)v1[i], (object)v2[i]);
         }
     }
 
@@ -587,7 +586,6 @@ public class ServiceTestClient2
         ca((bool[])v3.Array_, (bool[])v4.Array_);
     }
 
-    
     private void TestExceptionParams()
     {
         bool exp1_caught = false;
@@ -607,7 +605,7 @@ public class ServiceTestClient2
             RRAssert.AreEqual((string)param_map["param2"], "20");
         }
 
-        RRAssert.IsTrue (exp1_caught);
+        RRAssert.IsTrue(exp1_caught);
 
         bool exp2_caught = false;
         try

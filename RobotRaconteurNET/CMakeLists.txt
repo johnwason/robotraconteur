@@ -96,8 +96,6 @@ if(NOT RR_NET_BUILD_NATIVE_ONLY)
     endif()
     add_dependencies(RobotRaconteurNET RobotRaconteurNETNative)
 
-    
-    
     if(WIN32)
         if(CMAKE_SIZEOF_VOID_P EQUAL 8)
             set(RR_PREFER_32BIT "<Prefer32Bit>false</Prefer32Bit>")
@@ -108,10 +106,10 @@ if(NOT RR_NET_BUILD_NATIVE_ONLY)
 
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/RobotRaconteurNET/RobotRaconteurNET.csproj.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/RobotRaconteurNET.csproj" @ONLY)
-    
+
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/RobotRaconteurNET/netstandard/RobotRaconteurNET.csproj.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/netstandard/Lib/RobotRaconteurNET.csproj" @ONLY)
-    
+
     if(WIN32 AND (MSVC_VERSION GREATER 1900))
         add_custom_target(
             RobotRaconteurNET_standard ALL

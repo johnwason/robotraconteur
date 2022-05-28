@@ -14,13 +14,14 @@ namespace RobotRaconteurNETTest
 public class ServiceTestClient
 {
 
-    public void ca<T>(T[] v1, T[] v2) where T : IComparable, IComparable<T>
+    public void ca<T>(T[] v1, T[] v2)
+        where T : IComparable, IComparable<T>
     {
-            RRAssert.AreEqual(v1.Length, v2.Length);
-            
+        RRAssert.AreEqual(v1.Length, v2.Length);
+
         for (int i = 0; i < v1.Length; i++)
         {
-                RRAssert.AreEqual<T>(v1[i], v2[i]);
+            RRAssert.AreEqual<T>(v1[i], v2[i]);
         }
     }
 
@@ -66,7 +67,7 @@ public class ServiceTestClient
     public void TestProperties()
     {
         r.d1 = 3.456;
-            RRAssert.AreEqual(r.d1, 12.345);
+        RRAssert.AreEqual(r.d1, 12.345);
         r.d2 = new double[] {
             8.805544e-12,  3.735066e+12,  3.491919e+17,  4.979833e+12,  -4.042302e+00, 2.927731e-12,  5.945355e+11,
             -3.965351e+06, 4.866934e-14,  1.314597e+04,  -2.059923e-11, -5.447989e-20, 1.267732e-21,  -2.603983e+10,
@@ -294,7 +295,7 @@ public class ServiceTestClient
                                   -3.468374e-03, -5.037849e-14, -4.140513e-08, 4.553774e+03 });
 
         r.s1 = 3847.9283f;
-            RRAssert.AreEqual(r.s1, 7.8573f);
+        RRAssert.AreEqual(r.s1, 7.8573f);
         r.s2 = new float[] {
             -1.374271e+12f, 1.798486e-08f,  -4.845395e-08f, -4.785331e+12f, -2.914127e+04f, -1.753064e-17f,
             -4.063563e-09f, 2.758058e+04f,  -1.988908e+11f, -1.535073e-18f, 2.439972e-02f,  -3.237377e-12f,
@@ -483,7 +484,7 @@ public class ServiceTestClient
         });
 
         r.i8_1 = 45;
-            RRAssert.AreEqual(r.i8_1, -66);
+        RRAssert.AreEqual(r.i8_1, -66);
         r.i8_2 = new sbyte[] {
             -66,  34,  -121, -118, -12,  -83,  -43,  55,   -53,  31,   -100, -37,  -116, 69,  22,   -60,  59,   32,
             51,   46,  109,  36,   31,   49,   -99,  -69,  -99,  -89,  27,   -18,  -77,  -63, -101, -122, -60,  58,
@@ -576,7 +577,7 @@ public class ServiceTestClient
         });
 
         r.u8_1 = 232;
-            RRAssert.AreEqual(r.u8_1, 222);
+        RRAssert.AreEqual(r.u8_1, 222);
         r.u8_2 = new byte[] {
             52,  40,  13,  185, 137, 3,   173, 236, 60,  18,  206, 224, 231, 19,  31,  139, 177, 201, 100, 37,  8,
             94,  145, 135, 217, 32,  59,  26,  243, 213, 97,  78,  145, 136, 142, 249, 46,  247, 20,  240, 47,  211,
@@ -680,7 +681,7 @@ public class ServiceTestClient
         });
 
         r.i16_1 = 2387;
-            RRAssert.AreEqual(r.i16_1, -13428);
+        RRAssert.AreEqual(r.i16_1, -13428);
         r.i16_2 = new short[] {
             -29064, 7306,   1457,   -19474, -671,   22876,  -14357, -18020, -23418, -10298, 1040,   -2415,  -22890,
             4293,   25366,  12606,  -31678, -15908, -11164, 20643,  -239,   -15149, 25272,  17505,  24037,  8264,
@@ -801,7 +802,7 @@ public class ServiceTestClient
         });
 
         r.u16_1 = 54732;
-            RRAssert.AreEqual(r.u16_1, 60981);
+        RRAssert.AreEqual(r.u16_1, 60981);
         r.u16_2 = new ushort[] {
             27153, 43996, 41432, 58304, 12942, 58876, 28186, 11185, 10827, 17769, 13091, 23017, 17671, 49113, 6987,
             35547, 2024,  33499, 26956, 11772, 20498, 42863, 65021, 31883, 61940, 6622,  59235, 6137,  51350, 48773,
@@ -837,7 +838,7 @@ public class ServiceTestClient
         });
 
         r.i32_1 = -9837284;
-            RRAssert.AreEqual(r.i32_1, 898734);
+        RRAssert.AreEqual(r.i32_1, 898734);
         r.i32_2 = new int[] {
             -966485083,  547919123,   -1194190604, 1550099195,  -86896479,   -1346998266, -111775936,  1595883280,
             95277373,    -483593724,  -1194231658, -1664247993, -1125879490, -774112094,  -908971354,  1257430739,
@@ -1075,15 +1076,15 @@ public class ServiceTestClient
         }
         {
             var i32_huge_2 = r.i32_huge;
-                RRAssert.AreEqual(i32_huge_2.Length, 2621440);
+            RRAssert.AreEqual(i32_huge_2.Length, 2621440);
             for (int i = 0; i < 2621440; i++)
             {
-                    RRAssert.AreEqual(i32_huge_2[i], i);
+                RRAssert.AreEqual(i32_huge_2[i], i);
             }
         }
 
         r.u32_1 = 1550099195;
-            RRAssert.AreEqual<uint>(r.u32_1, 547919123);
+        RRAssert.AreEqual<uint>(r.u32_1, 547919123);
         r.u32_2 = new uint[] {
             237099665,  1725693514, 3671290215, 2838122575, 2174235839, 1926762547, 837710207,  2675306390, 3296759548,
             3236712776, 1185582523, 3424554628, 2120088772, 3672727628, 1229489468, 299615394,  2391828662, 2161918065,
@@ -1246,7 +1247,7 @@ public class ServiceTestClient
         });
 
         r.i64_1 = 8621740821050813024;
-            RRAssert.AreEqual(r.i64_1, -1357833931563696072);
+        RRAssert.AreEqual(r.i64_1, -1357833931563696072);
         r.i64_2 = new long[] { -1418708830105823852, -1357833931563696072, -8308127073437794904, 6203263204523798112,
                                7076661289157584762,  -3645491092747259726, 2969229117250121621,  -8403401867791621438,
                                -5706351777107258259, 6979420050019736435,  1350986631885231652,  -8626678967587677100,
@@ -1327,7 +1328,7 @@ public class ServiceTestClient
                               1761514773996835425,  -8886871075540730292 });
 
         r.u64_1 = 1465640522145789825;
-            RRAssert.AreEqual<ulong>(r.u64_1, 13389861970863644378);
+        RRAssert.AreEqual<ulong>(r.u64_1, 13389861970863644378);
         r.u64_2 = new ulong[] { 6515978873578326855,  1465640522145789825,  14139647178981527348, 17376225719361197745,
                                 4827355217349405315,  5237172857588412536,  11185863429255124449, 11922950710462888186,
                                 9723873762901963012,  2360891509504070464,  17595800616336901155, 4676383109049523121,
@@ -1402,8 +1403,7 @@ public class ServiceTestClient
                                 7704933404615957344,  14492234026024540236 });
 
         r.str1 = "Hello Server!";
-            RRAssert.AreEqual(r.str1, "Hello Client!");
-            
+        RRAssert.AreEqual(r.str1, "Hello Client!");
 
         // Read in and check the large structure struct1
         teststruct1 s1 = r.struct1;
@@ -1418,11 +1418,11 @@ public class ServiceTestClient
             -4.895406e-20, 5.339502e-20,  9.375211e-11,  1.632454e-03,  1.051386e+01,  1.915580e+17,  -1.999453e-09,
             -3.087190e-02, -3.222377e+15, 4.219576e+03,  -1.401039e+05, 3.950473e-15,  -1.620577e+10
         });
-            RRAssert.AreEqual(s1.str2, "Hello world!");
-            RRAssert.AreEqual(s1.vec3.Count, 3);
-            RRAssert.AreEqual(s1.vec3[1], "Hello Client!");
-            RRAssert.AreEqual(s1.vec3[2], "Hello Client, again");
-            RRAssert.AreEqual(s1.vec3[4372], "This is yet another test string");
+        RRAssert.AreEqual(s1.str2, "Hello world!");
+        RRAssert.AreEqual(s1.vec3.Count, 3);
+        RRAssert.AreEqual(s1.vec3[1], "Hello Client!");
+        RRAssert.AreEqual(s1.vec3[2], "Hello Client, again");
+        RRAssert.AreEqual(s1.vec3[4372], "This is yet another test string");
         RRAssert.AreEqual(s1.dict4.Count, 3);
         RRAssert.AreEqual(s1.dict4["teststring1"], "Hello Client!");
         RRAssert.AreEqual(s1.dict4["teststring2"], "Hello Client, again");
@@ -2078,17 +2078,10 @@ public class ServiceTestClient
 
         // Test errtest and make sure an exception is thrown
 
-        RRAssert.ThrowsException<Exception>(delegate()
-        {
-             r.errtest = 1;
-        });
-        
+        RRAssert.ThrowsException<Exception>(delegate() { r.errtest = 1; });
 
-        RRAssert.ThrowsException<Exception>(delegate()
-        {
-            double d = r.errtest;
-        });
-        
+        RRAssert.ThrowsException<Exception>(delegate() { double d = r.errtest; });
+
         // Test nulltest
         RRAssert.AreEqual((object)r.nulltest, (object)null);
         r.nulltest = null;
@@ -2102,25 +2095,13 @@ public class ServiceTestClient
         RRAssert.AreEqual(r.func3(2, 3.45), 5.45);
         RRAssert.AreEqual(r.meaning_of_life(), 42);
 
-        RRAssert.ThrowsException<Exception>(delegate()
-        {
-            r.func_errtest();
-        });
+        RRAssert.ThrowsException<Exception>(delegate() { r.func_errtest(); });
 
-        RRAssert.ThrowsException<DataTypeException>(delegate()
-        {
-            r.func_errtest1();
-        });
-        
-        RRAssert.ThrowsException<testexception1>(delegate()
-        {
-            r.func_errtest2();
-        });
-        
-        RRAssert.ThrowsException<testexception3>(delegate()
-        {
-            r.func_errtest3();
-        });
+        RRAssert.ThrowsException<DataTypeException>(delegate() { r.func_errtest1(); });
+
+        RRAssert.ThrowsException<testexception1>(delegate() { r.func_errtest2(); });
+
+        RRAssert.ThrowsException<testexception3>(delegate() { r.func_errtest3(); });
     }
 
     bool ev1_set = false;
@@ -2145,9 +2126,9 @@ public class ServiceTestClient
 
             if (!ev1_set)
                 RRAssert.IsTrue(ev1_event.WaitOne(5000));
-                    
+
             if (!ev2_set)
-                RRAssert.IsTrue (ev2_event.WaitOne(5000));
+                RRAssert.IsTrue(ev2_event.WaitOne(5000));
         }
         finally
         {
@@ -2230,7 +2211,6 @@ public class ServiceTestClient
         o6_3.add_val(2);
     }
 
-    
     System.Threading.AutoResetEvent ee1;
     System.Threading.AutoResetEvent ee2;
     System.Threading.AutoResetEvent ee3;
@@ -2377,7 +2357,7 @@ public class ServiceTestClient
     {
         RRAssert.AreEqual(d1, 739.2);
         RRAssert.AreEqual(d2, 0.392);
-        
+
         cb2_called = true;
     }
 
@@ -2630,12 +2610,10 @@ public class ServiceTestClient
 
         // Check an invalid password
 
-        RRAssert.ThrowsException<Exception>(delegate()
-        {
+        RRAssert.ThrowsException<Exception>(delegate() {
             var r3 = (testroot)RobotRaconteurNode.s.ConnectService(url, "testuser2", cred1);
             r3.func3(2.2, 3.3);
         });
-        
 
         bool err2 = false;
         // Check no password
@@ -2815,7 +2793,7 @@ public class ServiceTestClient
             // RRAssert.ThrowsException<ObjectLockedException>(delegate() { r2_o.d1 = new double[] { 0.0 }; });
             e1.Set();
             RobotRaconteurNode.s.MonitorEnter(r2_o);
-            RRAssert.IsFalse(t1);                
+            RRAssert.IsFalse(t1);
             t2 = true;
 
             r2_o.d1 = new double[] { 0.0 };
@@ -2851,8 +2829,7 @@ public void TestAsync(string url)
 {
     var t1 = TestAsync1(url);
     t1.Wait(10000);
-    RRAssert.IsFalse (t1.IsFaulted);
-
+    RRAssert.IsFalse(t1.IsFaulted);
 }
 
 async Task TestAsync1(string url)
@@ -3023,16 +3000,13 @@ async Task TestAsync1(string url)
     await r1.async_func1();
 
     var v2 = await r1.async_func3(2, 3.45);
-    RRAssert.AreEqual (v2, 5.45);
+    RRAssert.AreEqual(v2, 5.45);
 
-    await RRAssert.ThrowsExceptionAsync<Exception>(async delegate()
-    {
-        await r1.async_func_errtest();
-    });
-    
+    await RRAssert.ThrowsExceptionAsync<Exception>(async delegate() { await r1.async_func_errtest(); });
+
     var o1 = await r1.async_get_o1();
 
-    RRAssert.AreNotEqual (o1, null);
+    RRAssert.AreNotEqual(o1, null);
     double[] d1 = o1.d1;
 
     var r2 = (testroot)r;

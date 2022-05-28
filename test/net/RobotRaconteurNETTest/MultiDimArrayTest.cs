@@ -61,14 +61,14 @@ class MultiDimArrayTest
         ca<byte>((byte[])m5.Array_, (byte[])m7.Array_);
     }
 
-    public static void ca<T>(T[] v1, T[] v2) where T : IComparable, IComparable<T>
+    public static void ca<T>(T[] v1, T[] v2)
+        where T : IComparable, IComparable<T>
     {
-            RRAssert.AreEqual(v1.Length, v2.Length);
-          
+        RRAssert.AreEqual(v1.Length, v2.Length);
+
         for (int i = 0; i < v1.Length; i++)
         {
-                RRAssert.AreEqual<T>(v1[i], v2[i]);
-    
+            RRAssert.AreEqual<T>(v1[i], v2[i]);
         }
     }
 

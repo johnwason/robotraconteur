@@ -1,29 +1,29 @@
 if(NOT RR_NET_BUILD_NATIVE_ONLY)
 
-include(${CMAKE_SOURCE_DIR}/RobotRaconteurGen/cmake/RobotRaconteurGenerateThunk.cmake)
+    include(${CMAKE_SOURCE_DIR}/RobotRaconteurGen/cmake/RobotRaconteurGenerateThunk.cmake)
 
-if(NOT RobotRaconteur_GEN)
-    set(RobotRaconteur_GEN RobotRaconteurGen)
-endif()
+    if(NOT RobotRaconteur_GEN)
+        set(RobotRaconteur_GEN RobotRaconteurGen)
+    endif()
 
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/test")
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/test")
 
-robotraconteur_generate_thunk(
-    RR_THUNK_SRCS
-    com.robotraconteur.testing.TestService1.robdef
-    com.robotraconteur.testing.TestService2.robdef
-    com.robotraconteur.testing.TestService3.robdef
-    com.robotraconteur.testing.TestService4.robdef
-    com.robotraconteur.testing.TestService5.robdef
-    LANG
-    csharp
-    INCLUDE_DIRS
-    "${CMAKE_SOURCE_DIR}/test/robdef"
-    OUTDIR
-    "${CMAKE_CURRENT_BINARY_DIR}/test")
+    robotraconteur_generate_thunk(
+        RR_THUNK_SRCS
+        com.robotraconteur.testing.TestService1.robdef
+        com.robotraconteur.testing.TestService2.robdef
+        com.robotraconteur.testing.TestService3.robdef
+        com.robotraconteur.testing.TestService4.robdef
+        com.robotraconteur.testing.TestService5.robdef
+        LANG
+        csharp
+        INCLUDE_DIRS
+        "${CMAKE_SOURCE_DIR}/test/robdef"
+        OUTDIR
+        "${CMAKE_CURRENT_BINARY_DIR}/test")
 
     add_custom_target(RobotRaconteurNETTest_gen DEPENDS ${RR_THUNK_SRCS})
-    #add_dependencies(RobotRaconteurNETNative RobotRaconteurNETTest_gen)
+    # add_dependencies(RobotRaconteurNETNative RobotRaconteurNETTest_gen)
 
     if(WIN32)
         add_custom_target(
@@ -54,8 +54,6 @@ robotraconteur_generate_thunk(
 
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/netstandard/RobotRaconteurNETTest.csproj.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/netstandard/Test/RobotRaconteurNETTest.csproj" @ONLY)
-
-    
 
     if(WIN32)
         set(RR_NET_TEST_CMD "\"${CMAKE_COMMAND}\"")

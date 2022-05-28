@@ -53,7 +53,7 @@ public class ServiceTestClient3
             RRAssert.AreEqual(err.Message, "Test message 1");
         }
         RRAssert.IsTrue(thrown1);
-        
+
         bool thrown2 = false;
         try
         {
@@ -92,7 +92,7 @@ public class ServiceTestClient3
         {
             thrown2 = true;
         }
-        RRAssert.IsTrue (thrown2);
+        RRAssert.IsTrue(thrown2);
     }
 }
 }
