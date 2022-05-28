@@ -10,6 +10,14 @@ if(BUILD_PYTHON OR BUILD_PYTHON3)
     add_subdirectory(python)
 endif()
 
+if(BUILD_NET)
+add_subdirectory(net)
+endif()
+
+if(BUILD_JAVA)
+add_subdirectory(java)
+endif()
+
 if(BUILD_MATLAB_MEX)
     add_subdirectory(RobotRaconteurMexTest)
 endif()
