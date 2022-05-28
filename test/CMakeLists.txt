@@ -19,5 +19,5 @@ add_subdirectory(java)
 endif()
 
 if(BUILD_MATLAB_MEX)
-    add_subdirectory(RobotRaconteurMexTest)
+    add_subdirectory(matlab)
 endif()
