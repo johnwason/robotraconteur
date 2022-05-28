@@ -2138,7 +2138,8 @@ public class ServiceTestClient
         r.set_var_vector(var_vector_1);
 
         // Test var_dictionary
-        RRAssert.areEqual(((String)((java.util.HashMap<String, Object>)r.get_var_dictionary()).get("test1")), "Hello Client!");
+        RRAssert.areEqual(((String)((java.util.HashMap<String, Object>)r.get_var_dictionary()).get("test1")),
+                          "Hello Client!");
         java.util.HashMap<String, Object> var_dictionary_1 = new java.util.HashMap<String, Object>();
         var_dictionary_1.put("test2", "Hello Server!");
         r.set_var_dictionary(var_dictionary_1);
@@ -2608,7 +2609,7 @@ public class ServiceTestClient
     {
         public void action(Double d1, Double d2)
         {
-            RRAssert.areEqual(d1, 739.2); 
+            RRAssert.areEqual(d1, 739.2);
             RRAssert.areEqual(d2, 0.392);
             cb2_called = true;
         }

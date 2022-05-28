@@ -318,7 +318,7 @@ class ServiceTest2_pod
 
     public static void verify_teststruct3(teststruct3 v, long seed)
     {
-        RRAssert.areNotEqual(v,null);
+        RRAssert.areNotEqual(v, null);
         ServiceTest2_test_sequence_gen gen = new ServiceTest2_test_sequence_gen(seed);
 
         verify_testpod1(v.s1, gen.get_uint32());
@@ -377,12 +377,12 @@ class ServiceTest2_pod
         verify_transform_array((transform[])(v.t4), 10, gen.get_uint32());
         verify_transform_multidimarray((NamedMultiDimArray)(v.t5), 6, 5, gen.get_uint32());
 
-        RRAssert.areNotEqual(v.t6, null);            
+        RRAssert.areNotEqual(v.t6, null);
         RRAssert.areEqual(v.t6.size(), 1);
         transform[] t6_0 = v.t6.get(0);
         verify_transform(t6_0[0], gen.get_uint32());
 
-        RRAssert.areNotEqual(v.t7, null);            
+        RRAssert.areNotEqual(v.t7, null);
         RRAssert.areEqual(v.t7.size(), 2);
         verify_transform_array(v.t7.get(0), 4, gen.get_uint32());
         verify_transform_array(v.t7.get(1), 4, gen.get_uint32());

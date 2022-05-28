@@ -629,7 +629,6 @@ public class RobotRaconteurJavaTest
             System.exit(1);
             return;
         }
-
     }
 
     static class UserLogRecordHandler_PrintLn implements Action1<RRLogRecord>

@@ -1,18 +1,19 @@
 package com.robotraconteur.javatest;
 
-class RRAssert {
-    
+class RRAssert
+{
+
     public static void areEqual(byte a, byte b)
-    {        
+    {
         if (a != b)
         {
             System.out.println("Unit test failure: " + String.valueOf(a) + " is not equal to " + String.valueOf(b));
             throw new RuntimeException("Unit test failure");
         }
     }
-    
+
     public static void areEqual(short a, short b)
-    {        
+    {
         if (a != b)
         {
             System.out.println("Unit test failure: " + String.valueOf(a) + " is not equal to " + String.valueOf(b));
@@ -21,7 +22,7 @@ class RRAssert {
     }
 
     public static void areEqual(int a, int b)
-    {        
+    {
         if (a != b)
         {
             System.out.println("Unit test failure: " + String.valueOf(a) + " is not equal to " + String.valueOf(b));
@@ -30,7 +31,7 @@ class RRAssert {
     }
 
     public static void areEqual(long a, long b)
-    {        
+    {
         if (a != b)
         {
             System.out.println("Unit test failure: " + String.valueOf(a) + " is not equal to " + String.valueOf(b));
@@ -119,7 +120,7 @@ class RRAssert {
     {
         if (!val)
         {
-        throw new RuntimeException("Unit test failure");
+            throw new RuntimeException("Unit test failure");
         }
     }
 
@@ -127,7 +128,7 @@ class RRAssert {
     {
         if (val)
         {
-        throw new RuntimeException("Unit test failure");
+            throw new RuntimeException("Unit test failure");
         }
     }
 }

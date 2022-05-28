@@ -5,7 +5,7 @@ import java.io.*;
 import java.nio.*;
 import java.math.*;
 
-public class LFSRSeqGen 
+public class LFSRSeqGen
 {
     public long lfsr;
 
@@ -32,14 +32,14 @@ public class LFSRSeqGen
     // }
 
     static long clip_uint32(long x)
-    {        
+    {
         return x & 0xFFFFFFFFl;
     }
 
     public static long lfsr_next(long lfsr)
-    {           
-            long bit = ((lfsr >> 0) ^ (lfsr >> 1) ^ (lfsr >> 21) ^ (lfsr >> 31)) & 1;
-            return clip_uint32((lfsr >> 1) | (bit << 31));        
+    {
+        long bit = ((lfsr >> 0) ^ (lfsr >> 1) ^ (lfsr >> 21) ^ (lfsr >> 31)) & 1;
+        return clip_uint32((lfsr >> 1) | (bit << 31));
     }
 
     public long lfsr_next()
@@ -51,19 +51,19 @@ public class LFSRSeqGen
 
     public ByteBuffer lfsr_next_bytes()
     {
-         return ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong(lfsr_next());
+        return ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong(lfsr_next());
     }
 
     public ByteBuffer lfsr_next_bytes2()
     {
         byte[] b = lfsr_next2().toByteArray();
         byte[] b1 = new byte[b.length];
-        for (int i=0; i<b.length; i++)
+        for (int i = 0; i < b.length; i++)
         {
-            b1[i] = b[b.length-i-1];
+            b1[i] = b[b.length - i - 1];
         }
-        
-        return ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).put(b1,0,8);
+
+        return ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).put(b1, 0, 8);
     }
 
     public BigInteger lfsr_next2()
@@ -158,12 +158,12 @@ public class LFSRSeqGen
 
     public boolean nextBool()
     {
-        return (lfsr_next_bytes().get(0) &1) !=0;
+        return (lfsr_next_bytes().get(0) & 1) != 0;
     }
 
     public CSingle nextCFloat()
     {
-        return new CSingle(nextFloat(),nextFloat());
+        return new CSingle(nextFloat(), nextFloat());
     }
 
     public CDouble nextCDouble()
@@ -173,7 +173,8 @@ public class LFSRSeqGen
 
     public char nextChar()
     {
-        String chars = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+        String chars =
+            " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
         long ind = lfsr_next() % chars.length();
         return chars.charAt((int)ind);
     }
@@ -331,7 +332,7 @@ public class LFSRSeqGen
     public String nextString(int len)
     {
         char[] ret1 = new char[len];
-        for (int i=0; i<len; i++)
+        for (int i = 0; i < len; i++)
         {
             ret1[i] = nextChar();
         }
@@ -491,5 +492,4 @@ public class LFSRSeqGen
         }
         return new String(ret1);
     }
-      
 }

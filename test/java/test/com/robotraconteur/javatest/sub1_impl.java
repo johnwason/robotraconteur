@@ -100,7 +100,7 @@ public class sub1_impl implements sub1, IRobotRaconteurMonitorObject
         try
         {
 
-            RRAssert.isTrue (lock.tryLock(timeout));
+            RRAssert.isTrue(lock.tryLock(timeout));
         }
         catch (Exception e)
         {

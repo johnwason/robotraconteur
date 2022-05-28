@@ -2639,7 +2639,8 @@ public class RobotRaconteurTest_testroot implements testroot
         get_cb2().getClientFunction(ServerEndpoint.getCurrentEndpoint()).action(739.2, 0.392);
         double res = get_cb3().getClientFunction(ServerEndpoint.getCurrentEndpoint()).func(34.0, 45.0);
         RRAssert.areEqual(res, (34 + 45 + 3.14));
-        RRAssert.areEqual(get_cb_meaning_of_life().getClientFunction(ServerEndpoint.getCurrentEndpoint()).func().longValue(), 42);
+        RRAssert.areEqual(
+            get_cb_meaning_of_life().getClientFunction(ServerEndpoint.getCurrentEndpoint()).func().longValue(), 42);
 
         boolean errthrown = false;
 

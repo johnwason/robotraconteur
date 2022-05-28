@@ -476,7 +476,7 @@ public class testroot3_impl implements testroot3
     @Override public void set_c1(CDouble value)
     {
         CDouble c1_2 = new CDouble(5.708705e+01, -2.328294e-03);
-        RRAssert.areEqual(value,c1_2);
+        RRAssert.areEqual(value, c1_2);
     }
     @Override public CDouble[] get_c2()
     {
@@ -559,7 +559,7 @@ public class testroot3_impl implements testroot3
     @Override public void set_c7(CSingle value)
     {
         CSingle c7_2 = new CSingle(9.303345e-12f, -3.865684e-05f);
-        RRAssert.areEqual (value,c7_2);
+        RRAssert.areEqual(value, c7_2);
     }
     @Override public CSingle[] get_c8()
     {
@@ -659,7 +659,7 @@ public class testroot3_impl implements testroot3
     }
     @Override public void set_b4(List<boolean[]> value)
     {
-        RRAssert.areEqual(value.get(0)[0],true);
+        RRAssert.areEqual(value.get(0)[0], true);
     }
     @Override public List<boolean[]> get_b5()
     {

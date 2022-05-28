@@ -432,7 +432,7 @@ public class ServiceTestClient2
     void testComplex()
     {
         CDouble c1_1 = new CDouble(5.708705e+01, -2.328294e-03);
-        RRAssert.areEqual(r.get_c1(),c1_1);
+        RRAssert.areEqual(r.get_c1(), c1_1);
 
         CDouble c1_2 = new CDouble(5.708705e+01, -2.328294e-03);
         r.set_c1(c1_2);
@@ -573,7 +573,7 @@ public class ServiceTestClient2
             errthrown = true;
         }
         RRAssert.isTrue(errthrown);
-        
+
         o5.get_p2();
         o5.set_p2(0);
         o5.get_p3();
@@ -589,7 +589,7 @@ public class ServiceTestClient2
             errthrown = true;
         }
         RRAssert.isTrue(errthrown);
-        
+
         errthrown = false;
         try
         {
@@ -643,7 +643,7 @@ public class ServiceTestClient2
             errthrown = true;
         }
         RRAssert.isTrue(errthrown);
-        
+
         int[] b1 = new int[100];
 
         o5.get_m2().length();
@@ -664,7 +664,6 @@ public class ServiceTestClient2
             errthrown = true;
         }
         RRAssert.isTrue(errthrown);
-        
     }
 
     public void testBools()
