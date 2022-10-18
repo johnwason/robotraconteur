@@ -739,6 +739,7 @@ void IntraTransportConnection::AsyncSendMessage(
     const RR_INTRUSIVE_PTR<Message>& m,
     const boost::function<void(const RR_SHARED_PTR<RobotRaconteurException>&)>& handler)
 {
+    m->ComputeSize();
     RR_SHARED_PTR<IntraTransportConnection> peer1 = peer.lock();
     if (!peer1)
     {
