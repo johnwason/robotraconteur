@@ -78,15 +78,11 @@ jobs:
       if: ${{ matrix.config.os != 'ubuntu-22.04' && matrix.config.os != 'debian-11' }}
       run: >
         sudo apt-get install python-dev python-numpy python-setuptools python-pytest -qq
-    - name: install gtest
-      if: ${{ matrix.config.os == 'ubuntu-16.04' || matrix.config.os == 'ubuntu-18.04' }}
-      run: |
-        git clone https://github.com/google/googletest
-        cd googletest
-        git checkout release-1.8.1
-        cmake -DCMAKE_CXX_FLAGS="-fPIC" .
-        cmake --build .
-        sudo cmake --build . --target install
+    - name: Install gtest
+      uses: MarkusJx/googletest-installer@93885edf173c4d59c40b3fa7d851b0be69967bd0
+      with:
+        C_FLAGS: -fPIC
+        CXX_FLAGS: -fPIC
     - name: build-swig
       if: ${{ matrix.config.os != 'ubuntu-22.04' && matrix.config.os != 'debian-11' }}
       uses: johnwason/swig-build-action@v1
