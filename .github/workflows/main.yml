@@ -79,7 +79,7 @@ jobs:
       run: >
         sudo apt-get install python-dev python-numpy python-setuptools python-pytest -qq
     - name: Install gtest
-      uses: MarkusJx/googletest-installer@93885edf173c4d59c40b3fa7d851b0be69967bd0
+      uses: MarkusJx/googletest-installer@6dc68cc0073e5696daaf921dfc27a69f3e9659df
       with:
         C_FLAGS: -fPIC
         CXX_FLAGS: -fPIC
