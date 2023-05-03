@@ -116,6 +116,8 @@ if(BUILD_PYTHON OR BUILD_NET OR BUILD_JAVA)
     endif()
 endif()
 
+add_subdirectory(docs/getting_started)
+
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
     "cmake/Config.cmake.in" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Config.cmake"
