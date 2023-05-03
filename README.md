@@ -50,6 +50,9 @@ A communication framework for robotics, automation, and the Internet of Things
 
 ## Documentation
 
+See the [Getting Started Guide](https://robotraconteur.github.io/robotraconteur/doc/core/latest/getting_started/) if
+you are new to Robot Raconteur!
+
 See [https://github.com/robotraconteur/robotraconteur/wiki/Documentation](https://github.com/robotraconteur/robotraconteur/wiki/Documentation) for documentation.
 
 ## Getting Help
@@ -62,71 +65,77 @@ See [https://github.com/robotraconteur/robotraconteur/wiki/Documentation](https:
 
 A simple service will initialize Robot Raconteur and register an object as a service. This example service creates a simple service that contains a single function to drive an iRobot Create through a serial port. This is a minimal subset of the full example in the documentation.
 
-`minimalcreateservice.py`
+```python
+# minimal_create_service2.py
 
-    import RobotRaconteur as RR
-    RRN=RR.RobotRaconteurNode.s
-    import threading
-    import serial
-    import struct
+import RobotRaconteur as RR
+RRN=RR.RobotRaconteurNode.s
+import threading
+import serial
+import struct
 
-    minimal_create_interface="""
-    service experimental.minimal_create
+minimal_create_interface="""
+service experimental.minimal_create2
 
-    object create_obj
-        function void Drive(int16 velocity, int16 radius)
-    end object
-    """
+object MinimalCreate
+    function void drive(int16 velocity, int16 radius)
+end
+"""
 
-    class create_impl(object):
-        def __init__(self, port):
-            self._lock=threading.Lock()
-            self._serial=serial.Serial(port=port,baudrate=57600)
-            dat=struct.pack(">4B",128,132,150, 0)
+class create_impl(object):
+    def __init__(self, port):
+        self._lock=threading.Lock()
+        self._serial=serial.Serial(port=port,baudrate=57600)
+        dat=struct.pack(">4B",128,132,150, 0)
+        self._serial.write(dat)
+
+    def drive(self, velocity, radius):
+        with self._lock:
+            dat=struct.pack(">B2h",137,velocity,radius)
             self._serial.write(dat)
 
-        def Drive(self, velocity, radius):
-            with self._lock:
-                dat=struct.pack(">B2h",137,velocity,radius)
-                self._serial.write(dat)
+with RR.ServerNodeSetup("experimental.minimal_create2", 52222):
+    #Register the service type
+    RRN.RegisterServiceType(minimal_create_interface)
 
-    with RR.ServerNodeSetup("experimental.minimal_create", 52222):
-        #Register the service type
-        RRN.RegisterServiceType(minimal_create_interface)
+    create_inst=create_impl("/dev/ttyUSB0")
 
-        create_inst=create_impl("/dev/ttyUSB0")
+    #Register the service
+    RRN.RegisterService("create","experimental.minimal_create2.MinimalCreate",create_inst)
 
-        #Register the service
-        RRN.RegisterService("Create","experimental.minimal_create.create_obj",create_inst)
-
-        #Wait for program exit to quit
-        input("Press enter to quit")
+    #Wait for program exit to quit
+    input("Press enter to quit")
+```
 
 This service can now be called by a connecting client. Because of the magic of Robot Raconteur, it is only necessary to connect to the service to utilize its members. In Python and MATLAB there is no boilerplate code, and in the other languages the boilerplate code is generated automatically.
 
-`minimalcreateclient.py`
+```python
+# minimal_create_client2.py
 
-    from RobotRaconteur.Client import *
-    import time
+from RobotRaconteur.Client import *
+import time
 
-    #RRN is imported from RobotRaconteur.Client
-    #Connect to the service.
-    obj=RRN.ConnectService('rr+tcp://localhost:52222/?service=Create')
+#RRN is imported from RobotRaconteur.Client
+#Connect to the service.
+obj=RRN.ConnectService('rr+tcp://localhost:52222/?service=create')
 
-    #The "Create" object reference is now available for use
-    #Drive for a bit
-    obj.Drive(100,5000)
-    time.sleep(1)
-    obj.Drive(0,5000)
+#The "Create" object reference is now available for use
+#Drive for a bit
+obj.drive(100,5000)
+time.sleep(1)
+obj.drive(0,5000)
+```
 
 In MATLAB, this client is even simpler.
 
-`minimalcreateclient.m`
+```matlab
+% minimal_create_client2.m
 
-    o=RobotRaconteur.Connect('rr+tcp://localhost:52222/?service=Create');
-    o.Drive(int16(100),int16(5000));
-    pause(1);
-    o.Drive(int16(0),int16(0));
+o=RobotRaconteur.ConnectService('rr+tcp://localhost:52222/?service=create');
+o.drive(int16(100),int16(5000));
+pause(1);
+o.drive(int16(0),int16(0));
+```
 
 ## Getting Started
 

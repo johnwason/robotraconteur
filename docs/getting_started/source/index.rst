@@ -19,6 +19,7 @@ an up-to-date directory of available documentation.
    :maxdepth: 2
    :caption: Contents:
 
+   Quickstart
    Introduction
 
 .. toctree::
