@@ -535,6 +535,8 @@ class MexGeneratorClient : public virtual GeneratorClientBase, public RR_ENABLE_
     mxArray* subsref(const mxArray* S);
     void subsasgn(const mxArray* S, const mxArray* value);
 
+    static std::string GetFunctionName(const mxArray* S);
+
     void EndAsyncNext(const RR_INTRUSIVE_PTR<MessageElement>&,
                       const RR_SHARED_PTR<RobotRaconteur::RobotRaconteurException>&,
                       const RR_SHARED_PTR<mxArray>& handler, const RR_SHARED_PTR<mxArray>& param);
@@ -644,6 +646,8 @@ class MexNamedMultiDimArrayMemoryClient : public virtual MultiDimArrayMemoryClie
     size_t array_elementcount;
     std::string type_string;
 };
+
+mxArray* CreateEmptyStructure(const std::string& type_str, const boost::shared_ptr<ServiceStub>& obj);
 
 extern boost::recursive_mutex servicesubscriptions_lock;
 extern int32_t serviceinfo2subscriptions_count;
