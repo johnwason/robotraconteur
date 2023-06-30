@@ -294,10 +294,19 @@ if(APPLE)
 endif()
 
 if(UNIX AND NOT APPLE AND NOT ANDROID)
-    target_include_directories(RobotRaconteurCore PRIVATE ${DBUS_INCLUDE_DIR} ${DBUS_INCLUDE_ARCH_DIR}
-                                                          ${LIBUSB_INCLUDE_DIR})
-    target_link_libraries(RobotRaconteurCore PRIVATE OpenSSL::SSL OpenSSL::Crypto pthread rt z dl)
-    target_compile_definitions(RobotRaconteurCore PRIVATE ROBOTRACONTEUR_USE_OPENSSL)
+    if(BUILD_SHARED_LIBS)
+
+        target_include_directories(RobotRaconteurCore PRIVATE ${DBUS_INCLUDE_DIR} ${DBUS_INCLUDE_ARCH_DIR}
+                                                              ${LIBUSB_INCLUDE_DIR})
+        target_link_libraries(RobotRaconteurCore PRIVATE OpenSSL::SSL OpenSSL::Crypto pthread rt z dl)
+        target_compile_definitions(RobotRaconteurCore PRIVATE ROBOTRACONTEUR_USE_OPENSSL)
+    else()
+        target_include_directories(RobotRaconteurCore PUBLIC ${DBUS_INCLUDE_DIR} ${DBUS_INCLUDE_ARCH_DIR}
+                                                             ${LIBUSB_INCLUDE_DIR})
+        target_link_libraries(RobotRaconteurCore PUBLIC OpenSSL::SSL OpenSSL::Crypto pthread rt z dl)
+        target_compile_definitions(RobotRaconteurCore PUBLIC ROBOTRACONTEUR_USE_OPENSSL)
+    endif()
+
 endif()
 
 if(ANDROID)
@@ -339,7 +348,12 @@ rrsettargetdirs(RobotRaconteurCore "bin" "lib")
 set_target_properties(RobotRaconteurCore PROPERTIES LINKER_LANGUAGE CXX)
 
 export(TARGETS RobotRaconteurCore FILE ${CMAKE_BINARY_DIR}/RobotRaconteurCoreTargets.cmake)
-install(TARGETS RobotRaconteurCore EXPORT RobotRaconteurCoreTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(
+    TARGETS RobotRaconteurCore
+    EXPORT RobotRaconteurCoreTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}

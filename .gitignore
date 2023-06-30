@@ -357,4 +357,5 @@ build/
 *.asv
 
 vcpkg
+build_xcframework
 .cache
