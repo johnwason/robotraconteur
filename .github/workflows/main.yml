@@ -604,7 +604,7 @@ jobs:
     - name: configure
       run: >
         cmake -GNinja -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DCMAKE_BUILD_TYPE:STRING=Release
-        -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}"
+        -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}" -DBUILD_SHARED_LIBS=ON
         -S robotraconteur -B build2
       shell: cmd /C call {0}
     - name: build
@@ -644,7 +644,7 @@ jobs:
       run: >
         cmake -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DRR_NET_BUILD_NATIVE_ONLY=ON 
         -DCMAKE_BUILD_TYPE:STRING=Release -DPYTHON3_EXECUTABLE=$CONDA_PREFIX/bin/python
-        -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}"
+        -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}" -DBUILD_SHARED_LIBS=ON
         -S robotraconteur -B build2
     - name: build
       working-directory: build2
