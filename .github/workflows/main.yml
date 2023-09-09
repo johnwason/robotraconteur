@@ -605,11 +605,16 @@ jobs:
       run: >
         cmake -GNinja -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DCMAKE_BUILD_TYPE:STRING=Release
         -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}" -DBUILD_SHARED_LIBS=ON
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX/Library
         -S robotraconteur -B build2
       shell: cmd /C call {0}
     - name: build
       working-directory: build2
       run: cmake --build . --config Release -j 4
+      shell: cmd /C call {0}
+    - name: install
+      working-directory: build2
+      run: cmake --install . --config Release
       shell: cmd /C call {0}
     - name: test
       working-directory: build2
@@ -645,10 +650,14 @@ jobs:
         cmake -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DRR_NET_BUILD_NATIVE_ONLY=ON 
         -DCMAKE_BUILD_TYPE:STRING=Release -DPYTHON3_EXECUTABLE=$CONDA_PREFIX/bin/python
         -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}" -DBUILD_SHARED_LIBS=ON
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
         -S robotraconteur -B build2
     - name: build
       working-directory: build2
       run: cmake --build . --config Release -j 4
+    - name: install
+      working-directory: build2
+      run: cmake --install . --config Release
     - name: test
       working-directory: build2
       run: |
@@ -676,10 +685,15 @@ jobs:
       run: >
         cmake -DBUILD_GEN=ON -DBUILD_PYTHON3=ON -DRR_NET_BUILD_NATIVE_ONLY=ON -DCMAKE_BUILD_TYPE:STRING=Release
         -DROBOTRACONTEUR_VERSION_SEMVER="${{ env.ROBOTRACONTEUR_SEMVER }}" -DBUILD_SHARED_LIBS=ON
-        -DPYTHON3_EXECUTABLE=$CONDA_PREFIX/bin/python -DOPENSSL_ROOT_DIR=$CONDA_PREFIX -S robotraconteur -B build2
+        -DPYTHON3_EXECUTABLE=$CONDA_PREFIX/bin/python -DOPENSSL_ROOT_DIR=$CONDA_PREFIX 
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+        -S robotraconteur -B build2
     - name: build
       working-directory: build2
       run: cmake --build . --config Release -j 4
+    - name: install
+      working-directory: build2
+      run: cmake --install . --config Release
     - name: test
       working-directory: build2
       run: |
