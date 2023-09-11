@@ -612,13 +612,10 @@ jobs:
       working-directory: build2
       run: cmake --build . --config Release -j 4
       shell: cmd /C call {0}
-    - name: install
-      working-directory: build2
-      run: cmake --install . --config Release
-      shell: cmd /C call {0}
     - name: test
       working-directory: build2
       run: |
+        set PATH={{ github.workspace }}/build2/out/bin;%PATH%
         ctest . -C Release --output-on-failure
       shell: cmd /C call {0}
   
@@ -655,12 +652,10 @@ jobs:
     - name: build
       working-directory: build2
       run: cmake --build . --config Release -j 4
-    - name: install
-      working-directory: build2
-      run: cmake --install . --config Release
     - name: test
       working-directory: build2
       run: |
+        export LD_LIBRARY_PATH={{ github.workspace }}/build2/out/lib:$LD_LIBRARY_PATH
         ctest . -C Release --output-on-failure
 
   build-conda-osx:
@@ -691,12 +686,10 @@ jobs:
     - name: build
       working-directory: build2
       run: cmake --build . --config Release -j 4
-    - name: install
-      working-directory: build2
-      run: cmake --install . --config Release
     - name: test
       working-directory: build2
       run: |
+        export DYLD_LIBRARY_PATH={{ github.workspace }}/build2/out/lib:$DYLD_LIBRARY_PATH
         ctest . -C Release --output-on-failure
   build-android:
 
