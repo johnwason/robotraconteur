@@ -49,9 +49,9 @@ jobs:
         - os: ubuntu-16.04
           runs_on: ubuntu-latest
           container: ubuntu:xenial
-        - os: debian-10
-          runs_on: ubuntu-latest
-          container: debian:buster-slim
+        # - os: debian-10
+        #   runs_on: ubuntu-latest
+        #   container: debian:buster-slim
         - os: debian-11
           runs_on: ubuntu-latest
           container: debian:bullseye-slim
