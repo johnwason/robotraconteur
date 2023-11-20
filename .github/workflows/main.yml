@@ -51,10 +51,10 @@ jobs:
           container: ubuntu:xenial
         - os: debian-10
           runs_on: ubuntu-latest
-          container: debian:buster-slim
+          container: debian:buster
         - os: debian-11
           runs_on: ubuntu-latest
-          container: debian:bullseye-slim
+          container: debian:bullseye
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
