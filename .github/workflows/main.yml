@@ -874,7 +874,7 @@ jobs:
       EMSDK_NUM_CORES: 3
       EMCC_CORES: 3
       PYODIDE_JOBS: 3
-      CCACHE_DIR: /tmp/dep-ccache
+      #CCACHE_DIR: /tmp/dep-ccache
     steps:
     - uses: actions/checkout@v4
       with:
@@ -883,12 +883,12 @@ jobs:
       with:
         repository: pyodide/pyodide
         path: src
-    - name: ccache deps
-      uses: actions/cache@v3
-      with:
-        path: |
-          /tmp/dep-ccache
-        key: pyodide-deps-${{ hashFiles('Makefile.envs') }}
+    # - name: ccache deps
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       /tmp/dep-ccache
+    #     key: pyodide-deps-${{ hashFiles('Makefile.envs') }}
     - name: cp meta.yaml
       run: |
         cp rr_src/tools/build_files/pyodide/meta.yaml src/packages/RobotRaconteur/meta.yaml
@@ -907,10 +907,10 @@ jobs:
         make
     - name: build
       working-directory: src
-      env:
-        CCACHE_DIR: /tmp/ccache
+      # env:
+      #   CCACHE_DIR: /tmp/ccache
       run: |
-        mkdir -p /tmp/ccache
+        # mkdir -p /tmp/ccache
         pyodide build-recipes --no-deps RobotRaconteur
         pyodide build-recipes RobotRaconteur numpy pytest --install
     - name: archive dist
