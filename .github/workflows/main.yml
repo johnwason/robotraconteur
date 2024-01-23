@@ -916,11 +916,10 @@ jobs:
       with:
         cache-key: pyodide-swig
     - name: build pregenerated_src
-      working-directory: gen_src
       run: |
-        cmake -S $GITHUB_WORKSPACE/rr_src -B . -DPACKAGE_SWIG_SOURCE_ALL=ON -DBUILD_PYTHON3=ON
-        cmake --build . --config Release --target package_source
-        cp -r generated_src $GITHUB_WORKSPACE/rr_src/
+        cmake -S $GITHUB_WORKSPACE/rr_src -B gen_src -DPACKAGE_SWIG_SOURCE_ALL=ON -DBUILD_PYTHON3=ON
+        cmake --build gen_src --config Release --target package_source
+        cp -r $GITHUB_WORKSPACE/gen_src/generated_src $GITHUB_WORKSPACE/rr_src/
     - name: build
       working-directory: src
       # env:
