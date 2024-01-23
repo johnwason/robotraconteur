@@ -873,26 +873,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        path: /rr_src
+        path: rr_src
     - uses: actions/checkout@v4
       with:
         repository: pyodide/pyodide
-        path: /src
+        path: src
     - name: cp meta.yaml
       run: |
-        cp /rr_src/tools/build_files/pyodide/meta.yaml /src/recipes/RobotRaconteur/meta.yaml
+        cp rr_src/tools/build_files/pyodide/meta.yaml src/recipes/RobotRaconteur/meta.yaml
     - name: pip-install
-      working-directory: /src
+      working-directory: src
       run: |
         pip install -e ./pyodide-build
     - name: deps build
-      working-directory: /src
+      working-directory: src
       run: |
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
         make -j4
         make install
     - name: build
-      working-directory: /src
+      working-directory: src
       run: |
         pyodide build-recipes --no-deps RobotRaconteur
         pyodide build-recipes RobotRaconteur numpy pytest --install
@@ -900,7 +900,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: 'pyodide-dist'
-        path: /src/dist/*        
+        path: src/dist/*        
         
   build-dist:
     needs:
