@@ -870,6 +870,11 @@ jobs:
   build-pyodide:
     runs-on: ubuntu-22.04
     container: pyodide/pyodide-env:20230506-chrome112-firefox112-py311
+    env:
+      EMSDK_NUM_CORES: 3
+      EMCC_CORES: 3
+      PYODIDE_JOBS: 3
+      CCACHE_DIR: /tmp/ccache
     steps:
     - uses: actions/checkout@v4
       with:
@@ -888,8 +893,10 @@ jobs:
     - name: deps build
       working-directory: src
       run: |
+        make -C emsdk
+        make -C cpython
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
-        make -j4
+        make
         make install
     - name: build
       working-directory: src
