@@ -895,7 +895,7 @@ jobs:
     - name: apt 
       run: |
         sudo apt update
-        sudo apt install curl boost-all-dev -y
+        sudo apt install curl libboost-all-dev -y
     - name: pip-install
       working-directory: src
       run: |
