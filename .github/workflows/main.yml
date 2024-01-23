@@ -901,7 +901,6 @@ jobs:
       working-directory: src
       run: |
         make -C emsdk
-        source pyodide_env.sh
         make -C cpython
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
         make
