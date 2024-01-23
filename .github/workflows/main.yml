@@ -892,8 +892,10 @@ jobs:
     - name: cp meta.yaml
       run: |
         cp rr_src/tools/build_files/pyodide/meta.yaml src/packages/RobotRaconteur/meta.yaml
-    - name: apt update
-      run: sudo apt update
+    - name: apt 
+      run: |
+        sudo apt update
+        sudo apt install curl -y
     - name: pip-install
       working-directory: src
       run: |
