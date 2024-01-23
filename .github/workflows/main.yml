@@ -904,6 +904,16 @@ jobs:
         make -C cpython
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
         make
+    - name: build-swig      
+      uses: johnwason/swig-build-action@v1
+      with:
+        cache-key: pyodide-swig
+    - name: build pregenerated_src
+      working-directory: gen_src
+      run: |
+        cmake -S $GITHUB_WORKSPACE/rr_src -B . -DPACKAGE_SWIG_SOURCE_ALL=ON -DBUILD_PYTHON3=ON
+        cmake --build . --config Release --target package_source
+        cp -r generated_src $GITHUB_WORKSPACE/rr_src/
     - name: build
       working-directory: src
       # env:
