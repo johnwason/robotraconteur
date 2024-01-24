@@ -895,7 +895,7 @@ jobs:
     - name: apt 
       run: |
         sudo apt update
-        sudo apt install -y build-essential curl libboost-all-dev zlib1g-dev libssl-dev libdbus-1-dev libbluetooth-dev
+        sudo apt install -y build-essential curl libboost-all-dev zlib1g-dev libssl-dev libdbus-1-dev libbluetooth-dev libusb-dev
     - name: pip-install
       working-directory: src
       run: |
