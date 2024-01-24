@@ -934,7 +934,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: 'pyodide-dist'
-        path: src/dist/*        
+        path: src/dist/*
+    - name: archive package logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'pyodide-package-logs'
+        path: src/packages/build-logs/*  
         
   build-dist:
     needs:
