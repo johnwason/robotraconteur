@@ -909,6 +909,8 @@ jobs:
         make -C cpython
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
         make
+    - name: remove apt swig
+      run: sudo apt remove '^swig.*' -y -qq || true
     - name: build-swig      
       uses: johnwason/swig-build-action@v1.1
       with:
