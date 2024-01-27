@@ -902,6 +902,8 @@ jobs:
         pip install -e ./pyodide-build
         pip install -r requirements.txt
         pip install numpy
+    - name: playwright install
+      run: playwright install
     - name: deps build
       working-directory: src
       run: |
@@ -933,7 +935,7 @@ jobs:
         pyodide build-recipes RobotRaconteur numpy pytest --install
     - name: test
       working-directory: src
-      run: pytest $GITHUB_WORKSPACE/rr_src/test/pyodide --runtime=firefox-no-host --dist-dir=$GITHUB_WORKSPACE/src/dist
+      run: pytest $GITHUB_WORKSPACE/rr_src/test/pyodide --runtime=firefox-no-host --runner=playwright -s --dist-dir=$GITHUB_WORKSPACE/src/dist
     - name: archive dist
       uses: actions/upload-artifact@v2
       with:
