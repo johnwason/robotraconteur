@@ -875,6 +875,7 @@ jobs:
       EMCC_CORES: 3
       PYODIDE_JOBS: 3
       #CCACHE_DIR: /tmp/dep-ccache
+      HOME: /root
     steps:
     - uses: actions/checkout@v4
       with:
@@ -936,8 +937,6 @@ jobs:
     - name: test
       working-directory: src
       run: pytest $GITHUB_WORKSPACE/rr_src/test/pyodide --runtime=firefox-no-host --runner=playwright -s --dist-dir=$GITHUB_WORKSPACE/src/dist
-      env:
-        HOME: /root
     - name: archive dist
       uses: actions/upload-artifact@v2
       with:
