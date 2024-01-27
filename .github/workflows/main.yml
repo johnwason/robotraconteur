@@ -910,7 +910,7 @@ jobs:
         export PYODIDE_PACKAGES="tag:core,micropip,pyparsing,packaging,Jinja2,regex,pytz,numpy,boost-cpp,pytest"
         make
     - name: build-swig      
-      uses: johnwason/swig-build-action@v1
+      uses: johnwason/swig-build-action@v1.1
       with:
         cache-key: pyodide-swig
     - name: build pregenerated_src
