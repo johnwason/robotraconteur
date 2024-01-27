@@ -933,7 +933,7 @@ jobs:
         pyodide build-recipes RobotRaconteur numpy pytest --install
     - name: test
       working-directory: src
-      run: pytest $GITHUB_WORKSPACE/rr_src/test/pyodide --runtime=firefox --dist-dir=$GITHUB_WORKSPACE/src/dist
+      run: pytest $GITHUB_WORKSPACE/rr_src/test/pyodide --runtime=firefox-no-host --dist-dir=$GITHUB_WORKSPACE/src/dist
     - name: archive dist
       uses: actions/upload-artifact@v2
       with:
