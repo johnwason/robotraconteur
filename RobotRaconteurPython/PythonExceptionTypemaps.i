@@ -123,10 +123,23 @@ static void ThrowPythonError()
 
 	if (RobotRaconteur::PythonTracebackPrintExc)
 	{
-		std::cerr << "RobotRaconteurPython caught exception:" << std::endl;
+		// Don't print exception if it is a StopIterationException
+		bool is_stop_iteration = false;
 		if (exc && val && tb)
 		{
-			PyErr_Display(exc,val,tb);
+			std::string exc_type_str2 = ((PyTypeObject*)exc1)->tp_name;
+			if (exc_type_str2.find("StopIterationException") != std::string::npos)
+			{
+				is_stop_iteration = true;
+			}
+		}
+		if (!is_stop_iteration)
+		{
+			std::cerr << "RobotRaconteurPython caught exception:" << std::endl;
+			if (exc && val && tb)
+			{
+				PyErr_Display(exc,val,tb);
+			}
 		}		
 		PyErr_Clear();
 	}
