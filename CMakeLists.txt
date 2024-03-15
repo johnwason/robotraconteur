@@ -49,6 +49,10 @@ if(APPLE)
     set(CMAKE_CXX_STANDARD 11)
 endif()
 
+if (MSVC)
+    set(CMAKE_CXX_STANDARD 11)
+endif()
+
 set(BUILD_CORE ON CACHE BOOL "Build core library")
 if(BUILD_CORE)
     add_subdirectory(RobotRaconteurCore)
