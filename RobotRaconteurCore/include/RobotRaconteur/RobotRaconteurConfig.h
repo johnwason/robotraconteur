@@ -114,7 +114,7 @@
 #endif
 
 // Use Boost ASIO move detection
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
 #define RR_MOVE_ARG(type) type&&
 #define RR_MOVE(x) std::move(x)
 #define RR_FORWARD(type, x) std::forward<type>(x)
@@ -173,7 +173,7 @@
 #define RR_MEMBER_ARRAY_INIT2(x)
 #endif
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || (!defined(BOOST_NO_CXX11_OVERRIDE) && !defined(__GNUC__))
 #define RR_OVERRIDE override
 #define RR_OVIRTUAL
 #else
