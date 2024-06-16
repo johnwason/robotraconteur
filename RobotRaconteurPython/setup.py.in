@@ -25,7 +25,7 @@ setup(name='RobotRaconteur',
       package_data={'RobotRaconteur': ['_RobotRaconteurPython.pyd', '_RobotRaconteurPython.so']},
 	  distclass=BinaryDistribution,
 	  license='Apache-2.0',
-	  install_requires=['numpy'],
+	  install_requires=['numpy<2.0'],
 	  long_description='This package contains Python wrappers for the Robot Raconteur communication framework. ' \
 	  'See http://robotraconteur.com/documentation for more information.',
       cmdclass={'build_ext': build_ext},
