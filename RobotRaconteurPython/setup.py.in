@@ -15,7 +15,7 @@ class build_ext(build_ext_orig):
 
 
 setup(name='RobotRaconteur',
-      version='@ROBOTRACONTEUR_VERSION_PY@',
+      version='@ROBOTRACONTEUR_VERSION_PY@.post1',
       description='Robot Raconteur Python Library',
       author='John Wason',
       author_email='wason@wasontech.com',
