@@ -27,16 +27,13 @@ check_type_size("long int" SIZEOF_LONG_INT BUILTIN_TYPES_ONLY)
 configure_file("${CMAKE_SOURCE_DIR}/RobotRaconteurCore/include/RobotRaconteur/RobotRaconteurConfig.h"
                "${CMAKE_BINARY_DIR}/RobotRaconteurConfig.h" COPYONLY)
 
-if(NOT ROBOTRACONTEUR_VERSION_SEMVER)
-    set(ROBOTRACONTEUR_VERSION_SEMVER ${ROBOTRACONTEUR_VERSION})
-endif()
+# if(NOT ROBOTRACONTEUR_VERSION_SEMVER)
+set(ROBOTRACONTEUR_VERSION_SEMVER ${ROBOTRACONTEUR_VERSION})
+# endif()
 
-string(REGEX REPLACE "^([0-9]+\\.[0-9]+\\.[0-9]+)" "\\1" ROBOTRACONTEUR_VERSION_S ${ROBOTRACONTEUR_VERSION_SEMVER})
-if(NOT ${ROBOTRACONTEUR_VERSION} VERSION_EQUAL ${ROBOTRACONTEUR_VERSION_S})
-    message(
-        FATAL_ERROR
-            "Supplied semver ${ROBOTRACONTEUR_VERSION_SEMVER} does not equal config version ${ROBOTRACONTEUR_VERSION}")
-endif()
+# string(REGEX REPLACE "^([0-9]+\\.[0-9]+\\.[0-9]+)" "\\1" ROBOTRACONTEUR_VERSION_S ${ROBOTRACONTEUR_VERSION_SEMVER})
+# if(NOT ${ROBOTRACONTEUR_VERSION} VERSION_EQUAL ${ROBOTRACONTEUR_VERSION_S}) message( FATAL_ERROR "Supplied semver
+# ${ROBOTRACONTEUR_VERSION_SEMVER} does not equal config version ${ROBOTRACONTEUR_VERSION}") endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/rrversion.txt.in ${CMAKE_BINARY_DIR}/rrversion.txt @ONLY)
 
