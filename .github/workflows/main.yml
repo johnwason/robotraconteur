@@ -228,7 +228,7 @@ jobs:
         dev-libs/boost dev-libs/openssl
         sys-apps/dbus dev-libs/libusb net-wireless/bluez
         dev-cpp/gtest dev-lang/python dev-python/numpy
-        dev-python/pip dev-python/pytest dev-build/cmake
+        dev-python/pytest dev-build/cmake
         dev-build/ninja dev-lang/swig
     - name: config
       run: >-
