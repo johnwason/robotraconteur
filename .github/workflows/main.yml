@@ -224,7 +224,7 @@ jobs:
         emerge --sync --quiet
     - name: install-deps
       run: >-
-        emerge --getbinpkg --usepkg
+        emerge --getbinpkgonly --usepkgonly
         dev-libs/boost dev-libs/openssl
         sys-apps/dbus dev-libs/libusb net-wireless/bluez
         dev-cpp/gtest dev-lang/python dev-python/numpy
