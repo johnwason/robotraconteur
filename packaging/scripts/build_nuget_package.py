@@ -24,6 +24,8 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 
     win32dir = f'{asset_dir}/out-win-x86'
     win64dir = f'{asset_dir}/out-win-x64'
+    osx_x64dir = f'{asset_dir}/out-osx-x64'
+    osx_arm64dir = f'{asset_dir}/out-osx-arm64'
 
     tmpdir.joinpath('build/net45').mkdir(exist_ok=True, parents=True)
     tmpdir.joinpath('build/netstandard2.0').mkdir(exist_ok=True, parents=True)
@@ -33,6 +35,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         'runtimes/win-x64/native').mkdir(exist_ok=True, parents=True)
     tmpdir.joinpath(
         'runtimes/win-x86/native').mkdir(exist_ok=True, parents=True)
+    tmpdir.joinpath(
+        'runtimes/osx-x64/native').mkdir(exist_ok=True, parents=True)
+    tmpdir.joinpath(
+        'runtimes/osx-arm64/native').mkdir(exist_ok=True, parents=True)
     tmpdir.joinpath('tools').mkdir(exist_ok=True, parents=True)
 
     shutil.copyfile('robotraconteur/packaging/nuget/RobotRaconteurNET-net45.targets.in',
@@ -52,6 +58,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
                     tmpdir.joinpath('runtimes/win-x86/native/RobotRaconteurNETNative.dll').absolute())
     shutil.copyfile(f'{win64dir}/NET/Native/RobotRaconteurNETNative.dll',
                     tmpdir.joinpath('runtimes/win-x64/native/RobotRaconteurNETNative.dll').absolute())
+    shutil.copyfile(f'{osx_x64dir}/NET/Native/libRobotRaconteurNETNative.dylib',
+                    tmpdir.joinpath('runtimes/osx-x64/native/libRobotRaconteurNETNative.dylib').absolute())
+    shutil.copyfile(f'{osx_arm64dir}/NET/Native/libRobotRaconteurNETNative.dylib',
+                    tmpdir.joinpath('runtimes/osx-arm64/native/libRobotRaconteurNETNative.dylib').absolute())
     shutil.copyfile(f'{win32dir}/bin/RobotRaconteurGen.exe',
                     tmpdir.joinpath('tools/RobotRaconteurGen.exe').absolute())
 
