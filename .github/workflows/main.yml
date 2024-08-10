@@ -1694,6 +1694,7 @@ jobs:
       fail-fast: false
       matrix:
         ROS_DISTRO:
+        - noetic
         - humble
         - iron
         - jazzy
