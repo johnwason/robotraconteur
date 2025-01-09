@@ -1967,6 +1967,98 @@ class ROBOTRACONTEUR_CORE_API RobotRaconteurNode : boost::noncopyable,
         boost::function<void(const RR_SHARED_PTR<std::string>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
         int32_t timeout = RR_TIMEOUT_INFINITE);
 
+    /**
+     * @brief Find an object reference by service path
+     *
+     * Finds an object reference by service path. Sub objects are typically found using objref members,
+     * but this function can be used to find objects by service path.
+     *
+     * The service path is broken up into segments using periods. See the Robot Raconter
+     * documentation for more information. The BuildServicePath() function can be used to assist
+     * building service paths. The first level of the* service path may be "*" to match any service name.
+     * For instance, the service path "*.sub_obj" will match any service name, and use the "sub_obj" objref
+     *
+     * Requires multithreading
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @return RR_SHARED_PTR<RRObject> The object reference. Must be cast to the expected type
+     */
+    RR_SHARED_PTR<RRObject> FindObjRefByServicePath(const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path);
+
+    /**
+     * @brief Find an object reference by service path with a specific type
+     *
+     * Same as FindObjRefByServicePath() but returns the object as a specific type
+     *
+     * Requires multithreading
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @param objecttype The desired service object type
+     * @return RR_SHARED_PTR<RRObject> The object reference. Must be cast to the desired type
+     */
+    RR_SHARED_PTR<RRObject> FindObjRefByServicePathTyped(const RR_SHARED_PTR<RRObject>& obj,
+                                                         boost::string_ref service_path, boost::string_ref objecttype);
+
+    /**
+     * @brief Asynchronously find an object reference by service path
+     *
+     * Same as FindObjRefByServicePath() but returns asynchronously
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @param handler A handler function to receive the object reference or an exception
+     * @param timeout Timeout in milliseconds, or RR_TIMEOUT_INFINITE for no timeout
+     */
+    void AsyncFindObjRefByServicePath(
+        const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path,
+        boost::function<void(const RR_SHARED_PTR<RRObject>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+        int32_t timeout = RR_TIMEOUT_INFINITE);
+
+    /**
+     * @brief Asynchronously find an object reference by service path with a specific type
+     *
+     * Same as FindObjRefByServicePathTyped() but returns asynchronously
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @param objecttype The desired service object type
+     * @param handler A handler function to receive the object reference or an exception
+     * @param timeout Timeout in milliseconds, or RR_TIMEOUT_INFINITE for no timeout
+     */
+    void AsyncFindObjRefByServicePathTyped(
+        const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path, boost::string_ref objecttype,
+        boost::function<void(const RR_SHARED_PTR<RRObject>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+        int32_t timeout = RR_TIMEOUT_INFINITE);
+
+    /**
+     * @brief Find the object type by service path
+     *
+     * Finds the object type by service path. Same as FindObjRefByServicePath() but returns the object type
+     * instead of the object reference
+     *
+     * Requires multithreading
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @return std::string The object type
+     */
+    std::string FindObjectTypeByServicePath(const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path);
+
+    /**
+     * @brief Asynchronously find the object type by service path
+     *
+     * @param obj The object returned by ConnectService or an objref
+     * @param service_path The service path
+     * @param handler A handler function to receive the object type or an exception
+     * @param timeout Timeout in milliseconds, or RR_TIMEOUT_INFINITE for no timeout
+     */
+    void AsyncFindObjectTypeByServicePath(
+        const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path,
+        boost::function<void(const RR_SHARED_PTR<std::string>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+        int32_t timeout = RR_TIMEOUT_INFINITE);
+
   private:
     RR_SHARED_PTR<ThreadPool> thread_pool;
     boost::shared_mutex thread_pool_lock;

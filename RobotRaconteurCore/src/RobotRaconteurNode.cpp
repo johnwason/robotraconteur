@@ -2552,6 +2552,115 @@ void RobotRaconteurNode::AsyncFindObjectType(
     s->AsyncFindObjectType(objref, index, RR_MOVE(handler), timeout);
 }
 
+RR_SHARED_PTR<RRObject> RobotRaconteurNode::FindObjRefByServicePath(const RR_SHARED_PTR<RRObject>& obj,
+                                                                    boost::string_ref service_path)
+{
+    ROBOTRACONTEUR_ASSERT_MULTITHREADED(shared_from_this());
+
+    return FindObjRefByServicePathTyped(obj, service_path, "");
+}
+
+RR_SHARED_PTR<RRObject> RobotRaconteurNode::FindObjRefByServicePathTyped(const RR_SHARED_PTR<RRObject>& obj,
+                                                                         boost::string_ref service_path,
+                                                                         boost::string_ref objecttype)
+{
+    ROBOTRACONTEUR_ASSERT_MULTITHREADED(shared_from_this());
+
+    RR_SHARED_PTR<ServiceStub> s = RR_DYNAMIC_POINTER_CAST<ServiceStub>(obj);
+    if (!s)
+    {
+        ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(weak_this, Node, -1, "Only service stubs can be have objrefs");
+        throw InvalidArgumentException("Only service stubs can be have objrefs");
+    }
+
+    std::string service_path1 = service_path.to_string();
+
+    if (boost::starts_with(service_path1, "*."))
+    {
+        boost::replace_first(service_path1, "*", s->GetContext()->GetServiceName());
+    }
+
+    RR_SHARED_PTR<ClientContext> c = s->GetContext();
+    return c->FindObjRef(service_path1, objecttype);
+}
+
+void RobotRaconteurNode::AsyncFindObjRefByServicePath(
+    const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path,
+    boost::function<void(const RR_SHARED_PTR<RRObject>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+    int32_t timeout)
+{
+    AsyncFindObjRefByServicePathTyped(obj, service_path, "", handler, timeout);
+}
+
+void RobotRaconteurNode::AsyncFindObjRefByServicePathTyped(
+    const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path, boost::string_ref objecttype,
+    boost::function<void(const RR_SHARED_PTR<RRObject>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+    int32_t timeout)
+{
+    RR_SHARED_PTR<ServiceStub> s = RR_DYNAMIC_POINTER_CAST<ServiceStub>(obj);
+    if (!s)
+    {
+        ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(weak_this, Node, -1, "Only service stubs can be have objrefs");
+        throw InvalidArgumentException("Only service stubs can be have objrefs");
+    }
+
+    std::string service_path1 = service_path.to_string();
+
+    if (boost::starts_with(service_path1, "*."))
+    {
+        boost::replace_first(service_path1, "*", s->GetContext()->GetServiceName());
+    }
+
+    RR_SHARED_PTR<ClientContext> c = s->GetContext();
+    c->AsyncFindObjRef(service_path1, objecttype, RR_MOVE(handler), timeout);
+}
+
+std::string RobotRaconteurNode::FindObjectTypeByServicePath(const RR_SHARED_PTR<RRObject>& obj,
+                                                            boost::string_ref service_path)
+{
+    ROBOTRACONTEUR_ASSERT_MULTITHREADED(shared_from_this());
+
+    RR_SHARED_PTR<ServiceStub> s = RR_DYNAMIC_POINTER_CAST<ServiceStub>(obj);
+    if (!s)
+    {
+        ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(weak_this, Node, -1, "Only service stubs can be have objrefs");
+        throw InvalidArgumentException("Only service stubs can be have objrefs");
+    }
+
+    std::string service_path1 = service_path.to_string();
+
+    if (boost::starts_with(service_path1, "*."))
+    {
+        boost::replace_first(service_path1, "*", s->GetContext()->GetServiceName());
+    }
+
+    RR_SHARED_PTR<ClientContext> c = s->GetContext();
+    return c->FindObjectType(service_path1);
+}
+
+void RobotRaconteurNode::AsyncFindObjectTypeByServicePath(
+    const RR_SHARED_PTR<RRObject>& obj, boost::string_ref service_path,
+    boost::function<void(const RR_SHARED_PTR<std::string>&, const RR_SHARED_PTR<RobotRaconteurException>&)> handler,
+    int32_t timeout)
+{
+    RR_SHARED_PTR<ServiceStub> s = RR_DYNAMIC_POINTER_CAST<ServiceStub>(obj);
+    if (!s)
+    {
+        ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(weak_this, Node, -1, "Only service stubs can be have objrefs");
+        throw InvalidArgumentException("Only service stubs can be have objrefs");
+    }
+
+    std::string service_path1 = service_path.to_string();
+
+    if (boost::starts_with(service_path1, "*."))
+    {
+        boost::replace_first(service_path1, "*", s->GetContext()->GetServiceName());
+    }
+
+    RR_SHARED_PTR<ClientContext> c = s->GetContext();
+    c->AsyncFindObjectType(service_path1, RR_MOVE(handler), timeout);
+}
+
 std::vector<std::string> RobotRaconteurNode::GetPulledServiceTypes(const RR_SHARED_PTR<RRObject>& obj)
 {
     RR_SHARED_PTR<ServiceStub> s = RR_DYNAMIC_POINTER_CAST<ServiceStub>(obj);
