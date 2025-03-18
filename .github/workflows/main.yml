@@ -1389,8 +1389,6 @@ jobs:
       with:
         path: artifacts/out-ubuntu
         name: out-ubuntu-22.04
-    - name: tree
-      run: tree artifacts
     - uses: ./robotraconteur/test/dist/python/action/linux
       with:
         python_version: 3.7
@@ -1444,8 +1442,6 @@ jobs:
       with:
         path: artifacts/out-osx
         name: out-osx-${{ matrix.config.arch }}
-    - name: tree
-      run: tree artifacts
     - uses: ./robotraconteur/test/dist/python/action/osx
       if: ${{ matrix.config.arch == 'x64' }}
       with:
