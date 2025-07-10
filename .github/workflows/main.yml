@@ -1161,6 +1161,9 @@ jobs:
       EMSDK_NUM_CORES: 3
       EMCC_CORES: 3
       PYODIDE_JOBS: 3
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
     - uses: actions/checkout@v4
       with:
