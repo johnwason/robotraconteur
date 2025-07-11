@@ -1221,7 +1221,7 @@ jobs:
         j2 $GITHUB_WORKSPACE/robotraconteur/tools/build_files/pyodide-recipes/RobotRaconteur/meta.yaml.j2 > $GITHUB_WORKSPACE/pyodide_recipes_src/packages/RobotRaconteur/meta.yaml
         pyodide build-recipes --recipe-dir=$GITHUB_WORKSPACE/pyodide_recipes_src/packages --install $PYODIDE_PACKAGES
     - name: test
-      working-directory: src
+      working-directory: pyodide_src
       run: pytest $GITHUB_WORKSPACE/robotraconteur/test/pyodide --runtime=chrome --runner=selenium -s --dist-dir=$GITHUB_WORKSPACE/pyodide_src/dist
     - name: archive dist
       uses: actions/upload-artifact@v4
