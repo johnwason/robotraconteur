@@ -1243,10 +1243,12 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y build-essential libboost-all-dev zlib1g-dev libssl-dev libdbus-1-dev libbluetooth-dev libusb-1.0-0-dev j2cli
-    - uses: conda-incubator/setup-miniconda@v4
+    - uses: conda-incubator/setup-miniconda@8ee1f361103df19b6f8c8655fd3967a8ecb162d5 # v4.0.1
       with:
+        miniforge-variant: Miniforge3
+        miniforge-version: latest
         activate-environment: pyodide-env
-        environment-file: pyodide_recipes_src/environment.yml
+        conda-remove-defaults: true
         channels: conda-forge
     - name: pip-install
       working-directory: pyodide_recipes_src
@@ -1256,7 +1258,7 @@ jobs:
     - name: deps build
       working-directory: pyodide_recipes_src
       run: |
-        pip install ./pyodide-build
+        ./tools/prepare_pyodide_build.sh
         ./tools/copy_pyodide_runtime.sh
     - name: build pregenerated_src
       run: |
