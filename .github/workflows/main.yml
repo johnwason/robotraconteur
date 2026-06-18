@@ -1251,12 +1251,11 @@ jobs:
     - name: pip-install
       working-directory: pyodide_recipes_src
       run: |
-        pip install -r requirements.txt
         pip install numpy
     - name: deps build
       working-directory: pyodide_recipes_src
       run: |
-        pip install pyodide-build
+        ./tools/prepare_pyodide_build.py
         ./tools/copy_pyodide_runtime.sh
     - name: build pregenerated_src
       run: |
