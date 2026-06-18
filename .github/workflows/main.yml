@@ -1233,6 +1233,7 @@ jobs:
         repository: pyodide/pyodide-recipes
         path: pyodide_recipes_src
         submodules: true
+        fetch-depth: 0
     # - name: ccache deps
     #   uses: actions/cache@v3
     #   with:
@@ -1255,7 +1256,7 @@ jobs:
     - name: deps build
       working-directory: pyodide_recipes_src
       run: |
-        ./tools/prepare_pyodide_build.py
+        ./tools/prepare_pyodide_build.sh
         ./tools/copy_pyodide_runtime.sh
     - name: build pregenerated_src
       run: |
