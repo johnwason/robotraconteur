@@ -1818,12 +1818,12 @@ jobs:
         cmake ..
         sudo make install
     - name: build-swig
-      if: ${{ !startsWith(matrix.config.os, 'ubuntu-22.04') && matrix.config.os != 'debian-11' && matrix.config.os != 'ubuntu-24.04' }}
+      if: ${{ !startsWith(matrix.config.os, 'ubuntu-22.04') && matrix.config.os != 'debian-12' && matrix.config.os != 'ubuntu-24.04' }}
       uses: johnwason/swig-build-action@v1.3
       with:
         cache-key: ${{ matrix.config.os }}
     - name: apt-swig
-      if: ${{ startsWith(matrix.config.os, 'ubuntu-22.04') || matrix.config.os == 'debian-11' || matrix.config.os == 'ubuntu-24.04' }}
+      if: ${{ startsWith(matrix.config.os, 'ubuntu-22.04') || matrix.config.os == 'debian-12' || matrix.config.os == 'ubuntu-24.04' }}
       run: sudo apt-get install swig -qq -y
     - name: cache-build
       id: cache-build
