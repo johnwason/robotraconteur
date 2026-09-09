@@ -1230,6 +1230,7 @@ jobs:
       with:
         activate-environment: pyodide-env
         environment-file: pyodide_recipes_src/environment.yml
+        miniforge-version: latest
         channels: conda-forge
     - name: pip-install
       working-directory: pyodide_recipes_src
