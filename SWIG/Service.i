@@ -89,6 +89,7 @@ RR_KEEP_GIL()
 
 	boost::shared_ptr<RobotRaconteur::RobotRaconteurNode> RRGetNode();
 	virtual int32_t RegisterGeneratorServer(const std::string& function_name, WrappedGeneratorServerDirector* gen);
+	int32_t RegisterGeneratorServer(const std::string& function_name, WrappedGeneratorServerDirector* gen, const boost::shared_ptr<WrappedServiceSkelAsyncAdapter>& async_adapter);
 
 	virtual std::string GetServicePath();
 	virtual boost::shared_ptr<RobotRaconteur::ServerContext> GetContext();

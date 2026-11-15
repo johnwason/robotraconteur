@@ -1394,6 +1394,10 @@ class WrappedServiceSkel : public virtual ServiceSkel
     std::map<std::string, boost::shared_ptr<MemoryDefinition> > memorytypes;
 
     int32_t RegisterGeneratorServer(const std::string& function_name, WrappedGeneratorServerDirector* gen);
+    // Registers a generator for the client of an asynchronous request
+    // (callable from any thread, unlike the overload above).
+    int32_t RegisterGeneratorServer(const std::string& function_name, WrappedGeneratorServerDirector* gen,
+                                    const boost::shared_ptr<WrappedServiceSkelAsyncAdapter>& async_adapter);
 
     std::map<std::string, std::set<MessageEntryType> > nolocks;
     RR_OVIRTUAL bool IsRequestNoLock(const RR_INTRUSIVE_PTR<RobotRaconteur::MessageEntry>& m) RR_OVERRIDE;
@@ -1405,9 +1409,13 @@ class WrappedServiceSkelAsyncAdapter
     boost::function<void(const RR_INTRUSIVE_PTR<MessageElement>&, const RR_SHARED_PTR<RobotRaconteurException>&)>
         handler;
     bool is_async;
+    // Client endpoint of the request, captured on the request thread so a
+    // request completed on another thread can still register generators.
+    RR_SHARED_PTR<ServerEndpoint> endpoint;
 
   public:
     WrappedServiceSkelAsyncAdapter();
+    RR_SHARED_PTR<ServerEndpoint> GetEndpoint();
     void SetHandler(
         boost::function<void(const RR_INTRUSIVE_PTR<MessageElement>&, const RR_SHARED_PTR<RobotRaconteurException>&)>
             handler);

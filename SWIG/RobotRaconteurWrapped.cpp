@@ -3353,6 +3353,20 @@ int32_t WrappedServiceSkel::RegisterGeneratorServer(const std::string& function_
     }
 }
 
+int32_t WrappedServiceSkel::RegisterGeneratorServer(
+    const std::string& function_name, WrappedGeneratorServerDirector* gen,
+    const boost::shared_ptr<WrappedServiceSkelAsyncAdapter>& async_adapter)
+{
+    if (!async_adapter || !async_adapter->GetEndpoint())
+        return RegisterGeneratorServer(function_name, gen);
+    boost::mutex::scoped_lock lock(generators_lock);
+    int32_t rr_index = get_new_generator_index();
+    generators.insert(std::make_pair(
+        rr_index, RR_MAKE_SHARED<WrappedGeneratorServer>(function_name, rr_index, shared_from_this(),
+                                                         async_adapter->GetEndpoint(), gen)));
+    return rr_index;
+}
+
 bool WrappedServiceSkel::IsRequestNoLock(const RR_INTRUSIVE_PTR<RobotRaconteur::MessageEntry>& m)
 {
     std::map<std::string, std::set<MessageEntryType> >::iterator e = nolocks.find(m->MemberName.str().to_string());
@@ -3374,7 +3388,18 @@ bool WrappedServiceSkel::IsRequestNoLock(const RR_INTRUSIVE_PTR<RobotRaconteur::
 
 // Pod array memory skels
 
-WrappedServiceSkelAsyncAdapter::WrappedServiceSkelAsyncAdapter() { is_async = false; }
+WrappedServiceSkelAsyncAdapter::WrappedServiceSkelAsyncAdapter()
+{
+    is_async = false;
+    try
+    {
+        endpoint = RobotRaconteur::ServerEndpoint::GetCurrentEndpoint();
+    }
+    catch (std::exception&)
+    {}
+}
+
+RR_SHARED_PTR<ServerEndpoint> WrappedServiceSkelAsyncAdapter::GetEndpoint() { return endpoint; }
 
 void WrappedServiceSkelAsyncAdapter::SetHandler(
     boost::function<void(const RR_INTRUSIVE_PTR<MessageElement>&, const RR_SHARED_PTR<RobotRaconteurException>&)>
