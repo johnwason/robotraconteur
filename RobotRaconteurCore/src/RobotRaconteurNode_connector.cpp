@@ -417,23 +417,30 @@ void RobotRaconteurNode_connector::connect2(const RR_SHARED_PTR<std::vector<std:
             node->RegisterEndpoint(rr_cast<Endpoint>(c));
             RR_SHARED_PTR<endpoint_cleanup> ep = RR_MAKE_SHARED<endpoint_cleanup>(c, node);
 
-            boost::mutex::scoped_lock lock2(active_lock);
-            active_count++;
-            key2 = active_count;
+            {
+                boost::mutex::scoped_lock lock2(active_lock);
+                active_count++;
+                key2 = active_count;
+                active.push_back(key2);
+            }
 
             boost::function<void(const RR_SHARED_PTR<ITransportConnection>&,
                                  const RR_SHARED_PTR<RobotRaconteurException>&)>
                 h = boost::protect(boost::bind(&RobotRaconteurNode_connector::connected_transport, shared_from_this(),
                                                t, RR_BOOST_PLACEHOLDERS(_1), RR_BOOST_PLACEHOLDERS(_2), url, ep, key2));
+            // active_lock must not be held here: transports may invoke the
+            // handler synchronously (for example LocalTransport when attaching
+            // the stream fails), and connected_transport -> handle_error locks
+            // active_lock.
             t->AsyncCreateTransportConnection(url, c, h);
-
-            active.push_back(key2);
         }
         catch (RobotRaconteurException& err2)
         {
             ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(node, Node, -1,
                                                "Error connecting to candidate service url: " << err2.what());
             boost::mutex::scoped_lock lock2(active_lock);
+            if (key2 != 0)
+                active.remove(key2);
             if (urls->empty())
             {
                 lock2.unlock();
@@ -446,6 +453,8 @@ void RobotRaconteurNode_connector::connect2(const RR_SHARED_PTR<std::vector<std:
             ROBOTRACONTEUR_LOG_DEBUG_COMPONENT(node, Node, -1,
                                                "Error connecting to candidate service url: " << err2.what());
             boost::mutex::scoped_lock lock2(active_lock);
+            if (key2 != 0)
+                active.remove(key2);
             if (urls->empty())
             {
                 lock2.unlock();
