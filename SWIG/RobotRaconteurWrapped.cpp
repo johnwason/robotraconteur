@@ -1014,6 +1014,15 @@ void WrappedPipeEndpoint::fire_PipeEndpointClosedCallback()
     {}
 
     DIRECTOR_CALL3(WrappedPipeEndpointDirector, RR_Director2->PipeEndpointClosedCallback());
+
+    // No events follow a close: release the director so the wrapping
+    // language can collect its endpoint object (also when the endpoint is
+    // closed by the peer or by a disconnect, not by Close()).
+    boost::shared_ptr<WrappedPipeEndpointDirector> director1;
+    {
+        boost::unique_lock<boost::shared_mutex> lock(RR_Director_lock);
+        director1.swap(RR_Director);
+    }
 }
 
 void WrappedPipeEndpoint::fire_PacketReceivedEvent()
@@ -1391,6 +1400,14 @@ void WrappedWireConnection::fire_WireClosedCallback()
     {}
 
     DIRECTOR_CALL3(WrappedWireConnectionDirector, RR_Director2->WireConnectionClosedCallback());
+
+    // No events follow a close: release the director (see
+    // WrappedPipeEndpoint::fire_PipeEndpointClosedCallback).
+    boost::shared_ptr<WrappedWireConnectionDirector> director1;
+    {
+        boost::unique_lock<boost::shared_mutex> lock(RR_Director_lock);
+        director1.swap(RR_Director);
+    }
 }
 
 void WrappedWireConnection::SetRRDirector(WrappedWireConnectionDirector* director, int32_t id)
@@ -4185,6 +4202,16 @@ bool WrappedWireSubscription::TryGetInValue(WrappedService_typed_packet& val, Ti
     return ret;
 }
 
+void WrappedWireSubscription::Close()
+{
+    boost::shared_ptr<WrappedWireSubscriptionDirector> director1;
+    {
+        boost::unique_lock<boost::shared_mutex> lock(RR_Director_lock);
+        director1.swap(RR_Director);
+    }
+    WireSubscriptionBase::Close();
+}
+
 void WrappedWireSubscription::SetRRDirector(WrappedWireSubscriptionDirector* director, int32_t id)
 {
     boost::unique_lock<boost::shared_mutex> lock(RR_Director_lock);
@@ -4293,6 +4320,16 @@ bool WrappedPipeSubscription::TryReceivePacketWait(WrappedService_typed_packet& 
         return false;
     }
     return ret;
+}
+
+void WrappedPipeSubscription::Close()
+{
+    boost::shared_ptr<WrappedPipeSubscriptionDirector> director1;
+    {
+        boost::unique_lock<boost::shared_mutex> lock(RR_Director_lock);
+        director1.swap(RR_Director);
+    }
+    PipeSubscriptionBase::Close();
 }
 
 void WrappedPipeSubscription::SetRRDirector(WrappedPipeSubscriptionDirector* director, int32_t id)

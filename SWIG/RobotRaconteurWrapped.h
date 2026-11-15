@@ -2055,6 +2055,8 @@ class WrappedWireSubscription : public WireSubscriptionBase
     bool TryGetInValue(WrappedService_typed_packet& val, TimeSpec* time = NULL);
 
     void SetRRDirector(WrappedWireSubscriptionDirector* director, int32_t id);
+    // Releases the director, then closes the subscription.
+    void Close();
 
   protected:
     RR_OVIRTUAL void fire_WireValueChanged(const RR_INTRUSIVE_PTR<RRValue>& value, const TimeSpec& time,
@@ -2103,6 +2105,8 @@ class WrappedPipeSubscription : public PipeSubscriptionBase
                               bool peek = false);
 
     void SetRRDirector(WrappedPipeSubscriptionDirector* director, int32_t id);
+    // Releases the director, then closes the subscription.
+    void Close();
 
   protected:
     RR_OVIRTUAL void fire_PipePacketReceived() RR_OVERRIDE;
